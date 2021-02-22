@@ -1,9 +1,9 @@
 {
-  "name": "typescript-react-express-oop-starter",
+  "name": "sync",
   "version": "1.0.0",
-  "description": "Simple weather app",
+  "description": "A powerful application to sync up videos with your friends.",
   "main": "index.js",
-  "repository": "https://github.com/khai93/typescript-react-express-oop-starter.git",
+  "repository": "https://github.com/yeno-team/sync.git",
   "author": "khai93 <33293519+khai93@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
