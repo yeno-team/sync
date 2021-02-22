@@ -8,4 +8,4 @@ export const HomeLayout = (props) => {
             <RoomMenu />
         </div>
     )
-}
+}   
