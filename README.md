@@ -1,2 +1,2 @@
-# Typescript React Express OOP starter
-Starter project
+# Sync
+Watch videos with friends
