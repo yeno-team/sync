@@ -1,25 +1,21 @@
-import React from 'react';
+import React , { useState } from 'react';
+import JoinRoomForm from './JoinRoomForm';
+import Rooms from './Rooms';
+import Button from 'react-bootstrap/Button';
+
 import './index.css'
 
 export const RoomMenu = (props) => {
+    const [show , setModalShow] = useState(false)
+
     return (
-        <main className="main-content" style={{"text-align" : "center"}}>
+        <main className="main-content" style={{"textAlign" : "center"}}>
+            <JoinRoomForm show={show} onHide={() => setModalShow(false)} />
             <section className="join-rooms">
-                <button className="btn btn-primary">Join Room!</button> 
+                <Button variant="primary" style={{"marginTop" : "5px"}}onClick={() => setModalShow(true)}>Create Room</Button>
                 <h2 style={{"marginTop" : "0px"}}>Join Rooms!</h2>
                 <div className="rooms">
-                    <div className="room-123">
-                        <h3 className="room-name">Anime Room <span className="users">3/8</span></h3>
-                        <p className="room-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit vel nostrum impedit velit praesentium iste ea perferendis voluptatem est esse.</p>
-                    </div>
-                    <div className="room-23">
-                        <h3 className="room-name">Roblox SuperDuper Gamer <span className="users">8/8</span></h3>
-                        <p className="room-description">Roblox is the best game ever created.</p>
-                    </div>
-                    <div className="room-123">
-                        <h3 className="room-name">DanTDM Fan Club <span className="users">2/8</span></h3>
-                        <p className="room-description">Roblox is the best game ever created.</p>
-                    </div>
+                   <Rooms/>
                 </div>
             </section>
         </main>

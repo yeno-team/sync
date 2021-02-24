@@ -7,13 +7,13 @@
     text-align: left;
 }
 
-div[class^="room-"] , div[class*=" room-"] {
+.room {
     padding : 7px 5px;
     cursor : pointer;
     border : 1px solid black;
 }
 
-div[class^="room-"]:hover , div[class*=" room-"]:hover {
+.room:hover{
     background-color : #c2b7b7;
 }
 
