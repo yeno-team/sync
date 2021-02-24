@@ -7,7 +7,7 @@ export type IRoom = {
     is_private: boolean
 }
 
-export interface IDatabaseModule {
+export interface IRoomModule {
      /**
      * Returns the list of public rooms
      */

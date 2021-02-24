@@ -7,7 +7,7 @@ import { join, resolve } from 'path';
 import { readdir } from 'fs/promises';
 import { ControllerUtility } from "../utils/controllers";
 import { RoomService } from "./room/roomService";
-import DbModule from "../modules/database";
+import RoomModule from "../modules/room";
 
 const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join, logger: LoggerModule});
 const ControllerUtilityDep = new ControllerUtility({ pathResolve: resolve, routeUtility: RouteUtilityDep });
@@ -31,7 +31,7 @@ export default [
         ...defaultControllerDependencies,
         roomService: new RoomService({
             logger: LoggerModule,
-            DbModule
+            roomModule: RoomModule
         })
     })
 ]

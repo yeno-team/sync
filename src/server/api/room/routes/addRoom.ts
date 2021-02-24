@@ -3,9 +3,9 @@ import { RouteDependencies } from "src/types/api/RouteDependencies";
 import { RoomControllerDependencies } from "../roomController";
 
 /**
- * Room List Route
+ * Room Add Route
  */
-export default class RoomListRoute implements IExecuteable {
+export default class RoomAddRoute implements IExecuteable {
    /**
     * Sets Dependencies and Parent Dependencies as private members of the class
     * @param dependencies Dependencies
@@ -21,6 +21,9 @@ export default class RoomListRoute implements IExecuteable {
     */
    public execute() {
       this.dependencies.router.post('/add', (req, res) => {
+         // TEMPORARY CHECKS
+
+
          const addedRoom = this.parentDependencies.roomService.addRoom({
              code: "123",
              name: req.body.name,

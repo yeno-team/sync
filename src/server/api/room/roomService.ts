@@ -1,8 +1,8 @@
-import { IDatabaseModule, IRoom } from "src/server/modules/database/types";
+import { IRoomModule, IRoom } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
 
 export type RoomServiceDependencies = {
-    DbModule: IDatabaseModule,
+    roomModule: IRoomModule,
     logger: Logger
 }
 
@@ -11,13 +11,13 @@ export class RoomService {
         private dependencies: RoomServiceDependencies
     ) {}
     
-    public getRoomList = () => this.dependencies.DbModule.getRoomList();
+    public getRoomList = () => this.dependencies.roomModule.getRoomList();
     
     public addRoom(roomData: IRoom): IRoom {
         // MAKE CODE GENERATE
         //throw new Error("Code is not generated");
-        return this.dependencies.DbModule.addRoom(roomData);
+        return this.dependencies.roomModule.addRoom(roomData);
     }
 
-    public getRoom = (roomCode: string): IRoom => this.dependencies.DbModule.getRoom(roomCode)
+    public getRoom = (roomCode: string): IRoom => this.dependencies.roomModule.getRoom(roomCode)
 }

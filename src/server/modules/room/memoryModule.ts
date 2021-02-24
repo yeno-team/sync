@@ -1,10 +1,10 @@
-import { IDatabaseModule, IRoom } from "./types";
+import { IRoomModule, IRoom } from "./types";
 
 export type DatabaseModuleDependencies = {
 
 }
 
-export class DatabaseModule implements IDatabaseModule {
+export class MemoryRoomModule implements IRoomModule {
     private _rooms: IRoom[];
 
     constructor() {
