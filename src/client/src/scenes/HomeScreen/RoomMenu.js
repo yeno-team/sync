@@ -1,12 +1,11 @@
 import React from 'react';
-import Button from '../../components/Button/'
 import './index.css'
 
 export const RoomMenu = (props) => {
     return (
         <main className="main-content" style={{"text-align" : "center"}}>
             <section className="join-rooms">
-                <Button text="Create Room!" className="btn-primary"/>
+                <button className="btn btn-primary">Join Room!</button> 
                 <h2 style={{"marginTop" : "0px"}}>Join Rooms!</h2>
                 <div className="rooms">
                     <div className="room-123">
