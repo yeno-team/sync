@@ -9,11 +9,13 @@ import { ControllerUtility } from "../utils/controllers";
 import { RoomService } from "./room/roomService";
 import RoomModule from "../modules/room";
 import { RandomUtility } from "../utils/random";
+import { VideoSourceUtility } from "../utils/videoSource";
+import { RequestModule } from "../modules/request";
 
 const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join, logger: LoggerModule});
 const ControllerUtilityDep = new ControllerUtility({ pathResolve: resolve, routeUtility: RouteUtilityDep });
 const RandomUtilityDep = new RandomUtility({});
-
+const VideoSourceUtilityDep = new VideoSourceUtility({ requestModule: RequestModule })
 /**
  * The default dependencies for every controller
  */
@@ -34,7 +36,8 @@ export default [
         roomService: new RoomService({
             logger: LoggerModule,
             roomModule: RoomModule,
-            randomUtility: RandomUtilityDep
+            randomUtility: RandomUtilityDep,
+            videoSourceUtility: VideoSourceUtilityDep
         })
     })
 ]
