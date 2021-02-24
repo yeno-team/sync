@@ -8,9 +8,11 @@ import { readdir } from 'fs/promises';
 import { ControllerUtility } from "../utils/controllers";
 import { RoomService } from "./room/roomService";
 import RoomModule from "../modules/room";
+import { RandomUtility } from "../utils/random";
 
 const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join, logger: LoggerModule});
 const ControllerUtilityDep = new ControllerUtility({ pathResolve: resolve, routeUtility: RouteUtilityDep });
+const RandomUtilityDep = new RandomUtility({});
 
 /**
  * The default dependencies for every controller
@@ -31,7 +33,8 @@ export default [
         ...defaultControllerDependencies,
         roomService: new RoomService({
             logger: LoggerModule,
-            roomModule: RoomModule
+            roomModule: RoomModule,
+            randomUtility: RandomUtilityDep
         })
     })
 ]

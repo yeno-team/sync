@@ -1,9 +1,11 @@
 import { IRoomModule, IRoom } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
+import { RandomUtility } from "src/server/utils/random";
 
 export type RoomServiceDependencies = {
     roomModule: IRoomModule,
-    logger: Logger
+    logger: Logger,
+    randomUtility: RandomUtility
 }
 
 export class RoomService {
@@ -14,8 +16,10 @@ export class RoomService {
     public getRoomList = () => this.dependencies.roomModule.getRoomList();
     
     public addRoom(roomData: IRoom): IRoom {
-        // MAKE CODE GENERATE
-        //throw new Error("Code is not generated");
+        // Generate code
+        const generatedCode = this.dependencies.randomUtility.getRandomString(6).toUpperCase();
+        roomData.code = generatedCode;
+
         return this.dependencies.roomModule.addRoom(roomData);
     }
 
