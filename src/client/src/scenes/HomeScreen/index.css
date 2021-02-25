@@ -1,0 +1,28 @@
+.rooms {
+    max-width : 600px;
+    margin : auto;
+    border: 1px solid black;
+    display : flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.room {
+    padding : 7px 5px;
+    cursor : pointer;
+    border : 1px solid black;
+}
+
+.room:hover{
+    background-color : #c2b7b7;
+}
+
+.room-name {
+    font-size : 16px;
+    margin : 2px 0px 1px 0px;
+}
+
+.room-description {
+    margin : 0;
+    font-size : 13px;
+}
