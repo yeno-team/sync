@@ -24,4 +24,13 @@ export interface IRoomModule {
      * @param roomCode
      */
     getRoom(roomCode: string): IRoom
+
+    /**
+     * Edits a room
+     * @param roomCode 
+     * @param dataName The name of the property that is being edited
+     * @param value The value the data is being edited to
+     * returns the edited room
+     */
+    editRoom(roomCode: string, dataName: string, value: any): IRoom
 }

@@ -12,7 +12,6 @@ export class Server {
     private _app: Express;
     private _port: number;
     private _env: String;
-    private _socket_port: number;
     private _controllers: IController[];
 
     /**
@@ -22,7 +21,6 @@ export class Server {
     constructor(serverBuilder: ServerBuilder) {
         this._app = serverBuilder.app;
         this._port = serverBuilder.port;
-        this._socket_port = serverBuilder.socketPort;
         this._env = serverBuilder.env;
         this._controllers = serverBuilder.controllers;
     }

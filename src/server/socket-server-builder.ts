@@ -1,4 +1,4 @@
-import { ISubscriber } from "src/types/subscribers/ISubscriber";
+import { ISubscriber } from "src/types/api/ISubscriber";
 import { Express } from 'express';
 import { SocketServer } from "./socket-server";
 

@@ -1,6 +1,6 @@
 import { join, resolve } from 'path';
 import { readdir } from 'fs/promises';
-import { ISubscriber } from "src/types/subscribers/ISubscriber";
+import { ISubscriber } from "src/types/api/ISubscriber";
 
 // Controllers
 import { StatusController } from "./status/statusController";
