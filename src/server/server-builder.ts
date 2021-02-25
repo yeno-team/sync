@@ -9,6 +9,7 @@ export class ServerBuilder {
     private readonly _app: Express;
     private _env: string = 'development';
     private _port: number = 8080;
+    private _socket_port: number = 51282;
     private _controllers: IController[] = [];
 
     constructor(app: Express) {
@@ -22,6 +23,11 @@ export class ServerBuilder {
 
     setPort(port: number) {
         this._port = port;
+        return this;
+    }
+
+    setSocketPort(port: number) {
+        this._socket_port = port;
         return this;
     }
 
@@ -40,6 +46,10 @@ export class ServerBuilder {
 
     get env() {
         return this._env;
+    }
+
+    get socketPort() {
+        return this._socket_port;
     }
 
     get port() {
