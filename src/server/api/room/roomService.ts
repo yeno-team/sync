@@ -1,11 +1,13 @@
 import { IRoomModule, IRoom } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
 import { RandomUtility } from "src/server/utils/random";
+import { VideoSourceUtility } from "src/server/utils/videoSource";
 
 export type RoomServiceDependencies = {
     roomModule: IRoomModule,
     logger: Logger,
-    randomUtility: RandomUtility
+    randomUtility: RandomUtility,
+    videoSourceUtility: VideoSourceUtility
 }
 
 export class RoomService {
