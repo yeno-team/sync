@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 
 import './index.css'
 
+import "video-react/dist/video-react.css";
+
 export const RoomMenu = (props) => {
     const [show , setModalShow] = useState(false)
 

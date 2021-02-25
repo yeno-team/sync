@@ -2,16 +2,18 @@ import { Router } from "express";
 import { Logger } from "../../modules/logger/logger";
 import { ControllerUtility } from "src/server/utils/controllers";
 import { IController } from "src/types/api/IController";
+import { RoomService } from "./roomService";
 
 /**
- * The dependencies for StatusController class
+ * The dependencies for RoomController class
  */
-export type StatusControllerDependencies = {
+export type RoomControllerDependencies = {
     controllerUtility: ControllerUtility,
-    logger: Logger
+    logger: Logger,
+    roomService: RoomService
 }
 
-export class StatusController implements IController {
+export class RoomController implements IController {
     private _router: Router;
 
     /**
@@ -19,14 +21,14 @@ export class StatusController implements IController {
      * @param dependencies Dependencies
      */
     constructor(
-        private dependencies: StatusControllerDependencies
+        private dependencies: RoomControllerDependencies
     ) {}
     
     public async handler(app: Router): Promise<void> {
         try {
             this._router = Router();
 
-            app.use("/status", this._router);
+            app.use("/room", this._router);
 
             this.dependencies.controllerUtility.setUpController({
                 router: this._router,
