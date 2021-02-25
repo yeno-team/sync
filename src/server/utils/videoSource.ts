@@ -3,14 +3,14 @@ import httpsProxyAgent from 'https-proxy-agent'
 import config from '../../config';
 
 /**
- * Dependencies for ControllerUtility class
+ * Dependencies for VideoSourceUtility class
  */
 export type VideoSourcetilityDependencies = {
     requestModule: IRequestModule
 }
 
 /**
- * Utility functions to help with randomness
+ * Utility functions to help with Video Sources
  */
 export class VideoSourceUtility {
     /**
