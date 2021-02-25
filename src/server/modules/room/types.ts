@@ -1,6 +1,7 @@
 export type IRoom = {
     code: string,
     name: string,
+    description : string,
     max_users: number,
     users: string[],
     room_password: string,

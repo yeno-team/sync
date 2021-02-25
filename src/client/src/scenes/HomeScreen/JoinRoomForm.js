@@ -10,6 +10,7 @@ function JoinRoomForm(props){
 
     const [formVals , setFormVals] = useState({
         name : "",
+        description : "",
         max_users : "5",
         room_password : "",
         is_private : false
@@ -70,6 +71,10 @@ function JoinRoomForm(props){
                             </Form.Control>
                         </Form.Group>
                     </Form.Row>
+                    <Form.Group controlId="createRoom.description">
+                        <Form.Label> Description (Optional)</Form.Label>
+                        <Form.Control as="textarea" placeholder="Room Description..." name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
+                    </Form.Group>
                     <Form.Group controlId="createRoom.room_password">
                         <Form.Label>Room Password <b>(Optional)</b></Form.Label>
                         <Form.Control type="password" onChange={handleInputChange} name="room_password" value={formVals.room_password}></Form.Control> 
