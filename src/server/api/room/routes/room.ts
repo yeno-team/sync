@@ -20,19 +20,23 @@ export default class RoomRoute implements IExecuteable {
     * Sends list of rooms currently available
     */
    public execute() {
-      this.dependencies.router.get('/:roomCode', (req, res) => {
-        if (!req.params.roomCode) {
-            return res.sendStatus(400);
-        }
+        this.dependencies.router.get('/', async (req, res) => {
+            res.sendStatus(200);
+        })
 
-        const roomFound = this.parentDependencies.roomService.getRoom(req.params.roomCode);
+        this.dependencies.router.get('/:roomCode', (req, res) => {
+            if (!req.params.roomCode) {
+                return res.sendStatus(400);
+            }
 
-        if (roomFound) {
-            res.json(roomFound)
-        }
-        else{
-            res.status(404).json({message: "Not Found"})   
-        }
-      });
-   }
+            const roomFound = this.parentDependencies.roomService.getRoom(req.params.roomCode);
+
+            if (roomFound) {
+                res.json(roomFound)
+            }
+            else{
+                res.status(404).json({message: "Not Found"})   
+            }
+        });
+    }
 }

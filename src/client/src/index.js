@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // React Bootstrap
 import { Routes } from './core/routes';
 import reportWebVitals from './reportWebVitals';
 
