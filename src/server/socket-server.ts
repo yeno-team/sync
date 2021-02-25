@@ -1,4 +1,4 @@
-import { ISubscriber } from "src/types/subscribers/ISubscriber";
+import { ISubscriber } from "src/types/api/ISubscriber";
 import { SocketServerBuilder } from "./socket-server-builder";
 import { Express } from 'express';
 import http from 'http';
@@ -24,7 +24,7 @@ export class SocketServer {
 
     /**
      * Creates a new http server for socket.io and starts it
-     * Injects the socket server into every subscriber
+     * Handles the events fired to the corresponding subscriber listener
      */
     public start() {
         const socketHttpServer = http.createServer(this._app);
@@ -32,8 +32,10 @@ export class SocketServer {
 
         socketHttpServer.listen(this._port, () => console.log(`Socket Server started at port ${this._port}`));
         
-        this._subscribers.forEach((subscriber) => {
-            subscriber.injectSocketServer(socketServer);
+        socketServer.on('connection', (socket) => {
+            this._subscribers.forEach((subscriber) => {
+                subscriber.setUpListeners(socket);
+            });
         });
     }
 }
