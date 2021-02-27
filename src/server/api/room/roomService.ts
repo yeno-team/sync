@@ -1,4 +1,4 @@
-import { IRoomModule, IRoom } from "src/server/modules/room/types";
+import { IRoomModule, IRoom, RoomUserRank, RoomUser } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
 import { RandomUtility } from "src/server/utils/random";
 import { VideoSourceUtility } from "src/server/utils/videoSource";
@@ -33,7 +33,8 @@ export class RoomService {
         return this.dependencies.roomModule.addRoom(roomData);
     }
 
-    public getRoom = (roomCode: string): IRoom => this.dependencies.roomModule.getRoom(roomCode)
+    public removeRoom = (roomCode: string)  => this.dependencies.roomModule.removeRoom(roomCode);
+    public getRoom = (roomCode: string): IRoom => this.dependencies.roomModule.getRoom(roomCode);
 
     public editRoomSetting = (data: RoomSettingChangedPayload) => {
         const RoomSettingEnum = RoomSetting[data.settingName];
@@ -42,4 +43,16 @@ export class RoomService {
             this.dependencies.roomModule.editRoom(data.roomCode, data.settingName, data.value);
         }
     }
+
+    public appendUserToRoom = (roomCode: string, socket_id: string, rank: RoomUserRank, username: string) => {
+        const userData: RoomUser = {
+            socket_id,
+            rank,
+            username
+        };
+
+        this.dependencies.roomModule.appendUser(roomCode, userData);
+    }
+
+    public removeUserFromRoom = (roomCode: string, socketId: string) => this.dependencies.roomModule.removeUser(roomCode, socketId);
 }

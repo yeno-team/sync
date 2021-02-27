@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { RoomUserRank } from "src/server/modules/room/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
 
@@ -13,30 +14,38 @@ export type RoomSettingChangedPayload = {
 }
 
 export class RoomSettingsSubscriber implements ISubscriber {
-    private _socket: Socket;
+    private _socketServer: Server;
 
     constructor(
         private dependencies: RoomSettingsSubscriberDependencies,
     ) {}
 
-    public setUpListeners(socket: Socket) {
-        this._socket = socket;
-        socket.on('RoomSettingChanged', this.onSettingsChanged)
+    public setUpListeners(socketServer: Server, socket: Socket) {
+        this._socketServer = socketServer;
+
+        socket.on('RoomSettingChanged', (data: RoomSettingChangedPayload) => this.onSettingsChanged(socket, data));
     }
 
-    private onSettingsChanged(data: RoomSettingChangedPayload) {
+    private onSettingsChanged(socket: Socket, data: RoomSettingChangedPayload) {
         const roomData = this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             /**  
              * Find the user emitting the event in the users list 
-             * Checking if they are owner or not
             */
-            const owner = roomData.users.filter(user => user === "owner_" + this._socket.id);
+            const owner = roomData.users.filter(user => user.rank === RoomUserRank.owner);
             
-            if (owner) {
-                this.dependencies.roomService.editRoomSetting(data);
+            /**
+             * Check if the user is the owner
+             * @emits RoomSettingChangeError if user is not the owner
+             */
+            if (owner && owner.length == 0) {
+                return socket.emit("RoomSettingChangeError", { message: "Only the room's owner can change settings" });
             }
+
+            this.dependencies.roomService.editRoomSetting(data);
+        } else {
+            return socket.emit("RoomJoinError", { message: "Room does not exist" });
         }
     }
 }

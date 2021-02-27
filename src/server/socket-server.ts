@@ -34,7 +34,7 @@ export class SocketServer {
         
         socketServer.on('connection', (socket) => {
             this._subscribers.forEach((subscriber) => {
-                subscriber.setUpListeners(socket);
+                subscriber.setUpListeners(socketServer, socket);
             });
         });
     }
