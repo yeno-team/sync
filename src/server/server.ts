@@ -1,4 +1,5 @@
 import express, { Express, Request, Response, Router } from 'express';
+import cors from "cors";
 import { ServerBuilder } from './server-builder';
 import path from 'path';
 import { IController } from 'src/types/api/IController';
@@ -37,13 +38,14 @@ export class Server {
 
         const apiRouter = Router();
         
+        this._app.use(cors());
         this._app.use(express.json());
         this._app.use(express.urlencoded({
             extended: true
         }));
 
         this._app.use("/api", apiRouter)
-     
+
         this._controllers.forEach((controller) => {
             controller.handler(apiRouter);
         });

@@ -14,7 +14,7 @@ export function Routes() {
         <Router>
             <Switch>
                 
-                <Route path="/rooms/:code">
+                <Route path="/room/:code">
                     <RoomLayout />
                 </Route>
 
