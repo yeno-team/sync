@@ -1,10 +1,11 @@
-import React , { useState , useEffect } from 'react'
-import Axios from 'axios'
-import Badge from 'react-bootstrap/Badge'
+import React , { useState , useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
+import Badge from 'react-bootstrap/Badge';
 
 const Rooms = (props) => {
     const [ currentRooms , setCurrentRooms ] = useState([])
-
+    const history = useHistory()
 
     useEffect(() => {
         (async () => {
@@ -21,7 +22,7 @@ const Rooms = (props) => {
 
     return (
         currentRooms.map((room) => (
-            <div className="room" data-room-code={`${room.code}`} key={`${room.code}`}>
+            <div className="room" key={`${room.code}`} onClick={() => history.push(`/room/${room.code}`)}>
                 <h3 className="room-name">{room.name}<Badge variant="primary">{room.users.length}/{room.max_users}</Badge></h3>
                 <p className="room-description">{room.description}</p>
             </div>
