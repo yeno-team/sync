@@ -2,6 +2,8 @@ import express, { Express, Request, Response, Router } from 'express';
 import { ServerBuilder } from './server-builder';
 import path from 'path';
 import { IController } from 'src/types/api/IController';
+import http from 'http';
+import * as io from "socket.io";
 
 /**
  * The main server class that is built with the ServerBuilder class.
@@ -30,11 +32,7 @@ export class Server {
     */
     public start() {
         if (this._env == 'production') {
-            this._app.use(express.static(path.resolve("./") + "/build/client"));
-            
-            this._app.get("*", (req: Request, res: Response) => {
-                res.sendFile(path.resolve("./") + "/build/client/index.html");
-            });
+            this.serveClientProductionBuild();
         }
 
         const apiRouter = Router();
@@ -45,13 +43,19 @@ export class Server {
         }));
 
         this._app.use("/api", apiRouter)
-        
-
-
+     
         this._controllers.forEach((controller) => {
             controller.handler(apiRouter);
         });
 
         this._app.listen(this._port, () => console.log(`Server started at port ${this._port}`))
+    }
+
+    public serveClientProductionBuild() {
+        this._app.use(express.static(path.resolve("./") + "/build/client"));
+            
+        this._app.get("*", (req: Request, res: Response) => {
+            res.sendFile(path.resolve("./") + "/build/client/index.html");
+         });
     }
 }

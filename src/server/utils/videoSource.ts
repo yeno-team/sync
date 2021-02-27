@@ -1,16 +1,15 @@
 import { IRequestModule, RequestOptions } from "../modules/request/types";
-import httpsProxyAgent from 'https-proxy-agent'
 import config from '../../config';
 
 /**
- * Dependencies for ControllerUtility class
+ * Dependencies for VideoSourceUtility class
  */
 export type VideoSourcetilityDependencies = {
     requestModule: IRequestModule
 }
 
 /**
- * Utility functions to help with randomness
+ * Utility functions to help with Video Sources
  */
 export class VideoSourceUtility {
     /**
@@ -33,7 +32,6 @@ export class VideoSourceUtility {
         
         const options: RequestOptions = {
             url: youtubeInfoLink.toString(),
-            httpsAgent: httpsProxyAgent({host:"45.95.99.20", port: "7580"}),
             proxy: {
                 host: config.proxy.host,
                 port: Number(config.proxy.port),
