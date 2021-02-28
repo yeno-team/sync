@@ -26,12 +26,15 @@ export class RoomUserSubscriber implements ISubscriber {
         private dependencies: RoomUserSubscriberDependencies,
     ) {}
 
-    public setUpListeners(socketServer: Server, socket: Socket) {
+    public setUpListeners(socketServer: Server) {
         this._socketServer = socketServer;
 
-        socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
-        socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
-        socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
+        socketServer.on('connection', (socket) => {
+            socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
+            socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
+            socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
+        });
+
     }
 
     private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {

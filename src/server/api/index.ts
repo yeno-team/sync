@@ -65,5 +65,8 @@ export const controllers = [
 export const subscribers: ISubscriber[] = [
     new RoomSubscribers.RoomSettingsSubscriber({
         roomService: RoomServiceDep
+    }),
+    new RoomSubscribers.RoomUserSubscriber({
+        roomService: RoomServiceDep
     })
 ];
