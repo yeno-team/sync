@@ -30,9 +30,13 @@ export default class RoomRoute implements IExecuteable {
             }
 
             const roomFound = this.parentDependencies.roomService.getRoom(req.params.roomCode);
-
             if (roomFound) {
-                res.json(roomFound)
+                res.json({
+                    code: roomFound.code,
+                    is_private: roomFound.is_private,
+                    max_users: roomFound.max_users,
+                    users: roomFound.users
+                })
             }
             else{
                 res.status(404).json({message: "Not Found"})   
