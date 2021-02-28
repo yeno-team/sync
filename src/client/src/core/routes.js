@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,6 +9,9 @@ import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 
 export function Routes() {
+
+
+
     return (
         <Router>
             <Switch>

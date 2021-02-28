@@ -72,7 +72,7 @@ function JoinRoomForm(props){
                         </Form.Group>
                     </Form.Row>
                     <Form.Group controlId="createRoom.description">
-                        <Form.Label> Description (Optional)</Form.Label>
+                        <Form.Label> Description <b>(Optional)</b>  </Form.Label>
                         <Form.Control as="textarea" placeholder="Room Description..." name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
                     </Form.Group>
                     <Form.Group controlId="createRoom.room_password">

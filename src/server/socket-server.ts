@@ -28,7 +28,11 @@ export class SocketServer {
      */
     public start() {
         const socketHttpServer = http.createServer(this._app);
-        const socketServer = new io.Server(socketHttpServer);
+        const socketServer = new io.Server(socketHttpServer, {
+            cors: {
+                origin: '*',
+            }
+        });
 
         socketHttpServer.listen(this._port, () => console.log(`Socket Server started at port ${this._port}`));
         
