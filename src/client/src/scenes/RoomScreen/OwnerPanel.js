@@ -1,6 +1,7 @@
 import React from 'react'
+import { } from 'react-bootstrap/Form'
 
-export const OwnerPanel = (props) => {
+function OwnerPanel(props) {
     return (
         <section>
             <input type="text" placeholder="Room Name" />
@@ -8,3 +9,6 @@ export const OwnerPanel = (props) => {
         </section>
     )
 }
+
+export default OwnerPanel
+    

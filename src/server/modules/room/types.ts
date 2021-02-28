@@ -12,6 +12,7 @@ export type RoomUser = {
 export type IRoom = {
     code: string,
     name: string,
+    description : string,
     max_users: number,
     users: RoomUser[],
     room_password: string,

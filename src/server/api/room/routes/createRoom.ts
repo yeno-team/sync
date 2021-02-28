@@ -23,6 +23,7 @@ export default class RoomCreateRoute implements IExecuteable {
       this.dependencies.router.post('/create', (req, res) => {
          const options = {
             name: req.body.name,
+            description : req.body.description,
             is_private: req.body.is_private == 'true',
             room_password: req.body.room_password,
             max_users: Number(req.body.max_users)
@@ -34,6 +35,7 @@ export default class RoomCreateRoute implements IExecuteable {
           */
          if (
             typeof options.is_private != 'boolean' ||
+            typeof options.description != 'string' || 
             typeof options.max_users != 'number' ||
             typeof options.name != 'string' ||
             typeof options.room_password != 'string'
@@ -45,6 +47,7 @@ export default class RoomCreateRoute implements IExecuteable {
          const addedRoom = this.parentDependencies.roomService.addRoom({
              code: "",
              name: options.name,
+             description : options.description,
              max_users: options.max_users,
              users: [],
              room_password: options.room_password,

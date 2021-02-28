@@ -18,7 +18,6 @@ export type RoomUserLeavePayload = {
     roomCode: string
 }
 
-
 export class RoomUserSubscriber implements ISubscriber {
 
     private _socketServer: Server;
