@@ -21,7 +21,7 @@ function JoinRoomForm(props){
 
         try{
             const req = await Axios({
-                url : "http://localhost:8080/api/room/create",
+                url : "http://localhost:8000/api/room/create",
                 method : "POST",
                 data : {
                     ...formVals

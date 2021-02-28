@@ -129,7 +129,7 @@ export class RoomUserSubscriber implements ISubscriber {
 
     private onSocketDisconnecting(socket: Socket, reason: string) {
         if (reason === "ping timeout") {
-            
+            // hi sir i am roblox man
         } else {
             /**
              * Leave rooms
