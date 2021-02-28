@@ -36,10 +36,8 @@ export class SocketServer {
 
         socketHttpServer.listen(this._port, () => console.log(`Socket Server started at port ${this._port}`));
         
-        socketServer.on('connection', (socket) => {
-            this._subscribers.forEach((subscriber) => {
-                subscriber.setUpListeners(socketServer, socket);
-            });
+        this._subscribers.forEach((subscriber) => {
+            subscriber.setUpListeners(socketServer);
         });
     }
 }

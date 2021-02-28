@@ -20,10 +20,12 @@ export class RoomSettingsSubscriber implements ISubscriber {
         private dependencies: RoomSettingsSubscriberDependencies,
     ) {}
 
-    public setUpListeners(socketServer: Server, socket: Socket) {
+    public setUpListeners(socketServer: Server) {
         this._socketServer = socketServer;
 
-        socket.on('RoomSettingChanged', (data: RoomSettingChangedPayload) => this.onSettingsChanged(socket, data));
+        socketServer.on('connection', (socket) => {
+            socket.on('RoomSettingChanged', (data: RoomSettingChangedPayload) => this.onSettingsChanged(socket, data));
+        });
     }
 
     private onSettingsChanged(socket: Socket, data: RoomSettingChangedPayload) {
