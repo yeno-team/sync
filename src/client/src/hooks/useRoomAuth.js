@@ -18,6 +18,11 @@ export default (roomCode) => {
         socketSubscriber.on(ERROR_EVENT, (data) => {
             setErrors([...errors, data.message]);
         });
+
+        return () => {
+            socketSubscriber.off(NEW_USER_JOINED_EVENT);
+            socketSubscriber.off(ERROR_EVENT);
+        }
     }, [])
 
     

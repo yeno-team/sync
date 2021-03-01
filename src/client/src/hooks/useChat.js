@@ -19,6 +19,11 @@ export default (roomCode) => {
         socketSubscriber.on(ERROR_EVENT, (data) => {
             setErrors((errors) => [...errors, data.message]);
         });
+
+        return () => {
+            socketSubscriber.off(NEW_CHAT_MESSAGE_EVENT);
+            socketSubscriber.off(ERROR_EVENT);
+        }
     }, [roomCode]);
 
     const sendMessage = (message) => {
