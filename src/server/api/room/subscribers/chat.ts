@@ -23,7 +23,7 @@ export class RoomChatSubscriber implements ISubscriber {
         this._socketServer = socketServer;
 
         socketServer.on('connection', (socket) => {
-            
+            socket.on('ChatSendMessage', (data: RoomChatSendMessagePayload) => this.onChatSendMessage(socket, data));
         });
 
     }
@@ -41,19 +41,31 @@ export class RoomChatSubscriber implements ISubscriber {
         /**
          * @emits RoomChatError if user is not in the room to send the message to
          */
-        if (!socket.rooms.has(roomData.code)) {
+        const userData = roomData.users.filter(user => user.socket_id === socket.id);
+
+        /**
+         * Check if user was found in the room's user list
+         * @emits RoomChatError if user was not found in the room's user list
+         */
+        if (userData && userData.length == 0) {
             return socket.emit("RoomChatError", { message: "Currently not apart of the room" });
         }
-
+        
         /**
          * @emits RoomChatError if message is empty
          */
         if (!data.message || data.message == '') {
-            return socket.emit("RoomChatError", { message: "Cannot send a empty message" });
+            return socket.emit("RoomChatError", { message: "Cannot send an empty message" });
         }
 
-      
-
+        this._socketServer.to(roomData.code).emit("RoomChatNewMessage", 
+            { 
+                sender: {
+                    socketId: socket.id,
+                    username: userData[0].username
+                },
+                message: data.message
+        });
     }
 
     

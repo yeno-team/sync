@@ -1,7 +1,7 @@
 import React , { Component } from 'react'
 import { Player, ControlBar } from 'video-react';
 
-export default class VideoPlayer extends Component {
+export class VideoPlayer extends Component {
     constructor(props) {
         super(props)
 
@@ -27,7 +27,9 @@ export default class VideoPlayer extends Component {
     }
 
     didOwnerChangeVideoDuration(oldDuration , newDuration) {
-        if((newDuration - oldDuration) > 1 || (newDuration - oldDuration) < -1) this.props.manualDurationChangeHandler()
+        if((newDuration - oldDuration) > 1 || (newDuration - oldDuration) < -1) {
+            this.props.manualDurationChangeHandler && this.props.manualDurationChangeHandler();
+        }
     }
 
     handleStateChange(state) {  

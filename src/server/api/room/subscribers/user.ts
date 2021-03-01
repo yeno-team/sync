@@ -134,7 +134,6 @@ export class RoomUserSubscriber implements ISubscriber {
             /**
              * Leave rooms
              */
-            
             socket.rooms.forEach(roomCode => {
                 this.onUserLeave(socket, { roomCode });
             });

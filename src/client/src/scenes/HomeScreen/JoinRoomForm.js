@@ -28,7 +28,7 @@ function JoinRoomForm(props){
                 }
             })
 
-            const { code } = req.data
+            const { code } = req.data;
 
             history.push(`/room/${code}`)
         } catch (e) {
@@ -40,7 +40,7 @@ function JoinRoomForm(props){
         const target = event.target
         const name = target.name
         const value = target.type === "checkbox" ? target.checked : target.value
-        
+
         setFormVals({
             ...formVals,
             [name] : value
@@ -79,7 +79,7 @@ function JoinRoomForm(props){
                         <Form.Label>Room Password <b>(Optional)</b></Form.Label>
                         <Form.Control type="password" onChange={handleInputChange} name="room_password" value={formVals.room_password}></Form.Control> 
                     </Form.Group> 
-                    <Form.Check type="switch" id="is_private" label="Private Room" title="Set Private Room" checked={setFormVals.is_private} onChange={handleInputChange} name="isPrivate"/>
+                    <Form.Check type="switch" id="is_private" label="Private Room" title="Set Private Room" checked={setFormVals.is_private} onChange={handleInputChange} name="is_private"/>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

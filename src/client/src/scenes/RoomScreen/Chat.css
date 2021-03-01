@@ -1,0 +1,11 @@
+.room__chat {
+    background-color: rgb(221, 220, 220);
+    height: 100%;
+    width: 30%;
+    left: 70%;
+    top: 0;
+    position: absolute;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 10px 15px;
+}
