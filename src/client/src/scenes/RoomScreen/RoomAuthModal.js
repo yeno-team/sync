@@ -17,7 +17,6 @@ export const RoomAuthModal = (props) => {
     const prevUsers = usePrevious(users);
     const prevErrors = usePrevious(errors);
 
-
     const [ roomData, setRoomData ] = useState();
     const [ roomPassword , setRoomPassword ] = useState("");
     const [ roomExists, setRoomExists ] = useState();
@@ -25,13 +24,14 @@ export const RoomAuthModal = (props) => {
 
     const newUsers = users.filter(user => prevUsers.indexOf(user) === -1);
     const newErrors = errors.filter(error => prevErrors.indexOf(error) === -1);
-    
+
     if (newUsers.length > 0) {
         console.log("A new user is here!");
     }
 
     if (newErrors.length > 0) {
-        if(newErrors.indexOf("Incorrect Room Password") != -1) {
+        if(newErrors.indexOf("Incorrect Room Password") !== -1) {
+            
             setAuthorized(false);
         }
     }
@@ -44,7 +44,9 @@ export const RoomAuthModal = (props) => {
                 setRoomExists(true);
                 setRoomData(roomData);
 
-                if (roomData.is_private == false) {
+                console.log(roomData)
+
+                if (roomData.is_private === false) {
                     joinRoom("khai93", "");
                 }
             } catch (e) {
@@ -52,14 +54,14 @@ export const RoomAuthModal = (props) => {
                 console.error(e);
             }
         })();
-    }, []);
+    } , []);
 
         
     const submitPassword = () => {
         joinRoom("khai983", roomPassword);
     }
 
-    if (roomExists != null && roomExists == false) {
+    if (roomExists !== null && roomExists === false) {
         return (
             <h1>Room doesn't exist</h1>
         )
@@ -91,7 +93,7 @@ export const RoomAuthModal = (props) => {
                         <Button variant="danger" onClick={() => history.push('/')}>Go back!</Button>
                     </Modal.Footer>
                 </Modal>
-            ) : <RoomView />
+            ) : <RoomView roomData={roomData} code={code}/>
         }
      </React.Fragment>
     )

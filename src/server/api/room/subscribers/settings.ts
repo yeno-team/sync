@@ -35,15 +35,27 @@ export class RoomSettingsSubscriber implements ISubscriber {
             /**  
              * Find the user emitting the event in the users list 
             */
-            const owner = roomData.users.filter(user => user.rank === RoomUserRank.owner);
+            const user = roomData.users.filter((user) => user.socket_id === socket.id)
+
+            // const owner = roomData.users.filter(user => user.rank === RoomUserRank.owner);
             
             /**
              * Check if the user is the owner
              * @emits RoomSettingChangeError if user is not the owner
              */
-            if (owner && owner.length == 0) {
+
+            if (user && user[0].rank !== 0) {
                 return socket.emit("RoomSettingChangeError", { message: "Only the room's owner can change settings" });
+            } else { 
+                /**
+                 * If the user who emitted this event cannot be found inside room users.
+                 * @emits RoomSettingChangeError - If the user cannot be found inside room users.
+                 */
+                return socket.emit("RoomSettingChangeError" , { message : "Can't find the user who emitted this event."})
             }
+
+
+
 
             this.dependencies.roomService.editRoomSetting(data);
         } else {

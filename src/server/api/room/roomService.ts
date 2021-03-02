@@ -12,10 +12,10 @@ export type RoomServiceDependencies = {
 }
 
 export enum RoomSetting {
-    Name,
-    MaxUsers,
-    RoomPassword,
-    IsPrivate
+    name = 1,
+    max_users,
+    room_password,
+    is_private
 }
 
 export class RoomService {
