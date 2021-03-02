@@ -24,7 +24,6 @@ export class ServerBuilder {
         this._port = port;
         return this;
     }
-
     setControllers(controllers: IController[]) {
         this._controllers = controllers;
         return this;

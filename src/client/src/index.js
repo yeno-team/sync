@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // React Bootstrap
 import { Routes } from './core/routes';
 import reportWebVitals from './reportWebVitals';
 
+import socketSubscriber from './api/socket/socketSubscriber';
+socketSubscriber.init();
+
 ReactDOM.render(
   <React.StrictMode>
-    <Routes />
+      <Routes />
   </React.StrictMode>,
   document.getElementById('root')
 );

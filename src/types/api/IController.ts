@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { Server } from "socket.io";
 
 /**
  * Controller interface
