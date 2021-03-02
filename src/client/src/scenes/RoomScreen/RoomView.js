@@ -12,9 +12,7 @@ export const RoomView = (props) => {
         (async() => {
             try {
                 const { users } = await getRoomData(props.code) // Get updated users list.
-
-                setOwner(true)
-                // setOwner(users.some((user) => socketSubscriber.socketId() === user.socket_id && user.rank === 0))
+                setOwner(users.some((user) => socketSubscriber.socketId() === user.socket_id && user.rank === 0))
             } catch (e) {
                 // log error
                 setOwner(false)
