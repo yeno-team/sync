@@ -11,7 +11,7 @@ const Rooms = (props) => {
         (async () => {
             // Fetch current rooms
             const req = await Axios({
-                url : "http://localhost:8080/api/room/list",
+                url : "http://localhost:8000/api/room/list",
                 method : "GET"
             })
 

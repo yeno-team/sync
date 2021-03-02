@@ -1,19 +1,19 @@
 import React , { Component } from 'react'
 import { Player, ControlBar } from 'video-react';
 
-export default class VideoPlayer extends Component {
+export class VideoPlayer extends Component {
     constructor(props) {
         super(props)
 
         this.state = { source : this.props.src } // Holds 
-        this.play = this.play.bind(this);
-        this.pause = this.pause.bind(this);
-        this.load = this.load.bind(this);
-        this.changeCurrentTime = this.changeCurrentTime.bind(this);
-        this.seek = this.seek.bind(this);
-        this.changePlaybackRateRate = this.changePlaybackRateRate.bind(this);
-        this.changeVolume = this.changeVolume.bind(this);
-        this.setMuted = this.setMuted.bind(this);
+        // this.play = this.play.bind(this);
+        // this.pause = this.pause.bind(this);
+        // this.load = this.load.bind(this);
+        // this.changeCurrentTime = this.changeCurrentTime.bind(this);
+        // this.seek = this.seek.bind(this);
+        // this.changePlaybackRateRate = this.changePlaybackRateRate.bind(this);
+        // this.changeVolume = this.changeVolume.bind(this);
+        // this.setMuted = this.setMuted.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +27,9 @@ export default class VideoPlayer extends Component {
     }
 
     didOwnerChangeVideoDuration(oldDuration , newDuration) {
-        if((newDuration - oldDuration) > 1 || (newDuration - oldDuration) < -1) this.props.manualDurationChangeHandler()
+        if((newDuration - oldDuration) > 1 || (newDuration - oldDuration) < -1) {
+            this.props.manualDurationChangeHandler && this.props.manualDurationChangeHandler();
+        }
     }
 
     handleStateChange(state) {  

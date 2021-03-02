@@ -18,8 +18,6 @@ export type RoomUserLeavePayload = {
     roomCode: string
 }
 
-
-
 export class RoomUserSubscriber implements ISubscriber {
 
     private _socketServer: Server;
@@ -28,12 +26,15 @@ export class RoomUserSubscriber implements ISubscriber {
         private dependencies: RoomUserSubscriberDependencies,
     ) {}
 
-    public setUpListeners(socketServer: Server, socket: Socket) {
+    public setUpListeners(socketServer: Server) {
         this._socketServer = socketServer;
 
-        socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
-        socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
-        socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
+        socketServer.on('connection', (socket) => {
+            socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
+            socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
+            socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
+        });
+
     }
 
     private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
@@ -67,6 +68,11 @@ export class RoomUserSubscriber implements ISubscriber {
             } else {
                 this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
             }
+
+            /**
+             * @emits RoomUserJoined when a user has joined, broadcast to a room that they have joined
+             */
+            this._socketServer.to(roomData.code).emit("RoomUserJoined", { user: { socketId: socket.id, username: data.username }});
         } else {
             return socket.emit("RoomJoinError", { message: "Room does not exist" });
         }
@@ -123,12 +129,11 @@ export class RoomUserSubscriber implements ISubscriber {
 
     private onSocketDisconnecting(socket: Socket, reason: string) {
         if (reason === "ping timeout") {
-            
+            // hi sir i am roblox man
         } else {
             /**
              * Leave rooms
              */
-            
             socket.rooms.forEach(roomCode => {
                 this.onUserLeave(socket, { roomCode });
             });

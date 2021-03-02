@@ -44,12 +44,15 @@ export class MemoryRoomModule implements IRoomModule {
     public removeUser(roomCode: string, socketId: string): IRoom {
         const roomIndex = this.getRoomIndexFromCode(roomCode);
         
-        // Remove the user from the Room's users array
-        const filteredUsers = this._rooms[roomIndex].users.filter(user => user.socket_id != socketId);
+        if (this._rooms[roomIndex]) {
+            // Remove the user from the Room's users array
+            const filteredUsers = this._rooms[roomIndex].users.filter(user => user.socket_id != socketId);
 
-        // Set room's user to the filtered users 
-        this._rooms[roomIndex].users = filteredUsers;
+            // Set room's user to the filtered users 
+            this._rooms[roomIndex].users = filteredUsers;
+        }
 
+        
         return this._rooms[roomIndex];
     }   
 

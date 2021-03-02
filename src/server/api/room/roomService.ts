@@ -51,7 +51,11 @@ export class RoomService {
             username
         };
 
-        this.dependencies.roomModule.appendUser(roomCode, userData);
+        const roomData = this.getRoom(roomCode);
+
+        if (roomData.users.length < roomData.max_users) {
+            this.dependencies.roomModule.appendUser(roomCode, userData);
+        }
     }
 
     public removeUserFromRoom = (roomCode: string, socketId: string) => this.dependencies.roomModule.removeUser(roomCode, socketId);

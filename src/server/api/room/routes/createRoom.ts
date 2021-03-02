@@ -24,7 +24,7 @@ export default class RoomCreateRoute implements IExecuteable {
          const options = {
             name: req.body.name,
             description : req.body.description,
-            is_private: req.body.is_private == 'true',
+            is_private: String(req.body.is_private) == 'true',
             room_password: req.body.room_password,
             max_users: Number(req.body.max_users)
          }

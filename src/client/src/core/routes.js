@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -15,7 +14,7 @@ export function Routes() {
             <Switch>
                 
                 <Route path="/room/:code">
-                    <RoomLayout />
+                    <RoomLayout/>
                 </Route>
 
                 <Route path="/">
