@@ -12,18 +12,18 @@ export default (roomCode) => {
     
     useEffect(() => {
         socketSubscriber.on(NEW_USER_JOINED_EVENT, (data) => {
-            setUsers([...users, data.user]);
+            setUsers((users) => [...users, data.user]);
         });
     
         socketSubscriber.on(ERROR_EVENT, (data) => {
-            setErrors([...errors, data.message]);
+            setErrors((errors) => [...errors, data.message]);
         });
 
         return () => {
             socketSubscriber.off(NEW_USER_JOINED_EVENT);
             socketSubscriber.off(ERROR_EVENT);
         }
-    }, [])
+    }, []);
 
     
     const joinRoom = (username, password) => {

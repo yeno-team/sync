@@ -28,6 +28,11 @@ export const RoomAuthModal = (props) => {
     
     if (newUsers.length > 0) {
         console.log("A new user is here!");
+
+        // This case of authorization is true because the first ever user joined will always be the client's socket
+        if (!authorized) {
+            setAuthorized(true);
+        }
     }
 
     if (newErrors.length > 0) {
@@ -55,7 +60,7 @@ export const RoomAuthModal = (props) => {
     }, []);
 
         
-    const submitPassword = () => {
+    const submitPassword = (e) => {
         joinRoom("khai983", roomPassword);
     }
 
