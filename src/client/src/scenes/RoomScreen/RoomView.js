@@ -18,6 +18,17 @@ export const RoomView = (props) => {
     const [ started, setStarted ] = useState(false);
     
     useEffect(() => {
+        (async() => {
+            try {
+                const { users } = await getRoomData(props.roomData.code) // Get updated users list.
+                setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
+            } catch (e) {
+                setOwner(false)
+            }
+        })()
+    } , [props.roomData])
+
+    useEffect(() => {
         socketSubscriber.on(ROOM_SETTING_UPDATED_EVENT , (data) => {
             props.setRoomData((prevState) => {
                 return {
@@ -29,13 +40,20 @@ export const RoomView = (props) => {
         
         
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
-            
             setOwnerVideoState(data.state);
-            
+
             if (owner != null && !owner) {
-                if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) {
+                if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) { // Duration Change
                     // If the client is paused, no need to change
                     videoState.paused == false && player.seek(data.state.currentTime);
+                }
+
+                if(data.state.muted !== videoState.muted) { // Mute Change
+                    player.muted = data.state.muted
+                }
+
+                if(data.state.volume !== videoState.volume) { // Volume Change
+                    player.volume = data.state.volume
                 }
 
                 data.state.paused && player.pause();
@@ -58,37 +76,39 @@ export const RoomView = (props) => {
         return () => {
             socketSubscriber.off(ROOM_SETTING_UPDATED_EVENT);
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
+            socketSubscriber.off(ROOM_VIDEO_ERROR);
         }
     } , [videoState, started])
     
-    useEffect(() => {
-        (async() => {
-            try {
-                const { users } = await getRoomData(props.roomData.code) // Get updated users list.
-                setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
-            } catch (e) {
-                setOwner(false)
-            }
-        })()
-    } , [props.roomData])
 
     function manualDurationChanged(duration) {
         console.log(duration);
     }
 
     function VideoResumed() {
-        if(owner !== null && !owner) {
-           ownerVideoState && player.seek(ownerVideoState.currentTime);
-           ownerVideoState && ownerVideoState.paused && player.pause();
+        ownerVideoState && player.seek(ownerVideoState.currentTime);
+        ownerVideoState && ownerVideoState.paused && player.pause();
+    }
+
+    function VideoMuted () {
+        if(ownerVideoState) {
+            player.muted = ownerVideoState.muted;
         }
     }
 
     function videoStateChanged(state, prevState, player) {
         setVideoState(state);
         setPlayer(player);
-        
-        if (state.paused === false && prevState.paused === true) {
-            VideoResumed();
+
+        // Disable functionality for users who aren't the owner.
+        if(owner !== null && !owner) {
+            if (state.paused === false && prevState.paused === true) {
+                VideoResumed();
+            }
+
+            if(state.muted === false && prevState.muted === true) {
+                VideoMuted();
+            }
         }
 
         if (owner) {
