@@ -9,12 +9,13 @@ const ROOM_SETTING_UPDATED_EVENT = "RoomSetttingUpdated";
 const ROOM_OWNER_VIDEO_STATE_CHANGED = "RoomOwnerVideoStateChanged";
 const ROOM_VIDEO_ERROR = "RoomVideoError";
 
-// danny was here
 
 export const RoomView = (props) => {
     const [ owner , setOwner ] = useState();
     const [ ownerVideoState, setOwnerVideoState] = useState();
     const [ videoState,  setVideoState] = useState();
+    const [ player, setPlayer ] = useState();
+    const [ started, setStarted ] = useState(false);
     
     useEffect(() => {
         socketSubscriber.on(ROOM_SETTING_UPDATED_EVENT , (data) => {
@@ -28,20 +29,37 @@ export const RoomView = (props) => {
         
         
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
-            console.log(data.state);
+            
             setOwnerVideoState(data.state);
+            
+            if (owner != null && !owner) {
+                if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) {
+                    // If the client is paused, no need to change
+                    videoState.paused == false && player.seek(data.state.currentTime);
+                }
+
+                data.state.paused && player.pause();
+                !data.state.paused && player.play();
+            }
         });
 
         socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
             console.log("ERROR: " +  data.message);
         });
 
+        if (videoState && videoState.hasStarted && !started) {
+            if (owner !== null && !owner) {
+                ownerVideoState && player.seek(ownerVideoState.currentTime);
+                player.play();
+                setStarted(true);
+            }
+        }
 
         return () => {
             socketSubscriber.off(ROOM_SETTING_UPDATED_EVENT);
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
         }
-    } , [])
+    } , [videoState, started])
     
     useEffect(() => {
         (async() => {
@@ -59,11 +77,15 @@ export const RoomView = (props) => {
     }
 
     function VideoResumed() {
-        console.log('resumed');
+        if(owner !== null && !owner) {
+           ownerVideoState && player.seek(ownerVideoState.currentTime);
+           ownerVideoState && ownerVideoState.paused && player.pause();
+        }
     }
 
-    function videoStateChanged(state, prevState) {
+    function videoStateChanged(state, prevState, player) {
         setVideoState(state);
+        setPlayer(player);
         
         if (state.paused === false && prevState.paused === true) {
             VideoResumed();
@@ -79,7 +101,7 @@ export const RoomView = (props) => {
             <h3>Room Name : {props.roomData && props.roomData.name}</h3>
             <h3> Room Description : {props.roomData && props.roomData.description} </h3>
             {owner && <OwnerPanel code={props.roomData.code}/>}
-            <VideoPlayer src="http://media.w3.org/2010/05/bunny/movie.mp4" fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
+            <VideoPlayer src="http://media.w3.org/2010/05/bunny/movie.mp4" hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
             <Chat />
         </React.Fragment>
     )

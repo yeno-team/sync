@@ -42,7 +42,7 @@ export class VideoPlayer extends Component {
             player: state
         });
         
-        this.props.handleStateChange && this.props.handleStateChange(state, prevState);
+        this.props.handleStateChange && this.props.handleStateChange(state, prevState, this.player);
     }
     
     play() {
@@ -61,7 +61,7 @@ export class VideoPlayer extends Component {
         return () => {
           const { player } = this.player.getState();
           this.player.seek(player.currentTime + seconds);
-        };
+        }
       }
     
     seek(seconds) {
@@ -91,7 +91,9 @@ export class VideoPlayer extends Component {
                 this.player = player;
             }} {...this.props} 
             >
-            <ControlBar autoHide={false} />
+
+              <ControlBar  autoHide={true} disableCompletely={this.props.hideControls}/>
+
         </Player>
         )
     }
