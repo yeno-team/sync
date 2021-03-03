@@ -18,8 +18,8 @@ const socketSubscriber = {
     emit(eventName, data) {
         socket.emit(eventName, data)
     },
-    socketId() {
-        return socket.id
+    getSocket() {
+        return socket;
     }
 }
 

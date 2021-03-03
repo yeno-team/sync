@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { RoomView } from './RoomView';
 import { getRoomData } from '../../api/room/roomService';
 import { useRoomAuth, usePrevious } from '../../hooks';
-
+import socketSubscriber from '../../api/socket/socketSubscriber';
 
 export const RoomAuthModal = (props) => { 
     const { code } = useParams();
@@ -21,20 +21,29 @@ export const RoomAuthModal = (props) => {
     const [ roomPassword , setRoomPassword ] = useState("");
     const [ roomExists, setRoomExists ] = useState();
     const [ authorized, setAuthorized ] = useState();
+    const [ username, setUsername ] = useState();
 
-    const newUsers = users.filter(user => prevUsers.indexOf(user) === -1);
-    const newErrors = errors.filter(error => prevErrors.indexOf(error) === -1);
-
-    if (newUsers.length > 0) {
-        console.log("A new user is here!");
-    }
-
-    if (newErrors.length > 0) {
-        if(newErrors.indexOf("Incorrect Room Password") !== -1) {
-            
-            setAuthorized(false);
+  
+    useEffect(() => {
+        const newUsers = users.filter((user, index) => prevUsers[index] !== user);
+        const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
+        if (newUsers.length > 0) {
+            console.log("A new user is here!");
+    
+            // This case of authorization is true because the first ever user joined will always be the client's socket
+            if (!authorized) {
+                setAuthorized(true);
+            }
         }
-    }
+    
+        if (newErrors.length > 0) {
+            console.log(newErrors);
+            if(newErrors.indexOf("Incorrect Room Password") !== -1 && !authorized) {
+                setAuthorized(false);
+            }
+        }    
+    }, [users, errors]);
+
 
     useEffect(() => {
         (async () => {
@@ -43,11 +52,12 @@ export const RoomAuthModal = (props) => {
 
                 setRoomExists(true);
                 setRoomData(roomData);
+                
 
-                console.log(roomData)
+                // console.log(roomData)
 
-                if (roomData.is_private === false) {
-                    joinRoom("khai93", "");
+                if (roomData.is_private === false || roomData.users.length === 0) {
+                    joinRoom(socketSubscriber.getSocket().id, "");
                 }
             } catch (e) {
                 setRoomExists(false);
@@ -58,7 +68,7 @@ export const RoomAuthModal = (props) => {
 
         
     const submitPassword = () => {
-        joinRoom("khai983", roomPassword);
+        joinRoom(socketSubscriber.getSocket().id, roomPassword);
     }
 
     if (roomExists !== null && roomExists === false) {
@@ -93,7 +103,7 @@ export const RoomAuthModal = (props) => {
                         <Button variant="danger" onClick={() => history.push('/')}>Go back!</Button>
                     </Modal.Footer>
                 </Modal>
-            ) : <RoomView roomData={roomData} code={code}/>
+            ) : <RoomView roomData={roomData} setRoomData={setRoomData}/>
         }
      </React.Fragment>
     )

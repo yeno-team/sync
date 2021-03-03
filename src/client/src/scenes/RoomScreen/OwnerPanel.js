@@ -1,28 +1,66 @@
-import React , { useState , useEffect } from 'react'
+import React , { useState , useEffect , useRef } from 'react'
 import socketSubscriber from '../../api/socket/socketSubscriber'
 import { } from 'react-bootstrap/Form'
 
-const ROOM_SETTING_CHANGE_EVENT = "RoomSettingChanged"
-const ROOM_SETTING_CHANGE_ERROR = "RoomSettingChangeError"
+const ROOM_SETTING_CHANGE_EVENT = "RoomSettingChanged";
+const ROOM_SETTING_CHANGE_ERROR = "RoomSettingChangeError";
 
 function OwnerPanel(props) {
-    const [newRoomName , setNewRoomName] = useState("")
+    const [ roomSettings , setRoomSettings ] = useState({
+        name : "",
+        description : "",
+        max_users : "5",
+        password : "",
+        is_private : false
+    })
 
     useEffect(() => {
         socketSubscriber.on(ROOM_SETTING_CHANGE_ERROR , (data) => {
-            console.log(data)
+            console.error(data)
         })
-    })
 
-    const changeRoomName = () => {
-        socketSubscriber.emit(ROOM_SETTING_CHANGE_EVENT , {roomCode : props.roomCode , settingName : "name" , value : newRoomName })        
-        setNewRoomName("")
+        return () => {
+            socketSubscriber.off(ROOM_SETTING_CHANGE_ERROR);
+        }
+    } , [])
+
+    const handleValueChange = (e) => {
+        const target = e.target
+        const name = target.name
+        const value = target.type === "checkbox" ? target.checked : target.value
+
+        setRoomSettings((prevState) => {
+            return {
+                ...prevState,
+                [name] : value
+            }
+        })
     }
+
+    const changeRoomSetting = (name , value) => {
+        socketSubscriber.emit(ROOM_SETTING_CHANGE_EVENT , {roomCode : props.code , settingName : name , value : value })
+    }      
 
     return (
         <section>
-            <input type="text" placeholder="Room Name" onChange={(e) => setNewRoomName(e.target.value)} value={newRoomName}/>
-            <button onClick={changeRoomName}>Set Room Name</button>
+            <div>
+                <input type="text" placeholder="Room Name" onChange={handleValueChange} name="name"/>
+                <button onClick={() => changeRoomSetting("name" , roomSettings.name)}>Set Room Name</button>
+            </div>
+            <div>
+                <textarea type="text" placeholder="Description" col={3} onChange={handleValueChange} name="description"/>
+                <button onClick={() => changeRoomSetting("description" , roomSettings.description)}>Set Room Description</button>
+            </div>
+            <div>
+                <select value={roomSettings.max_users} onChange={handleValueChange} name="max_users">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <button onClick={() => changeRoomSetting("max_users" , parseInt(roomSettings.max_users))}>Set Max Users Limit</button>
+            </div>
         </section>
     )
 }

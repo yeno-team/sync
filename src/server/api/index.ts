@@ -71,5 +71,8 @@ export const subscribers: ISubscriber[] = [
     }),
     new RoomSubscribers.RoomChatSubscriber({
         roomService: RoomServiceDep
+    }),
+    new RoomSubscribers.RoomVideoSubscriber({
+        roomService: RoomServiceDep
     })
 ];

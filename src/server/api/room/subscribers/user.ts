@@ -43,10 +43,11 @@ export class RoomUserSubscriber implements ISubscriber {
         if (roomData) {
             /**
             * If the room is private,
-            * check if the password is incorrect
+            * check if the password is incorrect,
+            * the owner bypasses this
             * @emits RoomJoinError event if incorrect
             */
-            if (roomData.is_private && roomData.room_password != data.password) {
+            if (roomData.is_private && roomData.room_password != data.password && roomData.users.length > 0) {
                 return socket.emit("RoomJoinError", { message: "Incorrect Room Password" });
             }
 

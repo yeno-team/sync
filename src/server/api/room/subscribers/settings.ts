@@ -43,21 +43,29 @@ export class RoomSettingsSubscriber implements ISubscriber {
              * Check if the user is the owner
              * @emits RoomSettingChangeError if user is not the owner
              */
-
+            
             if (user && user[0].rank !== 0) {
                 return socket.emit("RoomSettingChangeError", { message: "Only the room's owner can change settings" });
-            } else { 
-                /**
-                 * If the user who emitted this event cannot be found inside room users.
-                 * @emits RoomSettingChangeError - If the user cannot be found inside room users.
-                 */
-                return socket.emit("RoomSettingChangeError" , { message : "Can't find the user who emitted this event."})
+            }   
+
+            const updatedRoom = this.dependencies.roomService.editRoomSetting(data);
+
+            /**
+             * If a IRoom is not returned, that means it couldn't change the data
+             * @emits RoomSettingChangeError 
+             */
+            if (!updatedRoom) {
+                return socket.emit("RoomSettingChangeError", { message: "Unexpectedly could not change setting" });
             }
 
+            const safeData = {
+                name: updatedRoom.name,
+                description: updatedRoom.description,
+                max_users: updatedRoom.max_users,
+                is_private: updatedRoom.is_private
+            }
 
-
-
-            this.dependencies.roomService.editRoomSetting(data);
+            return this._socketServer.to(roomData.code).emit("RoomSetttingUpdated", safeData);
         } else {
             return socket.emit("RoomJoinError", { message: "Room does not exist" });
         }

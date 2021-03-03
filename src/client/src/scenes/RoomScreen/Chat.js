@@ -11,25 +11,36 @@ export const Chat = (props) => {
     const {messages, sendMessage, errors} = useChat(code);
 
     const prevErrors = usePrevious(errors);
+    const prevMessages = usePrevious(messages);
 
     const handleChange = (e) => {
         setMessageText(e.target.value)
     }
 
-    const newErrors = errors.filter(error => prevErrors.indexOf(error) === -1);
+    const messageElements = messages.map((message , index) => <div key={index}>{message}</div>);
     
-    if (newErrors.length > 0) {
-        newErrors.forEach((v) => console.log("ERROR: " + v));
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         sendMessage(messageText);
         setMessageText("");
     }
 
-    const messageElements = messages.map((message , index) => <div key={index}>{message}</div>);
+
+    useEffect(() => {
+        const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
+        const newMessages = messages.filter((message, index) => prevMessages[index] !== message);
+
+        if (newErrors.length > 0) {
+            newErrors.forEach((v) => console.log("ERROR: " + v));
+        }
+
+        if (newMessages.length > 0) {
+            const chat = document.getElementById("room__chat");
+            chat.scrollTop = chat.scrollHeight;
+        }
     
+    }, [errors, messages]);
+
     return (
         <div>
             <div id="room__chat" className="room__chat">

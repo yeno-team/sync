@@ -13,6 +13,7 @@ export type RoomServiceDependencies = {
 
 export enum RoomSetting {
     name = 1,
+    description,
     max_users,
     room_password,
     is_private
@@ -40,7 +41,7 @@ export class RoomService {
         const RoomSettingEnum = RoomSetting[data.settingName];
 
         if (RoomSettingEnum) {
-            this.dependencies.roomModule.editRoom(data.roomCode, data.settingName, data.value);
+            return this.dependencies.roomModule.editRoom(data.roomCode, data.settingName, data.value);
         }
     }
 
