@@ -3,6 +3,7 @@ import socketSubscriber from '../../api/socket/socketSubscriber'
 import { } from 'react-bootstrap/Form'
 
 const ROOM_SETTING_CHANGE_EVENT = "RoomSettingChanged";
+const ROOM_VIDEO_URL_CHANGE_EVENT = "RoomVideoUrlChange"
 const ROOM_SETTING_CHANGE_ERROR = "RoomSettingChangeError";
 
 function OwnerPanel(props) {
@@ -12,7 +13,8 @@ function OwnerPanel(props) {
         max_users : "5",
         password : "",
         is_private : false
-    })
+    });
+    const [ videoUrl, setVideoUrl ] = useState("");
 
     useEffect(() => {
         socketSubscriber.on(ROOM_SETTING_CHANGE_ERROR , (data) => {
@@ -41,6 +43,14 @@ function OwnerPanel(props) {
         socketSubscriber.emit(ROOM_SETTING_CHANGE_EVENT , {roomCode : props.code , settingName : name , value : value })
     }      
 
+    const handleVideoUrlChange = (e) => {
+        setVideoUrl(e.target.value);
+    }
+
+    const changeVideoUrl = () => {
+        socketSubscriber.emit(ROOM_VIDEO_URL_CHANGE_EVENT, { roomCode: props.code, url: videoUrl });
+    }
+
     return (
         <section>
             <div>
@@ -60,6 +70,10 @@ function OwnerPanel(props) {
                     <option value="100">100</option>
                 </select>
                 <button onClick={() => changeRoomSetting("max_users" , parseInt(roomSettings.max_users))}>Set Max Users Limit</button>
+            </div>
+            <div>
+            <input type="text" placeholder="Video URL" onChange={handleVideoUrlChange} name="video_url"/>
+                <button onClick={() => changeVideoUrl()}>Set Video Url</button>
             </div>
         </section>
     )

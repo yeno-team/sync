@@ -1,6 +1,7 @@
 import { IExecuteable } from "src/types/IExecuteable";
 import { RouteDependencies } from "src/types/api/RouteDependencies";
 import { StatusControllerDependencies } from "../statusController";
+import { QualityLabel } from "src/server/utils/videoSource";
 
 /**
  * Status Route
@@ -25,8 +26,7 @@ export default class StatusRoute implements IExecuteable {
       });
 
       this.dependencies.router.get('/hi' , async (req , res) => {
-         const { link } = req.json();
-         const response = await this.parentDependencies.videoSourceUtility.getKickassAnimeVideoSource(link)
+         const response = await this.parentDependencies.videoSourceUtility.getYoutubeVideoSource(req.query.link.toString(), QualityLabel["360p"])
          res.status(200).send(response)
       })
    }

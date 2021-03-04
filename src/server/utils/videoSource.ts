@@ -75,7 +75,7 @@ export class VideoSourceUtility {
         const youtubeLink = new URL(link);
         const params = new URLSearchParams(youtubeLink.search);
 
-        const youtubeInfoLink = new URL(`https://www.youtube.com/get_video_info?html5=1&video_id=${params.get("v")}`);
+        const youtubeInfoLink = new URL(`https://www.youtube.com/get_video_info?&asv=3&el=detailpage&hl=en_US&html5=1&video_id=${params.get("v")}`);
         
         const options: RequestOptions = {
             url: youtubeInfoLink.toString(),
@@ -89,17 +89,21 @@ export class VideoSourceUtility {
         const response = await this.dependencies.requestModule.request<any>(options);
         
         if (response) {
+            if (response.status && response.status == 'fail') {
+                return Promise.reject("Could not get video link source, Reason: " + response.reason);
+            }
+
             const info = this.qsToJson(response);
+
             const resp = JSON.parse(info.player_response);
 
             if (resp.streamingData == null) {
                 return Promise.reject("Could not get video link source")
             }
 
-            const found = resp.streamingData.formats.filter(format => format.qualityLabel == qualityLabel);
+            const found = resp.streamingData.formats.filter(format => format.qualityLabel === QualityLabel[qualityLabel]);
 
-
-            return Promise.resolve(found ? [found[0].url] : [resp.streamingData.formats[resp.streamingData.formats.length].url]);
+            return Promise.resolve(found && found.length > 0 ? [found[0].url] : [resp.streamingData.formats[resp.streamingData.formats.length-1].url]);
         }
 
         return Promise.reject("Could not get video link source")
