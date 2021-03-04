@@ -1,3 +1,5 @@
 import { AxiosRequestModule } from "./axios";
 
-export const RequestModule = new AxiosRequestModule();
+const RequestModule = new AxiosRequestModule();
+
+export default RequestModule;

@@ -121,7 +121,7 @@ export const RoomView = (props) => {
             <h3>Room Name : {props.roomData && props.roomData.name}</h3>
             <h3> Room Description : {props.roomData && props.roomData.description} </h3>
             {owner && <OwnerPanel code={props.roomData.code}/>}
-            <VideoPlayer src="http://media.w3.org/2010/05/bunny/movie.mp4" hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
+            <VideoPlayer src="https://www.youtube.com/watch?v=FcoKDqBciK8" hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
             <Chat />
         </React.Fragment>
     )

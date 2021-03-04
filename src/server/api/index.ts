@@ -12,7 +12,7 @@ import RoomSubscribers from "./room/subscribers";
 // Modules
 import LoggerModule from "../modules/logger";
 import RoomModule from "../modules/room";
-import { RequestModule } from "../modules/request";
+import RequestModule from "../modules/request";
 
 // Utilities
 import { RouteUtility } from "../utils/routes";
@@ -51,7 +51,10 @@ const defaultControllerDependencies = {
  * Also creates a new Controller from each of the controller classes with its dependencies.
  */
 export const controllers = [
-    new StatusController(defaultControllerDependencies),
+    new StatusController({
+        ...defaultControllerDependencies,
+        videoSourceUtility: VideoSourceUtilityDep
+    }),
     new RoomController({
         ...defaultControllerDependencies,
         roomService: RoomServiceDep
@@ -73,6 +76,7 @@ export const subscribers: ISubscriber[] = [
         roomService: RoomServiceDep
     }),
     new RoomSubscribers.RoomVideoSubscriber({
-        roomService: RoomServiceDep
+        roomService: RoomServiceDep,
+        videoSourceUtility: VideoSourceUtilityDep
     })
 ];

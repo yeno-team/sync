@@ -3,6 +3,7 @@ import { Server, Socket } from "socket.io";
 import { RoomUserRank } from "src/server/modules/room/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
+import cheerio from "cheerio";
 
 export type RoomUserSubscriberDependencies = {
     roomService: RoomService
@@ -49,7 +50,6 @@ export class RoomUserSubscriber implements ISubscriber {
             this._socketServer.emit("NewRoomCreated" , roomData)
         }
     }
-
 
     private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
         const roomData = this.dependencies.roomService.getRoom(data.roomCode);
