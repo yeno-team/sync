@@ -106,7 +106,7 @@ export const RoomView = (props) => {
                 VideoResumed();
             }
 
-            if(state.muted === false && prevState.muted === true) {
+            if(state.muted !== prevState.muted) {
                 VideoMuted();
             }
         }

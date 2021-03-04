@@ -46,24 +46,23 @@ export const RoomAuthModal = (props) => {
 
 
     useEffect(() => {
-        (async () => {
-            try {
-                const roomData = await getRoomData(code);
-
-                setRoomExists(true);
-                setRoomData(roomData);
-                
-
-                // console.log(roomData)
-
-                if (roomData.is_private === false || roomData.users.length === 0) {
-                    joinRoom(socketSubscriber.getSocket().id, "");
+        setTimeout(() => {
+            (async () => {
+                try {
+                    const roomData = await getRoomData(code);
+    
+                    setRoomExists(true);
+                    setRoomData(roomData);
+                    
+                    if (roomData.is_private === false || roomData.users.length === 0) {               
+                        joinRoom(socketSubscriber.getSocket().id, "");
+                    }
+                } catch (e) {
+                    setRoomExists(false);
+                    console.error(e);
                 }
-            } catch (e) {
-                setRoomExists(false);
-                console.error(e);
-            }
-        })();
+            })();
+        } , 500)
     } , []);
 
         
