@@ -1,7 +1,10 @@
 import React , { useState , useEffect } from 'react';
+import socketSubscriber from '../../api/socket/socketSubscriber';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import Badge from 'react-bootstrap/Badge';
+
+const NEW_ROOM_CREATED_EVENT = "NewRoomCreated";
 
 const Rooms = (props) => {
     const [ currentRooms , setCurrentRooms ] = useState([])
@@ -17,6 +20,16 @@ const Rooms = (props) => {
 
             setCurrentRooms(req.data)
         })()
+    } , [])
+
+    useEffect(() => {
+        socketSubscriber.on(NEW_ROOM_CREATED_EVENT , (data) => {
+            setCurrentRooms((prevState) => [...prevState , data])
+        });
+
+        return () => {
+            socketSubscriber.off(NEW_ROOM_CREATED_EVENT)
+        }
     } , [])
 
 

@@ -1,5 +1,6 @@
 import React , { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import socketSubscriber from '../../api/socket/socketSubscriber'
 import Modal from 'react-bootstrap/Modal';
 import { Col , Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -28,7 +29,11 @@ function JoinRoomForm(props){
                 }
             })
 
-            const { code } = req.data;
+            const { code , is_private } = req.data;
+
+            if(!is_private) { 
+                socketSubscriber.emit("RoomCreated" , { roomCode : code })
+            }
 
             history.push(`/room/${code}`)
         } catch (e) {

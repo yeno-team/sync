@@ -18,6 +18,10 @@ export type RoomUserLeavePayload = {
     roomCode: string
 }
 
+export type RoomCreatedPayload = {
+    roomCode : string,
+}
+
 export class RoomUserSubscriber implements ISubscriber {
 
     private _socketServer: Server;
@@ -31,11 +35,21 @@ export class RoomUserSubscriber implements ISubscriber {
 
         socketServer.on('connection', (socket) => {
             socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
+            socket.on("RoomCreated" , (data : RoomCreatedPayload) => this.onNewRoomCreated(socket , data))
             socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
             socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
         });
 
     }
+
+    private onNewRoomCreated(socket : Socket , data : RoomCreatedPayload) {
+        const roomData = this.dependencies.roomService.getRoom(data.roomCode)
+
+        if(!roomData.is_private) {
+            this._socketServer.emit("NewRoomCreated" , roomData)
+        }
+    }
+
 
     private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
         const roomData = this.dependencies.roomService.getRoom(data.roomCode);
