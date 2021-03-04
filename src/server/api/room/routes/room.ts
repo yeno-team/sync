@@ -37,7 +37,8 @@ export default class RoomRoute implements IExecuteable {
                     max_users: roomFound.max_users,
                     users: roomFound.users,
                     name : roomFound.name,
-                    description : roomFound.description
+                    description : roomFound.description,
+                    video_src: roomFound.video_src
                 })
             }
             else{

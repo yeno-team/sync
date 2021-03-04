@@ -16,7 +16,8 @@ export enum RoomSetting {
     description,
     max_users,
     room_password,
-    is_private
+    is_private,
+    video_src
 }
 
 export class RoomService {

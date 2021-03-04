@@ -51,7 +51,8 @@ export default class RoomCreateRoute implements IExecuteable {
              max_users: options.max_users,
              users: [],
              room_password: options.room_password,
-             is_private: options.is_private
+             is_private: options.is_private,
+             video_src: ""
          });
 
          if (!addedRoom) {

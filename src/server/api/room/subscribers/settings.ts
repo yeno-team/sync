@@ -68,6 +68,22 @@ export class RoomSettingsSubscriber implements ISubscriber {
                 return socket.emit("RoomSettingChangeError", { message: "Could not grab video source" });
             }
 
+            const roomSettingData: RoomSettingChangedPayload = {
+                roomCode: roomData.code,
+                settingName: "video_src",
+                value: videoSource[0]
+            }
+
+            const updatedRoom = this.dependencies.roomService.editRoomSetting(roomSettingData);
+
+            /**
+             * If a IRoom is not returned, that means it couldn't change the data
+             * @emits RoomSettingChangeError 
+             */
+            if (!updatedRoom) {
+                return socket.emit("RoomSettingChangeError", { message: "Unexpectedly could not change setting" });
+            }
+
             return this._socketServer.to(roomData.code).emit("RoomVideoUrlChanged", { url: videoSource[0] });
         } catch(e) {
             return socket.emit("RoomSettingChangeError", { message: e.message });

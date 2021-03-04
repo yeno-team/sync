@@ -16,6 +16,7 @@ export type IRoom = {
     max_users: number,
     users: RoomUser[],
     room_password: string,
+    video_src: string,
     is_private: boolean
 }
 
