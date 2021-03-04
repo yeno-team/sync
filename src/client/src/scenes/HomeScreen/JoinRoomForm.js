@@ -72,14 +72,17 @@ function JoinRoomForm(props){
                         </Form.Group>
                     </Form.Row>
                     <Form.Group controlId="createRoom.description">
-                        <Form.Label> Description <b>(Optional)</b>  </Form.Label>
+                        <Form.Label> Description</Form.Label>
                         <Form.Control as="textarea" placeholder="Room Description..." name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="createRoom.room_password">
-                        <Form.Label>Room Password <b>(Optional)</b></Form.Label>
-                        <Form.Control type="password" onChange={handleInputChange} name="room_password" value={formVals.room_password}></Form.Control> 
-                    </Form.Group> 
                     <Form.Check type="switch" id="is_private" label="Private Room" title="Set Private Room" checked={setFormVals.is_private} onChange={handleInputChange} name="is_private"/>
+                    {
+                        formVals.is_private && 
+                        <Form.Group controlId="createRoom.room_password">
+                            <Form.Label>Room Password</Form.Label>
+                            <Form.Control type="password" onChange={handleInputChange} name="room_password" value={formVals.room_password}></Form.Control> 
+                        </Form.Group> 
+                    }
                 </Form>
             </Modal.Body>
             <Modal.Footer>
