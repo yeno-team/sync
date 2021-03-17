@@ -28,8 +28,8 @@ export class RoomChatSubscriber implements ISubscriber {
 
     }
 
-    private onChatSendMessage(socket: Socket, data: RoomChatSendMessagePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onChatSendMessage(socket: Socket, data: RoomChatSendMessagePayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         /**
          * @emits RoomChatError if code does not exist

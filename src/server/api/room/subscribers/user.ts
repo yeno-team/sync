@@ -43,16 +43,16 @@ export class RoomUserSubscriber implements ISubscriber {
 
     }
 
-    private onNewRoomCreated(socket : Socket , data : RoomCreatedPayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode)
+    private async onNewRoomCreated(socket : Socket , data : RoomCreatedPayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode)
 
         if(!roomData.is_private) {
             this._socketServer.emit("NewRoomCreated" , roomData)
         }
     }
 
-    private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             /**
@@ -79,9 +79,9 @@ export class RoomUserSubscriber implements ISubscriber {
                 /**
                  * User is the creator of the room because no users were in the room before him
                  */
-                this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.owner, data.username);
+                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.owner, data.username);
             } else {
-                this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
+                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
             }
 
             /**
@@ -93,8 +93,8 @@ export class RoomUserSubscriber implements ISubscriber {
         }
     }
 
-    private onUserLeave(socket: Socket, data: RoomUserLeavePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onUserLeave(socket: Socket, data: RoomUserLeavePayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             const userData = roomData.users.filter(user => user.socket_id === socket.id);

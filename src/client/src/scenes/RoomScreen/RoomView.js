@@ -22,7 +22,12 @@ export const RoomView = (props) => {
     useEffect(() => {
         (async() => {
             try {
-                const { users, video_src } = await getRoomData(props.roomData.code) // Get updated users list.
+                const { users, video_src } = props.roomData;
+                
+                if (users.length == 0) {
+                    return props.setRoomData(await getRoomData(props.roomData.code));
+                }
+                
                 setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
                 setVideoSrc(video_src);
             } catch (e) {

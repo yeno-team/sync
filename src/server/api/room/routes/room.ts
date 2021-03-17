@@ -24,12 +24,12 @@ export default class RoomRoute implements IExecuteable {
             res.sendStatus(200);
         })
 
-        this.dependencies.router.get('/:roomCode', (req, res) => {
+        this.dependencies.router.get('/:roomCode', async(req, res) => {
             if (!req.params.roomCode) {
                 return res.sendStatus(400);
             }
 
-            const roomFound = this.parentDependencies.roomService.getRoom(req.params.roomCode);
+            const roomFound = await this.parentDependencies.roomService.getRoom(req.params.roomCode);
             if (roomFound) {
                 res.json({
                     code: roomFound.code,

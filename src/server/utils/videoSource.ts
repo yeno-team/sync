@@ -1,6 +1,7 @@
 import { IRequestModule, RequestOptions } from "../modules/request/types";
 import cheerio from "cheerio";
 import config from '../../config';
+import { url } from "inspector";
 
 /**
  * Dependencies for VideoSourceUtility class
@@ -42,6 +43,11 @@ export class VideoSourceUtility {
             {
                 hostnames: [ "www.youtube.com" ],
                 name: "youtube"
+            },
+            // GOGOANIMEHUB
+            {
+                hostnames: ["www9.gogoanimehub.tv"],
+                name: "gogoanimehub"
             }
         ]
         
@@ -64,6 +70,8 @@ export class VideoSourceUtility {
         switch(videoSourceMethod) {
             case "youtube":
                 return await this.getYoutubeVideoSource(link, qualityLabel);
+            case "gogoanimehub":
+                return await this.getGoGoAnimeHubVideoSource(link);
         }
     }
 
@@ -102,27 +110,65 @@ export class VideoSourceUtility {
             }
 
             const found = resp.streamingData.formats.filter(format => format.qualityLabel === QualityLabel[qualityLabel]);
-
-            return Promise.resolve(found && found.length > 0 ? [found[0].url] : [resp.streamingData.formats[resp.streamingData.formats.length-1].url]);
+            
+            //return Promise.resolve(found && found.length > 0 ? [found[0].url] : [resp.streamingData.formats[resp.streamingData.formats.length-1].url]);
+            return Promise.resolve(resp.streamingData);
         }
 
         return Promise.reject("Could not get video link source")
     }
 
-    async getKickassAnimeVideoSource(link : string) : Promise<Array<string>> {
-        const kickAssAnimeLink = new URL(link);
+    async getGoGoAnimeHubVideoSource(link : string) : Promise<Array<string>> {
+        const websiteLink = new URL(link);
         
         const options : RequestOptions = {
-            url : kickAssAnimeLink.toString(),
-            
-            // send proxies later
+            url : websiteLink.toString()
         }
 
         const html = await this.dependencies.requestModule.request<any>(options)
-        const $ = cheerio.load(html)
+        let $ = cheerio.load(html);
+        console.log("firstLinkArea")
 
+        const streamingLink = $('iframe').attr('src');
+
+        if (!streamingLink) {
+            return Promise.reject("GoGoAnimeHub: Could not get video streaming link")
+        }
+
+        const streamingLinkReqOpts: RequestOptions = {
+            url: new URL("http:" + streamingLink).toString()
+        }
+
+        const streamingLinkHtml = await this.dependencies.requestModule.request<any>(streamingLinkReqOpts)
+        console.log("streamingLinkArea");
+
+        $ = cheerio.load(streamingLinkHtml);
+
+        const gogoPlayLink = "https:" + $('.linkserver')[1].attribs["data-video"];
+
+        if (!gogoPlayLink) {
+            return Promise.reject("GoGoAnimeHub: Could not get play link")
+        }
+
+        const gogoPlayReqOpts : RequestOptions = {
+            url : new URL(gogoPlayLink).toString(),
+        }
         
-        return [];
+        const gogoPlayHtml = await this.dependencies.requestModule.request<any>(gogoPlayReqOpts);
+        
+        const sourceRegex = /file: '(.*)',l/gm;
+
+        console.log("in regex area");
+
+        const matches = [];
+
+        let match;
+        
+        while((match = sourceRegex.exec(gogoPlayHtml)) !== null) {
+            matches.push(match[1]);
+        }
+
+        return [...matches];
     }
 
     /**

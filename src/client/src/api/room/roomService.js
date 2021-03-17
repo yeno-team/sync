@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import config from '../../config';
 
+
 export const getRoomData = async (roomCode) => {
     return new Promise(async (resolve, reject) => {
         try {

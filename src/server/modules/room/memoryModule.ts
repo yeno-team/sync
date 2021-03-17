@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { IRoomModule, IRoom, RoomUserRank, RoomUser } from "./types";
 
 export type DatabaseModuleDependencies = {

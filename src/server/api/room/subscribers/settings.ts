@@ -37,7 +37,7 @@ export class RoomSettingsSubscriber implements ISubscriber {
     }
 
     private async onVideoUrlChange(socket: Socket, data: RoomVideoUrlChangePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         /**
          * Check if room exists
@@ -74,7 +74,7 @@ export class RoomSettingsSubscriber implements ISubscriber {
                 value: videoSource[0]
             }
 
-            const updatedRoom = this.dependencies.roomService.editRoomSetting(roomSettingData);
+            const updatedRoom = await this.dependencies.roomService.editRoomSetting(roomSettingData);
 
             /**
              * If a IRoom is not returned, that means it couldn't change the data
@@ -93,8 +93,8 @@ export class RoomSettingsSubscriber implements ISubscriber {
         
     }
 
-    private onSettingsChanged(socket: Socket, data: RoomSettingChangedPayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onSettingsChanged(socket: Socket, data: RoomSettingChangedPayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             /**  
@@ -113,7 +113,7 @@ export class RoomSettingsSubscriber implements ISubscriber {
                 return socket.emit("RoomSettingChangeError", { message: "Only the room's owner can change settings" });
             }   
 
-            const updatedRoom = this.dependencies.roomService.editRoomSetting(data);
+            const updatedRoom = await this.dependencies.roomService.editRoomSetting(data);
 
             /**
              * If a IRoom is not returned, that means it couldn't change the data

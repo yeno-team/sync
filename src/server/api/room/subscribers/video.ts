@@ -56,7 +56,7 @@ export class RoomVideoSubscriber implements ISubscriber {
     }
 
     private async onVideoStateChange(socket: Socket, data: RoomVideoStateChangePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         /**
          * @emits RoomVideoError if code does not exist
