@@ -83,10 +83,11 @@ export class VideoSourceUtility {
         const youtubeLink = new URL(link);
         const params = new URLSearchParams(youtubeLink.search);
 
-        const youtubeInfoLink = new URL(`https://www.youtube.com/get_video_info?&asv=3&el=detailpage&hl=en_US&html5=1&video_id=${params.get("v")}`);
+        const youtubeInfoLink = new URL(`https://www.youtube.com/watch?v=${params.get("v")}&pbj=1`);
         
         const options: RequestOptions = {
             url: youtubeInfoLink.toString(),
+            method: "POST",
             proxy: {
                 host: config.proxy.host,
                 port: Number(config.proxy.port),
@@ -96,23 +97,20 @@ export class VideoSourceUtility {
 
         const response = await this.dependencies.requestModule.request<any>(options);
         
-        if (response) {
-            if (response.status && response.status == 'fail') {
-                return Promise.reject("Could not get video link source, Reason: " + response.reason);
+        if (response && response.length >= 3) {
+            try {
+                const formats = response[2].playerResponse.streamingData.formats;
+
+                const urls = formats.map((format) => format.url);
+
+                if (urls[0] == null) {
+                    return Promise.reject("VideoSourceUtility: No support for encrypted videos");
+                }
+
+                return Promise.resolve(urls);
+            } catch (e) {
+                return Promise.reject("VideoSourceUtility: Unexpected error occured, " + e.toString());
             }
-
-            const info = this.qsToJson(response);
-
-            const resp = JSON.parse(info.player_response);
-
-            if (resp.streamingData == null) {
-                return Promise.reject("Could not get video link source")
-            }
-
-            const found = resp.streamingData.formats.filter(format => format.qualityLabel === QualityLabel[qualityLabel]);
-            
-            //return Promise.resolve(found && found.length > 0 ? [found[0].url] : [resp.streamingData.formats[resp.streamingData.formats.length-1].url]);
-            return Promise.resolve(resp.streamingData);
         }
 
         return Promise.reject("Could not get video link source")
@@ -169,23 +167,5 @@ export class VideoSourceUtility {
         }
 
         return [...matches];
-    }
-
-    /**
-     * Converts query strings to json
-     * CREDIT: https://codewithmark.com/learn-to-create-youtube-video-downloader
-     * @param qs Query String
-     */
-    private qsToJson(qs): any {
-        var res = {};
-        var pars = qs.split('&');
-        var kv, k, v;
-        for (const i in pars) {
-            kv = pars[i].split('=');
-            k = kv[0];
-            v = kv[1];
-            res[k] = decodeURIComponent(v);
-        }
-        return res;
     }
 }
