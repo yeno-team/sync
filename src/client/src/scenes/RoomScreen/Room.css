@@ -1,3 +1,19 @@
-.video-react {
-    display: inline-block;
+.room__layout {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(#2D3132, #202323);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.room__layoutMessage > p {
+    font-size: 30px;
+    display: block;
+}
+
+.room__layoutMessage > a {
+    display: block;
+    text-align: center;
 }

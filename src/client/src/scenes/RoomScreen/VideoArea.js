@@ -1,54 +1,38 @@
-import React , { useState , useEffect , useRef } from 'react';
+import React, {useState, useEffect} from 'react';
 import socketSubscriber from '../../api/socket/socketSubscriber';
-import { getRoomData } from "../../api/room/roomService";
-import OwnerPanel from './OwnerPanel';
-import VideoPlayer from '../../components/VideoPlayer';
-import { Chat } from './Chat';
+import VideoPlayer from '../../components/VideoPlayer/';
+import { useWindowDimensions } from '../../hooks';
 
 const ROOM_SETTING_UPDATED_EVENT = "RoomSetttingUpdated";
 const ROOM_OWNER_VIDEO_STATE_CHANGED = "RoomOwnerVideoStateChanged";
 const ROOM_VIDEO_ERROR = "RoomVideoError";
 const ROOM_VIDEO_URL_CHANGED = "RoomVideoUrlChanged";
 
-
-export const RoomView = (props) => {
-    const [ owner , setOwner ] = useState();
-    const [ ownerVideoState, setOwnerVideoState] = useState();
-    const [ videoState,  setVideoState] = useState();
+export const VideoArea = (props) => {
+    const [ ownerVideoState, setOwnerVideoState ] = useState({});
+    const [ videoState, setVideoState ] = useState();
     const [ player, setPlayer ] = useState();
+    const [ videoSrc, setVideoSrc ] = useState();
     const [ started, setStarted ] = useState(false);
-    const [ videoSrc, setVideoSrc ] = useState("");
-    
-    useEffect(() => {
-        (async() => {
-            try {
-                const { users, video_src } = props.roomData;
-                
-                if (users.length == 0) {
-                    return props.setRoomData(await getRoomData(props.roomData.code));
-                }
-                
-                setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
-                setVideoSrc(video_src);
-            } catch (e) {
-                setOwner(false)
-            }
-        })()
-    } , [props.roomData])
+    const [ owner, setOwner ] = useState(); 
+    const { height, width } = useWindowDimensions();
+
+    const roomData = props.roomData;
+
+    if (roomData) {
+        if (videoSrc == null) {
+            setVideoSrc(roomData.video_src);
+        }
+
+        if (roomData.users.length > 0) {
+            setOwner(roomData.users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0));
+        }
+    }
+
 
     useEffect(() => {
-        socketSubscriber.on(ROOM_SETTING_UPDATED_EVENT , (data) => {
-            props.setRoomData((prevState) => {
-                return {
-                    ...prevState,
-                    ...data
-                }
-            })
-        });
-        
-        
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
-            setOwnerVideoState(data.state);
+            setOwnerVideoState(data.state); 
 
             if (owner != null && !owner) {
                 if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) { // Duration Change
@@ -64,19 +48,23 @@ export const RoomView = (props) => {
                     player.volume = data.state.volume
                 }
 
+                // Pause if the owner is paused
                 data.state.paused && player.pause();
+
+                // Player if the owner is not paused
                 !data.state.paused && player.play();
             }
         });
 
         socketSubscriber.on(ROOM_VIDEO_URL_CHANGED, (data) => {
             setVideoSrc(data.url);
-        })
-
-        socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
-            console.log("ERROR: " +  data.message);
         });
 
+        socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
+            console.log("ROOM_VIDEO_ERROR: " +  data.message);
+        });
+
+        // For people joining in after it has started, play to where the owner is at
         if (videoState && videoState.hasStarted && !started) {
             if (owner !== null && !owner) {
                 ownerVideoState && player.seek(ownerVideoState.currentTime);
@@ -90,12 +78,7 @@ export const RoomView = (props) => {
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
             socketSubscriber.off(ROOM_VIDEO_ERROR);
         }
-    } , [videoState, started])
-    
-
-    function manualDurationChanged(duration) {
-        console.log(duration);
-    }
+    }, [owner]);
 
     function VideoResumed() {
         ownerVideoState && player.seek(ownerVideoState.currentTime);
@@ -129,12 +112,15 @@ export const RoomView = (props) => {
     }
 
     return (
-        <React.Fragment>
-            <h3>Room Name : {props.roomData && props.roomData.name}</h3>
-            <h3> Room Description : {props.roomData && props.roomData.description} </h3>
-            {owner && <OwnerPanel code={props.roomData.code}/>}
-            <VideoPlayer width={800} height={500} src={videoSrc} hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
-            <Chat />
-        </React.Fragment>
+        <div className="room__videoArea">
+            <VideoPlayer 
+                width={width} 
+                height={height} 
+                src={videoSrc} 
+                hideControls={owner !== null && !owner}  
+                fluid={false} 
+                handleStateChange={videoStateChanged}
+            />
+        </div>
     )
 }

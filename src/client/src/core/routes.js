@@ -6,15 +6,15 @@ import {
 } from 'react-router-dom';
 
 import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
+import SetUsernameModal from '../components/SetUsernameModal';
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 
 export function Routes() {
     return (
         <Router>
             <Switch>
-                
                 <Route path="/room/:code">
-                    <RoomLayout/>
+                    <SetUsernameModal nextComponent={RoomLayout} />
                 </Route>
 
                 <Route path="/">
