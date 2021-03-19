@@ -29,8 +29,8 @@ export class RoomService {
     
     public async addRoom(roomData: IRoom): Promise<IRoom> {
         // Generate code
-        const generatedCode = this.dependencies.randomUtility.getRandomString(6).toUpperCase();
-        roomData.code = generatedCode;
+        const generatedCode = await this.dependencies.randomUtility.getRandomString(6);
+        roomData.code = generatedCode.toUpperCase();
 
         return await this.dependencies.roomModule.addRoom(roomData);
     }
