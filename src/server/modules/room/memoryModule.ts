@@ -1,5 +1,29 @@
 // @ts-nocheck
 
+throw new Error("Module Broken, most likely won't fix");
+
+/**
+ * 
+ * 
+ * 
+ * If you want to fix this, you have to fix the implementation of the interface in the class.
+ * This module uses an older version of the IRoomModule without the use of Promises.
+ * In order to fix this, you have to translate the return values into promises.
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
+
+
+
+
+
+
+
 import { IRoomModule, IRoom, RoomUserRank, RoomUser } from "./types";
 
 export type DatabaseModuleDependencies = {
