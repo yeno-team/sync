@@ -1,9 +1,9 @@
 import { RedisClient } from "redis";
 
-const client = new RedisClient({});
-
-
-
+/**
+ * Exposes the async methods provided from promisifying the methods of RedisClient
+ * By extending RedisClient, the base methods are usable from implementation.
+ */
 export interface IPromisifedRedisClient extends RedisClient {
     getAsync(key: string): Promise<string>;
     setAsync(key: string, value: string): Promise<number>;
