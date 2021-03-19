@@ -125,7 +125,10 @@ export class VideoSourceUtility {
 
         const html = await this.dependencies.requestModule.request<any>(options)
         let $ = cheerio.load(html);
-        console.log("firstLinkArea")
+        
+        /**
+         * Grab the main iframe src
+         */
 
         const streamingLink = $('iframe').attr('src');
 
@@ -138,9 +141,12 @@ export class VideoSourceUtility {
         }
 
         const streamingLinkHtml = await this.dependencies.requestModule.request<any>(streamingLinkReqOpts)
-        console.log("streamingLinkArea");
 
         $ = cheerio.load(streamingLinkHtml);
+
+        /**
+         * Find the play link inside the main player's page source
+         */
 
         const gogoPlayLink = "https:" + $('.linkserver')[1].attribs["data-video"];
 
@@ -156,10 +162,10 @@ export class VideoSourceUtility {
         
         const sourceRegex = /file: '(.*)',l/gm;
 
-        console.log("in regex area");
-
+        /**
+         * Look for all the matches to the video source regex
+         */
         const matches = [];
-
         let match;
         
         while((match = sourceRegex.exec(gogoPlayHtml)) !== null) {
