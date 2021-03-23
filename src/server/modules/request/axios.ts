@@ -14,6 +14,7 @@ export class AxiosRequestModule implements IRequestModule {
 
     public async request<R>(options: RequestOptions): Promise<R> {
         const requested = await this._client.request(this.convertToAxiosOpts(options));
+  
         return requested.data;
     }
 

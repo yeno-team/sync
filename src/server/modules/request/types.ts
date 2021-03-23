@@ -4,7 +4,7 @@ export type RequestOptions = {
     url?: string,
     method?: string,
     baseURL?: string,
-    headers?: { name: string, value: string },
+    headers?: {},
     params?: { name: string, value: any },
     body?: { name: string, value: any },
     CORS?: boolean,

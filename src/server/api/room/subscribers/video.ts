@@ -56,7 +56,7 @@ export class RoomVideoSubscriber implements ISubscriber {
     }
 
     private async onVideoStateChange(socket: Socket, data: RoomVideoStateChangePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         /**
          * @emits RoomVideoError if code does not exist
@@ -81,16 +81,7 @@ export class RoomVideoSubscriber implements ISubscriber {
          * @emits RoomOwnerVideoStateChanged if the users rank is owner
          */
         if (userData[0].rank == RoomUserRank.owner) {
-            try {
-                const videoSource = await this.dependencies.videoSourceUtility.getVideoSource(data.state.currentSrc);
-
-
-                console.log(videoSource);
-
-                this._socketServer.to(roomData.code).emit("RoomOwnerVideoStateChanged", { state: data.state });
-            } catch(e) {
-                return console.error(e);
-            }
+            this._socketServer.to(roomData.code).emit("RoomOwnerVideoStateChanged", { state: data.state });
         }
     }
 }

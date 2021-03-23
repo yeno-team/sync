@@ -16,7 +16,8 @@ export enum RoomSetting {
     description,
     max_users,
     room_password,
-    is_private
+    is_private,
+    video_src
 }
 
 export class RoomService {
@@ -24,18 +25,18 @@ export class RoomService {
         private dependencies: RoomServiceDependencies
     ) {}
     
-    public getRoomList = () => this.dependencies.roomModule.getRoomList();
+    public getRoomList = async () => await this.dependencies.roomModule.getRoomList();
     
-    public addRoom(roomData: IRoom): IRoom {
+    public async addRoom(roomData: IRoom): Promise<IRoom> {
         // Generate code
-        const generatedCode = this.dependencies.randomUtility.getRandomString(6).toUpperCase();
-        roomData.code = generatedCode;
+        const generatedCode = await this.dependencies.randomUtility.getRandomString(6);
+        roomData.code = generatedCode.toUpperCase();
 
-        return this.dependencies.roomModule.addRoom(roomData);
+        return await this.dependencies.roomModule.addRoom(roomData);
     }
 
     public removeRoom = (roomCode: string)  => this.dependencies.roomModule.removeRoom(roomCode);
-    public getRoom = (roomCode: string): IRoom => this.dependencies.roomModule.getRoom(roomCode);
+    public getRoom = async (roomCode: string): Promise<IRoom> => await this.dependencies.roomModule.getRoom(roomCode);
 
     public editRoomSetting = (data: RoomSettingChangedPayload) => {
         const RoomSettingEnum = RoomSetting[data.settingName];
@@ -45,19 +46,19 @@ export class RoomService {
         }
     }
 
-    public appendUserToRoom = (roomCode: string, socket_id: string, rank: RoomUserRank, username: string) => {
+    public appendUserToRoom = async (roomCode: string, socket_id: string, rank: RoomUserRank, username: string) => {
         const userData: RoomUser = {
             socket_id,
             rank,
             username
         };
 
-        const roomData = this.getRoom(roomCode);
+        const roomData = await this.getRoom(roomCode);
 
         if (roomData.users.length < roomData.max_users) {
-            this.dependencies.roomModule.appendUser(roomCode, userData);
+            await this.dependencies.roomModule.appendUser(roomCode, userData);
         }
     }
 
-    public removeUserFromRoom = (roomCode: string, socketId: string) => this.dependencies.roomModule.removeUser(roomCode, socketId);
+    public removeUserFromRoom = async (roomCode: string, socketId: string) => await this.dependencies.roomModule.removeUser(roomCode, socketId);
 }

@@ -70,6 +70,7 @@ export const RoomAuthModal = (props) => {
         joinRoom(socketSubscriber.getSocket().id, roomPassword);
     }
 
+
     if (roomExists !== null && roomExists === false) {
         return (
             <h1>Room doesn't exist</h1>

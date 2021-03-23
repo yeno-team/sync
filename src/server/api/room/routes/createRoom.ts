@@ -20,7 +20,7 @@ export default class RoomCreateRoute implements IExecuteable {
     * Attempt to create a new room
     */
    public execute() {
-      this.dependencies.router.post('/create', (req, res) => {
+      this.dependencies.router.post('/create', async (req, res) => {
          const options = {
             name: req.body.name,
             description : req.body.description,
@@ -44,14 +44,15 @@ export default class RoomCreateRoute implements IExecuteable {
          }
          // ----------------
 
-         const addedRoom = this.parentDependencies.roomService.addRoom({
+         const addedRoom = await this.parentDependencies.roomService.addRoom({
              code: "",
              name: options.name,
              description : options.description,
              max_users: options.max_users,
              users: [],
              room_password: options.room_password,
-             is_private: options.is_private
+             is_private: options.is_private,
+             video_src: ""
          });
 
          if (!addedRoom) {

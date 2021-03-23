@@ -8,6 +8,7 @@ import { Chat } from './Chat';
 const ROOM_SETTING_UPDATED_EVENT = "RoomSetttingUpdated";
 const ROOM_OWNER_VIDEO_STATE_CHANGED = "RoomOwnerVideoStateChanged";
 const ROOM_VIDEO_ERROR = "RoomVideoError";
+const ROOM_VIDEO_URL_CHANGED = "RoomVideoUrlChanged";
 
 
 export const RoomView = (props) => {
@@ -16,12 +17,19 @@ export const RoomView = (props) => {
     const [ videoState,  setVideoState] = useState();
     const [ player, setPlayer ] = useState();
     const [ started, setStarted ] = useState(false);
+    const [ videoSrc, setVideoSrc ] = useState("");
     
     useEffect(() => {
         (async() => {
             try {
-                const { users } = await getRoomData(props.roomData.code) // Get updated users list.
+                const { users, video_src } = props.roomData;
+                
+                if (users.length == 0) {
+                    return props.setRoomData(await getRoomData(props.roomData.code));
+                }
+                
                 setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
+                setVideoSrc(video_src);
             } catch (e) {
                 setOwner(false)
             }
@@ -60,6 +68,10 @@ export const RoomView = (props) => {
                 !data.state.paused && player.play();
             }
         });
+
+        socketSubscriber.on(ROOM_VIDEO_URL_CHANGED, (data) => {
+            setVideoSrc(data.url);
+        })
 
         socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
             console.log("ERROR: " +  data.message);
@@ -121,7 +133,7 @@ export const RoomView = (props) => {
             <h3>Room Name : {props.roomData && props.roomData.name}</h3>
             <h3> Room Description : {props.roomData && props.roomData.description} </h3>
             {owner && <OwnerPanel code={props.roomData.code}/>}
-            <VideoPlayer src="https://www.youtube.com/watch?v=FcoKDqBciK8" hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
+            <VideoPlayer width={800} height={500} src={videoSrc} hideControls={owner !== null && !owner} fluid={false} manualDurationChangeHandler={manualDurationChanged} handleStateChange={videoStateChanged}/>
             <Chat />
         </React.Fragment>
     )

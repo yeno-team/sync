@@ -16,6 +16,7 @@ export type IRoom = {
     max_users: number,
     users: RoomUser[],
     room_password: string,
+    video_src: string,
     is_private: boolean
 }
 
@@ -23,13 +24,13 @@ export interface IRoomModule {
      /**
      * Returns the list of public rooms
      */
-    getRoomList(): IRoom[];
+    getRoomList(): Promise<IRoom[]>;
 
     /**
      * Adds a new room
      * @param roomData Type IRoom data for the room to be added
      */
-    addRoom(roomData: IRoom): IRoom;
+    addRoom(roomData: IRoom): Promise<IRoom>;
 
     /**
      * Removes a room
@@ -41,7 +42,7 @@ export interface IRoomModule {
      * Get a room by room code
      * @param roomCode
      */
-    getRoom(roomCode: string): IRoom
+    getRoom(roomCode: string): Promise<IRoom>
 
     /**
      * Edits a room's specified data
@@ -50,7 +51,7 @@ export interface IRoomModule {
      * @param value The value the data is being edited to
      * @returns the edited room
      */
-    editRoom(roomCode: string, dataName: string, value: any): IRoom
+    editRoom(roomCode: string, dataName: string, value: any): Promise<IRoom>
 
     /**
      * Appends a User to the room's user list
@@ -58,7 +59,7 @@ export interface IRoomModule {
      * @param userData Appended user's data typeof RoomUser
      * @returns Updated IRoom Object
      */
-    appendUser(roomCode: string, userData: RoomUser): IRoom
+    appendUser(roomCode: string, userData: RoomUser): Promise<IRoom>
 
     /**
      * Remove a user from a room's user list
@@ -66,5 +67,5 @@ export interface IRoomModule {
      * @param socketId Removed user's socketId
      * @returns Updated IRoom Object
      */
-    removeUser(roomCode: string, socketId: string): IRoom
+    removeUser(roomCode: string, socketId: string): Promise<IRoom>
 }
