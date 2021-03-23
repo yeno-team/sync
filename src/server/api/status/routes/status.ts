@@ -24,10 +24,10 @@ export default class StatusRoute implements IExecuteable {
          res.sendStatus(200);
       });
 
-      this.dependencies.router.get('/hi' , async (req , res) => {
-         const { link } = req.json();
+      this.dependencies.router.post('/hi' , async (req , res) => {
+         const { link } = req.body;
          const response = await this.parentDependencies.videoSourceUtility.getKickassAnimeVideoSource(link)
-         res.status(200).send(response)
+         res.status(200).json(response)
       })
    }
 }

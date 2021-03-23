@@ -1,5 +1,4 @@
 import { IRequestModule, RequestOptions } from "../modules/request/types";
-import cheerio from "cheerio";
 import config from '../../config';
 
 /**
@@ -103,22 +102,6 @@ export class VideoSourceUtility {
         }
 
         return Promise.reject("Could not get video link source")
-    }
-
-    async getKickassAnimeVideoSource(link : string) : Promise<Array<string>> {
-        const kickAssAnimeLink = new URL(link);
-        
-        const options : RequestOptions = {
-            url : kickAssAnimeLink.toString(),
-            
-            // send proxies later
-        }
-
-        const html = await this.dependencies.requestModule.request<any>(options)
-        const $ = cheerio.load(html)
-
-        
-        return [];
     }
 
     /**
