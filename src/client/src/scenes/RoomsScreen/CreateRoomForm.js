@@ -59,7 +59,7 @@ function JoinRoomForm(props){
                 <Modal.Title>Create Room</Modal.Title>     
             </Modal.Header>
             <Modal.Body> 
-                <Form>
+                <Form onSubmit={submitForm}>
                     <Form.Row>
                         <Form.Group as={Col} controlId="createRoom.name">
                                 <Form.Label>Room Name</Form.Label>
