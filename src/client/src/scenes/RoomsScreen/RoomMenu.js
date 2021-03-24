@@ -1,5 +1,6 @@
 import React , { useState , useEffect } from 'react';
 import Axios from 'axios';
+import AlertContainer from '../../components/Alert'
 import CreateRoomForm from './CreateRoomForm';
 import Rooms from './Rooms';
 import socketSubscriber from '../../api/socket/socketSubscriber';
@@ -12,18 +13,23 @@ export const RoomMenu = (props) => {
     const [ search , setSearch ] = useState("")
     const [ rooms , setRooms ] = useState([])
     const [ filteredRooms , setFilteredRooms ] = useState([])
-    const [show , setModalShow] = useState(false)
+    const [ isError , setIsError ] = useState(false)
+    const [ show , setModalShow ] = useState(false)
     
     useEffect(() => {
         (async () => {
-            // Fetch current rooms
-            const req = await Axios({
-                url : "http://localhost:8000/api/room/list",
-                method : "GET"
-            })
-    
-            setRooms(req.data)
-            setFilteredRooms(req.data)
+            try {
+                // Fetch current rooms
+                const req = await Axios({
+                    url : "http://localhost:8000/api/room/list",
+                    method : "GET"
+                })
+        
+                setRooms(req.data)
+                setFilteredRooms(req.data)
+            } catch {
+                setIsError(true)
+            }
         })()
     } , [])
     
@@ -45,15 +51,19 @@ export const RoomMenu = (props) => {
 
     return (
         <main>
+            {isError && <AlertContainer dismissible="true" variant="danger" text="There was an error trying to fetch the current rooms. Please try again later or contact us if this problem still persists."/>}
             <CreateRoomForm show={show} onHide={() => setModalShow(false)} />
             <section class="room-options">
                 <button id="create-room-button" onClick={() => setModalShow(true)}>Create A Room</button>
                 <p id="or">OR</p>
                 <input type="text" name="search-room" id="search-input" placeholder="Search for rooms with text or room code..." onChange={(e) => setSearch(e.target.value)} value={search}/>
              </section>
-             <section className="rooms">
-                 <Rooms rooms={filteredRooms}/>
-             </section>
+            {
+                !isError &&
+                <section className="rooms">
+                    <Rooms rooms={filteredRooms}/>
+                </section>
+            }
         </main>
     )
 }
