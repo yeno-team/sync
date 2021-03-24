@@ -2,7 +2,6 @@ import React , { useState , useEffect } from 'react';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
-import Badge from 'react-bootstrap/Badge';
 
 const NEW_ROOM_CREATED_EVENT = "NewRoomCreated";
 
@@ -24,7 +23,7 @@ const Rooms = (props) => {
 
     useEffect(() => {
         socketSubscriber.on(NEW_ROOM_CREATED_EVENT , (data) => {
-            setCurrentRooms((prevState) => [...prevState , data])
+            setCurrentRooms((prevState) => [data , ...prevState])
         });
 
         return () => {
@@ -35,9 +34,12 @@ const Rooms = (props) => {
 
     return (
         currentRooms.map((room) => (
-            <div className="room" key={`${room.code}`} onClick={() => history.push(`/room/${room.code}`)}>
-                <h3 className="room-name">{room.name}<Badge variant="primary">{room.users.length}/{room.max_users}</Badge></h3>
-                <p className="room-description">{room.description}</p>
+            <div className="room" data-room-code={room.code} data-room-name={room.name} key={`${room.code}`} onClick={() => history.push(`/room/${room.code}`)}>
+                <div className="room-content">
+                    <h3 className="room-name">{room.name}</h3>
+                    <p className="room-description">{room.description}</p>
+                </div>
+                <div class="room-user-count"><span class="current-users">{room.users.length}</span>/<sub class="max-users">{room.max_users}</sub></div>
             </div>
         ))
     )

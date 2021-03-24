@@ -5,7 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 
-import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
+import { RoomsLayout } from '../scenes/RoomsScreen/RoomsLayout'
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 
 export function Routes() {
@@ -17,8 +17,8 @@ export function Routes() {
                     <RoomLayout/>
                 </Route>
 
-                <Route path="/">
-                    <HomeLayout />
+                <Route path="/rooms" exact>
+                    <RoomsLayout />
                 </Route>
             </Switch>
         </Router>

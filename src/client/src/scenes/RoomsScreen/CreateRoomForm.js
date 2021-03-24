@@ -63,7 +63,7 @@ function JoinRoomForm(props){
                     <Form.Row>
                         <Form.Group as={Col} controlId="createRoom.name">
                                 <Form.Label>Room Name</Form.Label>
-                                <Form.Control type="text" placeholder="Anime Room" name="name" onChange={handleInputChange} value={formVals.name} required></Form.Control>
+                                <Form.Control type="text" placeholder="Anime Room" name="name" maxlength="45" onChange={handleInputChange} value={formVals.name} required></Form.Control>
                         </Form.Group>
                         <Form.Group as={Col} controlId="createRoom.max_users">
                             <Form.Label>Max Users</Form.Label>
@@ -78,7 +78,7 @@ function JoinRoomForm(props){
                     </Form.Row>
                     <Form.Group controlId="createRoom.description">
                         <Form.Label> Description</Form.Label>
-                        <Form.Control as="textarea" placeholder="Room Description..." name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
+                        <Form.Control as="textarea" placeholder="Room Description..." maxlength="200" name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
                     </Form.Group>
                     <Form.Check type="switch" id="is_private" label="Private Room" title="Set Private Room" checked={setFormVals.is_private} onChange={handleInputChange} name="is_private"/>
                     {
