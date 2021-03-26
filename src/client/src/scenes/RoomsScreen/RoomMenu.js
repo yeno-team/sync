@@ -50,7 +50,7 @@ export const RoomMenu = (props) => {
     } , [search])
 
     return (
-        <main>
+        <main className="roomContainer">
             {isError && <AlertContainer dismissible="true" variant="danger" text="There was an error trying to fetch the current rooms. Please try again later or contact us if this problem still persists."/>}
             <CreateRoomForm show={show} onHide={() => setModalShow(false)} />
             <section class="room-options">
