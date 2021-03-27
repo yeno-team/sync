@@ -26,8 +26,6 @@ export default function Button({
     animatedStyle,
     className
 }) {
-    console.log(animatedStyle)
-
     const btnClasses = [
         "btn",
         { "btn-animated" : animated ? true : false },
