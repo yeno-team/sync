@@ -33,7 +33,16 @@
 .hero-container .button-group {
     margin: 10px 0px;
 }
-  
+
+.hero-container .button-group .btn-ctn {
+    transition : color 0.4s linear;
+    margin-left : 10px;
+}
+
+.hero-container .button-group .btn-ctn:hover {
+    color : black;
+}
+
 .hero-title {
     font-size: 27px;
 }

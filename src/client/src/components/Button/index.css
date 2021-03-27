@@ -1,8 +1,177 @@
-.btn-ctn {
-    background-color : var(--green);
+.btn {
+    cursor : pointer;
+    padding : 10px 25px;
+    font-size : 18px;
     border : none;
-    position: relative;
-    -webkit-transition: background-color 0.3s;
-    transition: background-color 0.3s;
-    padding: 9px 30px;
+    color : white;
+    transition: filter 0.3s linear;
+    height : 45px;
+}
+
+/*  Background-color variants */
+.btn.btn-green {
+    background-color: var(--green);
+}
+
+.btn.btn-blue {
+    background-color : var(--blue);
+}
+
+.btn.btn-black {
+    background-color : var(--black);
+}
+
+.btn.btn-white {
+    background-color : var(--orange);
+}
+
+.btn.btn-orange {
+    background-color: var(--red);
+}
+
+.btn.dark-grey{
+    background-color : var(--dark-grey);
+}
+
+.btn.red{
+    background-color : var(--red);
+}
+/* Outline border */
+
+.btn[class*="-outline"] {
+    background-color : transparent;
+}
+
+.btn.btn-green-outline {
+    border : 1px var(--green) solid;
+}
+
+.btn.btn-blue-outline {
+    border : 1px var(--blue) solid;
+}
+
+.btn.btn-black-outline {
+    border : 1px var(--black) solid;
+}
+
+.btn.btn-white-outline {
+    border : 1px var(--white) solid;
+}
+
+.btn.btn-orange-outline {
+    border : 1px var(--orange) solid;
+}
+
+.btn.btn-dark-grey-outline {
+    border : 1px var(--dark-grey) solid;
+}
+
+.btn.btn-red-outline {
+    border : 1px var(--red) solid;
+}
+
+/* Hover */
+.btn:not(:disabled):hover{
+    filter : brightness(85%);
+}
+
+/*  Disabled Button */
+.btn:disabled {
+    filter : brightness(70%);
+    cursor : not-allowed;
+}
+
+/* Animation */
+
+.btn.btn-animated:not(:disabled) {
+    position : relative;
+}
+
+/* Underline hover animation */
+
+.btn.btn-animated.btn-animated-style-underline:not(:disabled)::before {
+    transition : width 0.3s;
+    content : "";
+    position : absolute;
+    bottom : 0;
+    left : 0;
+    width : 0%;
+    height : 1px;
+}
+
+/*  Underline hover animation color */
+
+.btn.btn-animated.btn-animated-style-underline:not(:disabled):hover::before{
+    width : 100%;
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-green:not(:disabled)::before {
+    background-color : var(--green);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-blue:not(:disabled)::before {
+    background-color : var(--blue);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-black:not(:disabled)::before {
+    background-color : var(--black);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-white:not(:disabled)::before {
+    background-color : var(--white);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-orange:not(:disabled)::before {
+    background-color : var(--orange);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-red:not(:disabled)::before {
+    background-color : var(--red);
+}
+
+.btn.btn-animated.btn-animated-style-underline.btn-animated-color-dark-grey:not(:disabled)::before {
+    background-color : var(--dark-grey);
+}
+
+/* Fill hover animation */
+
+.btn.btn-animated.btn-animated-style-filled:not(:disabled):before{
+    transition: all 0.4s;
+    position : absolute;
+    content : "";
+    top : 0;
+    left : 0;
+    width : 0%;
+    height : 100%;
+    z-index : -1;
+}
+
+.btn.btn-animated.btn-animated-style-filled:not(:disabled):hover::before{
+    width : 100%;
+}
+
+/*  Fill hover color  */
+
+.btn.btn-animated.btn-animated-style-filled.btn-red-outline:not(:disabled):hover::before{
+    background-color : var(--red);
+}
+
+.btn.btn-animated.btn-animated-style-filled.btn-green-outline:not(:disabled):hover::before{
+    background-color : var(--green);
+}
+
+.btn.btn-animated.btn-animated-style-filled.btn-blue-outline:not(:disabled):hover::before{
+    background-color : var(--blue);
+}
+
+.btn.btn-animated.btn-animated-style-filled.btn-white-outline:not(:disabled):hover::before{
+    background-color : var(--white);
+}
+
+.btn.btn-animated.btn-animated-style-filled.btn-orange-outline:not(:disabled):hover::before{
+    background-color : var(--orange);
+}
+
+.btn.btn-animated.btn-animated-style-filled.btn-dark-grey-outline:not(:disabled):hover::before{
+    background-color : var(--dark-grey);
 }
