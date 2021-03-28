@@ -1,12 +1,20 @@
 :root {
   --green : #1BAA65;
+  --green-rgb : 27 , 170, 101;
   --blue : #669BBC;
+  --blue-rgb : 102 , 155 , 188;
   --dark-blue : #94B0DA;
+  --dark-blue-rgb : 148 , 176 , 218;
   --black : #353535;
+  --black-rgb : 53 , 53, 53;
   --white : #fff;
+  --white-rgb : 255 , 255 , 255;
   --orange : #E4572B;
+  --orange-rgb : 228 , 87 , 43;
   --red : #DB3A34;
+  --red-rgb : 219 , 58 , 52;
   --yellow : #EAC435;
+  --yellow-rgb : 234 , 196 , 53;
 }
 
 *, *::before, *::after {

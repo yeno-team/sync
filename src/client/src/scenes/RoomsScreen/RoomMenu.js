@@ -1,6 +1,6 @@
 import React , { useState , useEffect } from 'react';
 import Axios from 'axios';
-// import CreateRoomForm from './CreateRoomForm';
+import Alert from '../../components/Alert'
 import Rooms from './Rooms';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import './index.css'
@@ -50,8 +50,10 @@ export const RoomMenu = (props) => {
 
     return (
         <main className="roomContainer">
-            {/* {isError && <AlertContainer dismissible="true" variant="danger" text="There was an error trying to fetch the current rooms. Please try again later or contact us if this problem still persists."/>} */}
-            {/* <CreateRoomForm show={show} onHide={() => setModalShow(false)} /> */}
+            { isError && <Alert variant="red" dismissable>
+                There was a problem fetching the avaliable rooms. Please try again by refreshing the page or contact us if this problem still persists.
+            </Alert> }
+    
             <section class="room-options">
                 <button id="create-room-button" onClick={() => setModalShow(true)}>Create A Room</button>
                 <p id="or">OR</p>
