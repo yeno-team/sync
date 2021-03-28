@@ -1,16 +1,7 @@
 import React from 'react';
+import variants from '../variants';
 import classNames from 'classnames';
 import './index.css';
-
-const variants = [
-    "green",
-    "blue",
-    "black",
-    "white",
-    "orange",
-    "red",
-    "dark-grey"
-]
 
 const animationStyles = [
     "filled",
