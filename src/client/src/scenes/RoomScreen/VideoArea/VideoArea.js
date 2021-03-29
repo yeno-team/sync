@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import socketSubscriber from '../../api/socket/socketSubscriber';
-import VideoPlayer from '../../components/VideoPlayer/';
-import { useWindowDimensions } from '../../hooks';
+import socketSubscriber from '../../../api/socket/socketSubscriber';
+import VideoPlayer from '../../../components/VideoPlayer';
+import { useWindowDimensions } from '../../../hooks';
 
 const ROOM_SETTING_UPDATED_EVENT = "RoomSetttingUpdated";
 const ROOM_OWNER_VIDEO_STATE_CHANGED = "RoomOwnerVideoStateChanged";
@@ -14,45 +14,41 @@ export const VideoArea = (props) => {
     const [ player, setPlayer ] = useState();
     const [ videoSrc, setVideoSrc ] = useState();
     const [ started, setStarted ] = useState(false);
-    const [ owner, setOwner ] = useState(); 
     const { height, width } = useWindowDimensions();
 
     const roomData = props.roomData;
-
-    if (roomData) {
-        if (videoSrc == null) {
-            setVideoSrc(roomData.video_src);
-        }
-
-        if (roomData.users.length > 0) {
-            setOwner(roomData.users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0));
-        }
-    }
-
+    const clientIsOwner = roomData.users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0);
 
     useEffect(() => {
+        if (roomData) {
+            if (videoSrc === null) {
+                setVideoSrc(roomData.video_src || "");
+            }
+        }
+
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
             setOwnerVideoState(data.state); 
 
-            if (owner != null && !owner) {
-                if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) { // Duration Change
-                    // If the client is paused, no need to change
-                    videoState.paused == false && player.seek(data.state.currentTime);
+            const _ownerState = data.state;
+
+            if (!clientIsOwner && videoState) {
+                if(Math.abs((_ownerState.currentTime - videoState.currentTime)) > 2) { // Duration Change
+                    videoState.paused === false && player.seek(_ownerState.currentTime);
                 }
 
-                if(data.state.muted !== videoState.muted) { // Mute Change
-                    player.muted = data.state.muted
+                if(_ownerState.muted !== videoState.muted) { // Mute Change
+                    player.muted = data.state.muted;
                 }
 
-                if(data.state.volume !== videoState.volume) { // Volume Change
-                    player.volume = data.state.volume
+                if(_ownerState.volume !== videoState.volume) { // Volume Change
+                    player.volume = data.state.volume;
                 }
 
                 // Pause if the owner is paused
-                data.state.paused && player.pause();
+                _ownerState.paused && player.pause();
 
                 // Player if the owner is not paused
-                !data.state.paused && player.play();
+                !_ownerState.paused && player.play();
             }
         });
 
@@ -66,7 +62,7 @@ export const VideoArea = (props) => {
 
         // For people joining in after it has started, play to where the owner is at
         if (videoState && videoState.hasStarted && !started) {
-            if (owner !== null && !owner) {
+            if (!clientIsOwner) {
                 ownerVideoState && player.seek(ownerVideoState.currentTime);
                 player.play();
                 setStarted(true);
@@ -78,7 +74,7 @@ export const VideoArea = (props) => {
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
             socketSubscriber.off(ROOM_VIDEO_ERROR);
         }
-    }, [owner]);
+    }, [props.roomData, videoState]);
 
     function VideoResumed() {
         ownerVideoState && player.seek(ownerVideoState.currentTime);
@@ -96,7 +92,7 @@ export const VideoArea = (props) => {
         setPlayer(player);
 
         // Disable functionality for users who aren't the owner.
-        if(owner !== null && !owner) {
+        if(clientIsOwner !== null && !clientIsOwner) {
             if (state.paused === false && prevState.paused === true) {
                 VideoResumed();
             }
@@ -106,7 +102,7 @@ export const VideoArea = (props) => {
             }
         }
 
-        if (owner) {
+        if (clientIsOwner) {
             socketSubscriber.emit("RoomVideoStateChange", { roomCode: props.roomData.code, state });
         }
     }
@@ -114,10 +110,9 @@ export const VideoArea = (props) => {
     return (
         <div className="room__videoArea">
             <VideoPlayer 
-                width={width} 
-                height={height} 
-                src={videoSrc} 
-                hideControls={owner !== null && !owner}  
+                className="room__video"
+                src={"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"} 
+                hideControls={!clientIsOwner}  
                 fluid={false} 
                 handleStateChange={videoStateChanged}
             />

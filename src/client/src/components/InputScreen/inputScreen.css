@@ -1,4 +1,4 @@
-.usernameModal__main {
+.inputScreen__main {
     width: 100vw;
     height: 100vh;
     background: linear-gradient(#2D3132, #202323);
@@ -8,20 +8,20 @@
     color: white;
 }
 
-.usernameModal__main > div {
+.inputScreen__main > div {
     text-align: center;
 
     padding: 50px 100px;
 }
 
-.usernameModal__main > div input {
+.inputScreen__main > div input {
     border: none;
     padding: 10px 18px;
     width: 75%;
     margin: 20px 0;
 }
 
-.usernameModal__main > div button {
+.inputScreen__main > div button {
     border: none;
     padding: 10px 18px;
     background-color: #1BAA65;
@@ -29,7 +29,7 @@
     width: 25%;
 }
 
-.usernameModal__main > div button:hover {
+.inputScreen__main > div button:hover {
     background-color: #18974d;
 }
 

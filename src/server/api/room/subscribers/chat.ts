@@ -60,10 +60,7 @@ export class RoomChatSubscriber implements ISubscriber {
 
         this._socketServer.to(roomData.code).emit("RoomChatNewMessage", 
             { 
-                sender: {
-                    socketId: socket.id,
-                    username: userData[0].username
-                },
+                sender: userData[0],
                 message: data.message
         });
     }

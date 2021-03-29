@@ -1,6 +1,7 @@
 import { IExecuteable } from "src/types/IExecuteable";
 import { RouteDependencies } from "src/types/api/RouteDependencies";
 import { RoomControllerDependencies } from "../roomController";
+import { RoomRedisModule } from "src/server/modules/room/redisModule";
 
 /**
  * Room List Route
@@ -21,7 +22,7 @@ export default class RoomListRoute implements IExecuteable {
     */
    public execute() {
       this.dependencies.router.get('/list', async (req, res) => {
-         res.send(await this.parentDependencies.roomService.getRoomList());
+         res.send(await (await this.parentDependencies.roomService.getRoomList()).map((room) => {delete room.room_password; return room}));
       });
    }
 }

@@ -14,7 +14,18 @@ const useEmotes = () => {
         }));
     }, []);
 
-    return { emotes }
+    /**
+     * Get emote data from its code
+     * @param {string} code - emotes code
+     * @returns 
+     */
+    const getEmote = (code) => {
+        const emote = emotes.filter(emote => emote.code == code);
+
+        return emote && emote[0];
+    }
+
+    return { emotes, getEmote}
 }
 
 export default useEmotes;

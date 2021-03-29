@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     color: white;
+    overflow: hidden;
 }
 
 .room__layoutMessage > p {
@@ -17,3 +18,86 @@
     display: block;
     text-align: center;
 }
+
+.room__video {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.room__layout .video-react-big-play-button {
+    position: relative;
+}
+
+.room__layout .video-react {
+    width: 80% !important;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room__chat {
+    z-index: 2;
+    width: 20%;
+}
+
+.room__chatIcon {
+    width: 16px;
+    display: inline-block;
+    filter: invert(100%);
+    vertical-align: middle;
+    margin: auto 0;
+}
+
+.room__chatIcon:hover {
+    cursor: pointer;
+    
+}
+
+.room__chatIcon:nth-of-type(1) {
+    margin-left: 15px;
+}
+
+.room__chatIcon:nth-of-type(2) {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.room__layout .chat__header {
+    display: grid;
+    padding: 15px 0;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.room__layout .chat__formCtn {
+  position: relative;
+}
+
+.room__chatEmoteIcon {
+    position: absolute;
+    right: 33px;
+    top: 33px;
+    filter: invert(50%);
+    width: 18px;
+}
+
+.room__chatEmoteIcon:hover {
+    cursor: pointer;
+    filter: invert(65%);
+}
+
+img {
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+    /* CSS */
+    
+  }

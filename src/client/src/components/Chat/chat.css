@@ -1,0 +1,69 @@
+.chat__main {
+    background-color: rgb(221, 220, 220);
+    overflow: hidden;
+    padding: 0px 15px;
+    height: 100%;
+    width: 20%;
+    left: 80%;
+    background-color: #272929;
+    padding: 0;
+    top: 0;
+    position: absolute;
+}
+
+.chat__emote {
+    display: inline-block;
+    width: 30px;
+    margin: 0 5px;
+}
+
+.chat__header {
+    background: #2F3334;
+    padding: 15px 0;
+    font-weight: bold;
+    font-size: 21px;
+}
+
+.chat__messages {
+    height: 85%;
+    overflow: auto;
+    padding: 15px 0 13px 10px;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.chat__form {
+    text-align: center;
+}
+
+.chat__form input {
+    padding: 15px;
+    width: 90%;
+    margin: 16px;
+    border-radius: 12px;
+    border: none;
+    background-color: #2F3334;
+    color: #B9B5B5;
+}
+
+.chat__form input:active {
+    border: none;
+}
+
+.chat__message {
+    margin: 5px 0 5px 5px;
+}
+
+.chat__tag {
+    width: 18px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+.chat__defaultTitle {
+    font-weight: bold;
+    margin: 0;
+    font-size: 18px;
+    display: inline-block;
+    text-align: center;
+}

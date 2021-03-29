@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
-import SetUsernameModal from '../components/SetUsernameModal';
+import InputScreen from '../components/InputScreen';
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 
 export function Routes() {
@@ -14,7 +14,7 @@ export function Routes() {
         <Router>
             <Switch>
                 <Route path="/room/:code">
-                    <SetUsernameModal nextComponent={RoomLayout} />
+                    <InputScreen inputName="username" nextComponent={RoomLayout} />
                 </Route>
 
                 <Route path="/">
