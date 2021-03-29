@@ -8,6 +8,12 @@
     margin-bottom  : 5px;
 }
 
+/* Styles */
+
+.alert *:first-child:not(hr) {
+    margin-top : 0;
+}
+
 /* Alert variants */
 .alert.alert-green {
     color : var(--green);
@@ -56,6 +62,44 @@
     border : 1px rgba(var(--yellow-rgb) , 0.3) solid;
     background-color: rgba(var(--yellow-rgb) , 0.3);
 }
+
+/* Horizontal Rule  */
+.alert hr {
+    margin : 15px 0px;
+    border : none;
+    height : 1px;
+}
+
+.alert.alert-green hr {
+    background-color : rgba(var(--green-rgb) , 0.8);
+}
+
+.alert.alert-blue hr {
+    background-color : rgba(var(--blue-rgb) , 0.8);
+}
+
+.alert.alert-dark-blue hr {
+    background-color : rgba(var(--dark-blue-rgb) , 0.8);
+}
+
+.alert.alert-black hr {
+    background-color : rgba(var(--black-rgb) , 0.8);
+}
+.alert.alert-white hr {
+    background-color : rgba(var(--white-rgb) , 0.8);
+}
+.alert.alert.alert-orange hr {
+    background-color : rgba(var(--orange-rgb) , 0.8);
+}
+
+.alert.alert-red hr {
+    background-color: rgba(var(--red-rgb) , 0.8);
+}
+
+.alert.alert-yellow hr {
+    background-color: rgba(var(--yellow-rgb) , 0.8);
+}
+
 
 /* Dismissable Button */
 

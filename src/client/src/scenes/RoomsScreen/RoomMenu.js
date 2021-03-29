@@ -50,7 +50,7 @@ export const RoomMenu = (props) => {
 
     return (
         <main className="roomContainer">
-            { isError && <Alert variant="red" dismissable>
+            { isError && <Alert variant="red" dismissable onClick={() => console.log('closed')}>
                 There was a problem fetching the avaliable rooms. Please try again by refreshing the page or contact us if this problem still persists.
             </Alert> }
     

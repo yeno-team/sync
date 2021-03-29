@@ -11,7 +11,7 @@ export default function Alert({
     children,
     show
 }) {
-    const [ alertShow , setAlertShow ] = useState(show)
+    const [ alertShow , setAlertShow ] = useState(show || true) // If show is a falsy value it will default to true.
 
     const alertClassNamesArr = [
         'alert',
@@ -20,15 +20,22 @@ export default function Alert({
 
     const alertClassNamesStr = classNames(alertClassNamesArr)
 
+    if(alertShow === false) {
+        return null;
+    }
+
+    function dismissableButton() {
+        setAlertShow(false)
+
+        if(typeof onClick === "function") { // If onClick is a function execute the function.
+            onClick()
+        }
+    }
+
     return (
-        <React.Fragment>
-            {(typeof(alertShow) === "undefined" || alertShow !== false) &&
-            
-            <div className="alert" className={`${alertClassNamesStr} ${className}`}>
-                {children}
-                {dismissable && <div className="exit" onClick={() => setAlertShow(false)}/>}
-            </div>
-            }
-        </React.Fragment>
+        <div className={`${alertClassNamesStr} ${className}`}>
+            {children}
+            {dismissable && <div className="exit" onClick={dismissableButton}/>}
+        </div>
     )
 }
