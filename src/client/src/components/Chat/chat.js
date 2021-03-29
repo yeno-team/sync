@@ -88,7 +88,7 @@ export const Chat = (props) => {
 
 
     return (
-        <div className={"chat__ctn " + props.className}>
+        <div className={props.className + " chat__ctn"}>
             <div id="chat__main" className="chat__main">
                 <div className="chat__header">{ headerElements }</div>
                 <div className="chat__messages">
