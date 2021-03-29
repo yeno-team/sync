@@ -28,7 +28,7 @@ export default function FeatureSections(props) {
             </section>
             <section className="private-room">
                 <h1 className="section-title">Create a free private room reserved just for you today!</h1>
-                <Button animated animatedStyle="underline" variant="green" animatedColor="orange" className="btn">Get Started</Button>
+                <Button animated animatedStyle="underline" variant="green" animatedColor="dark-blue" className="btn">Get Started</Button>
             </section>
         </div>
     )
