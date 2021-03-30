@@ -1,10 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '../../components/Button';
 import YoutubeGraphicSVG from '../../assets/images/youtubeGraphics.svg';
 import ChatGraphicsSVG from '../../assets/images/chatGraphics.svg';
 import VideoClip from '../../assets/videos/xqC1.mp4';
 
 export default function FeatureSections(props) {
+    let history = useHistory();
+
     return (
         <div className="section-container">
             <section className="section-feature">
@@ -28,7 +31,7 @@ export default function FeatureSections(props) {
             </section>
             <section className="private-room">
                 <h1 className="section-title">Create a free private room reserved just for you today!</h1>
-                <Button animated animatedStyle="underline" variant="green" animatedColor="dark-blue" className="btn">Get Started</Button>
+                <Button animated animatedStyle="underline" variant="green" animatedColor="dark-blue" className="btn" onClick={() => history.push("/rooms" , { showModal : true } )}>Get Started</Button>
             </section>
         </div>
     )

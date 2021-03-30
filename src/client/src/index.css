@@ -47,3 +47,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Exit Button */
+
+.exit {
+  position : relative;
+  width : 15px;
+  height : 15px;
+  cursor : pointer;
+}
+
+
+.exit::before , .exit::after {
+  transition: background-color 0.3s linear;
+  content : "";
+  position: absolute;
+  height : 100%;
+  width : 4px;
+  transform: rotate(45deg);
+  border-radius : 10px;
+}
+
+.exit::before {
+  transform: rotate(45deg);
+}
+
+.exit::after {
+  transform: rotate(-45deg);
+}

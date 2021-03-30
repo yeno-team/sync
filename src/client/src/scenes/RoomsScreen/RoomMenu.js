@@ -1,6 +1,8 @@
 import React , { useState , useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
-import Alert from '../../components/Alert'
+import Alert from '../../components/Alert';
+import Modal , { ModalHeader , ModalBody , ModalFooter } from '../../components/Modal';
 import Rooms from './Rooms';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import './index.css'
@@ -13,7 +15,18 @@ export const RoomMenu = (props) => {
     const [ rooms , setRooms ] = useState([])
     const [ filteredRooms , setFilteredRooms ] = useState([])
     const [ isError , setIsError ] = useState(false)
-    const [ show , setModalShow ] = useState(false)
+    const history = useHistory();
+    const [ modalShow , setModalShow ] = useState(false)
+
+    useEffect(() => {
+        const location = history.location
+        const state = location.state
+
+        if(state && state.hasOwnProperty("showModal") && state.showModal) {
+            console.log('wait this is getting logged?')
+            setModalShow(true)
+        }
+    } , [])
     
     useEffect(() => {
         (async () => {
@@ -50,11 +63,20 @@ export const RoomMenu = (props) => {
 
     return (
         <main className="roomContainer">
-            { isError && <Alert variant="red" dismissable onClick={() => console.log('closed')}>
+            { isError && <Alert variant="red" dismissable>
                 There was a problem fetching the avaliable rooms. Please try again by refreshing the page or contact us if this problem still persists.
             </Alert> }
+            
+            <Modal show={modalShow}>
+                <ModalHeader closeButton>
+                    <h1> Create A Room </h1>
+                </ModalHeader>
+                <ModalBody>
+                    Go fuck yourself 
+                </ModalBody>
+            </Modal>
     
-            <section class="room-options">
+            <section className="room-options">
                 <button id="create-room-button" onClick={() => setModalShow(true)}>Create A Room</button>
                 <p id="or">OR</p>
                 <input type="text" name="search-room" id="search-input" placeholder="Search for rooms with text or room code..." onChange={(e) => setSearch(e.target.value)} value={search}/>
