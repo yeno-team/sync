@@ -19,11 +19,15 @@ export const RoomMenu = (props) => {
     const [ modalShow , setModalShow ] = useState(false)
 
     useEffect(() => {
+        /*
+            Set the modalShow state to true if there was an showModal
+            property in the state when redirected to this page.
+        */
+
         const location = history.location
         const state = location.state
 
         if(state && state.hasOwnProperty("showModal") && state.showModal) {
-            console.log('wait this is getting logged?')
             setModalShow(true)
         }
     } , [])
@@ -67,12 +71,12 @@ export const RoomMenu = (props) => {
                 There was a problem fetching the avaliable rooms. Please try again by refreshing the page or contact us if this problem still persists.
             </Alert> }
             
-            <Modal show={modalShow}>
+            <Modal show={modalShow} onHide={() => setModalShow(false)} className="faggot">
                 <ModalHeader closeButton>
                     <h1> Create A Room </h1>
                 </ModalHeader>
                 <ModalBody>
-                    Go fuck yourself 
+                    This isa test...
                 </ModalBody>
             </Modal>
     
