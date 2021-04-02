@@ -1,0 +1,111 @@
+/* Form-Group */
+
+#create-room-form > *:first-child {
+    margin-top: 0;
+}
+
+.form-group {
+    margin : 10px 0px 10px;
+}
+
+/* Form Label */
+
+.form-label {
+    display : block;
+    margin : 0px 0px 8px 2px;
+}
+
+/* Input styling */
+.form-control {
+    display : block;
+    width : 100%;
+    padding : .375rem .75rem;
+    height : calc(1.5em + .75rem + 2px);
+    line-height: 1.5;
+    font-size : 1rem;
+    background-color : #fff;
+    font-weight : 400;
+    border : 1px solid #ced4da;
+    background-clip: padding-box;
+    border-radius : .25rem; 
+    outline : none;
+}
+
+.form-control:focus , .form-control:focus:read-only {
+    box-shadow : 0 0 0 .2rem rgba(0,123,255,.25);
+    color : #495057;
+    border-color: #80bdff;
+}
+
+.form-control:disabled {
+    background-color : lightgray;
+}
+
+.form-control:invalid {
+    box-shadow : 0 0 0 .2rem rgba(245, 51, 125, 0.25);
+    border : 1px red solid;
+}
+
+/* Row and Column */
+
+.form-row {
+    display : flex;
+    flex-wrap: wrap;
+}
+
+.form-col {
+    margin-left : 5px;
+    margin-right : 5px;
+    flex : 1 1 auto;
+}
+
+/* Switch toggler */
+
+.switch {
+    margin-bottom : 10px;
+    width : 30px;
+    height : 20px;
+    position : relative;
+    display : inline-block;
+    cursor : pointer;
+}
+
+.switch .slider {
+    position : absolute;
+    top : 0;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    border-radius : 36px;
+    border : inherit;
+    background-color : var(--red);
+    transition: background-color 0.2s linear;
+}
+
+.switch .slider::before {
+    content : "";
+    position: absolute;
+    border-radius : 50%;
+    border : none;
+    background-color : white;
+    left : 30%;
+    transform : translate(-50% , -50%);
+    top : 50%;
+    height : 72%;
+    width : 40%;
+    transition: left 0.2s linear;
+}
+
+.switch input[type="checkbox"] {
+    opacity : 0;
+    height : 0;
+    width :  0;
+}
+
+.switch input[type="checkbox"]:checked + .slider {
+    background-color : var(--green)
+}
+
+.switch input[type="checkbox"]:checked + .slider::before {
+    left : 70%;
+}
