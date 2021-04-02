@@ -1,7 +1,7 @@
 import { IExecuteable } from "src/types/IExecuteable";
 import { RouteDependencies } from "src/types/api/RouteDependencies";
 import { StatusControllerDependencies } from "../statusController";
-import { QualityLabel } from "src/server/utils/videoSource";
+import { QualityLabel } from "src/server/utils/videoSource/videoSource";
 
 /**
  * Status Route

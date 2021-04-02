@@ -15,13 +15,11 @@ import RoomModule from "../modules/room";
 import RequestModule from "../modules/request";
 
 // Utilities
-import { RouteUtility } from "../utils/routes";
-import { ControllerUtility } from "../utils/controllers";
-import { RandomUtility } from "../utils/random";
-import { VideoSourceUtility } from "../utils/videoSource";
+import { RouteUtility, ControllerUtility, RandomUtility, VideoSourceUtility } from "../utils";
 
 // Services
 import { RoomService } from "./room/roomService";
+import chatBot from '../modules/chatBot';
 
 
 // Dependencies 
@@ -74,7 +72,8 @@ export const subscribers: ISubscriber[] = [
         roomService: RoomServiceDep
     }),
     new RoomSubscribers.RoomChatSubscriber({
-        roomService: RoomServiceDep
+        roomService: RoomServiceDep,
+        chatBot: chatBot
     }),
     new RoomSubscribers.RoomVideoSubscriber({
         roomService: RoomServiceDep,

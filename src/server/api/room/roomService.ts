@@ -1,7 +1,7 @@
 import { IRoomModule, IRoom, RoomUserRank, RoomUser } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
-import { RandomUtility } from "src/server/utils/random";
-import { VideoSourceUtility } from "src/server/utils/videoSource";
+import { RandomUtility } from "src/server/utils/random/random";
+import { VideoSourceUtility } from "src/server/utils/videoSource/videoSource";
 import { RoomSettingChangedPayload } from "./subscribers/settings";
 
 export type RoomServiceDependencies = {

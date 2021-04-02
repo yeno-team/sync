@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { RoomUserRank } from "src/server/modules/room/types";
-import { VideoSourceUtility } from "src/server/utils/videoSource";
+import { VideoSourceUtility } from "src/server/utils/videoSource/videoSource";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
 

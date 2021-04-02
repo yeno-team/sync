@@ -1,6 +1,7 @@
 export enum RoomUserRank {
     "owner",
-    "user"
+    "user",
+    "bot"
 }
 
 export type RoomUser = {

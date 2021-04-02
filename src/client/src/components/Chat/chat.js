@@ -6,6 +6,7 @@ import { colorShade, stringToColor } from "../../utils/color";
 import "./chat.css";
 
 import OwnerTag from "../../assets/icons/owner-tag.svg";
+import BotTag from '../../assets/icons/bot-tag.svg';
 
 export const Chat = (props) => {
     const { code } = useParams();
@@ -46,35 +47,104 @@ export const Chat = (props) => {
 
     const messageElements = messages.map((message , index) => {
         let processedMessage = [];
-        const words = message.text.split(" ");
+        const words = message.text
+            .replace(/\n/g, " <br> ")
+            .replace(/\*\*/g, " <b> ")
+            .replace(/&/g, " <a> ")
+            .split(" ");
 
         /**
          * If user is owner, add tag next to name
          */
         const ownerTagElement = message.sender.rank === 0 ? <img src={OwnerTag} className="chat__tag" /> : null;
 
+        /**
+         * If user is owner, add tag next to name
+         */
+         const botTagElement = message.sender.rank === 2 ? <img src={BotTag} className="chat__tag" /> : null;
+
+
         const emotesFiltered = words.filter(isWordAEmote);
 
-        let lastEmote = 0;
+        let last;
+        let lastBoldIndex;
+        let lastLinkIndex;
 
         words.map((val, index) => {
+            // turn line breaks in to actual br elements
+            if (val === "<br>") {
+                processedMessage.push(words.slice(last+1, index).join(" "));
+                processedMessage.push(<br />);
+
+                last = index;
+                return;
+            }
+
+            // turn everything covered in ** to bold
+            if (val === "<b>") {
+                if (lastBoldIndex) {
+                     
+                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ") + " "}</b>);
+                    lastBoldIndex = null;
+                    lastLinkIndex = null;
+                } else {
+                    const leftOver = words.slice(last+1, last+2)[0] ;
+
+                    if (leftOver && leftOver !== ',') {
+                        processedMessage.push(leftOver + " ");
+                    }
+                    
+                    processedMessage.push(words.slice(last+2, index).join(" "));
+                    lastBoldIndex = index;
+                }
+
+                last = index;
+                return;
+            }
+
+            // turn everything covered in & to a link
+            if (val === "<a>") {
+                if (lastLinkIndex) {
+                    const link = words.slice(lastLinkIndex+1, index);
+
+                    processedMessage.push(<a href={link}>{ link.join(" ") + " "}</a>);
+                    lastLinkIndex = null;
+                    lastBoldIndex = null;
+                } else {
+                    const leftOver = words.slice(last+1, last+2)[0] ;
+
+                    if (leftOver && leftOver !== ',') {
+                        processedMessage.push(leftOver + " ");
+                    }
+                    
+                    processedMessage.push(words.slice(last+2, index).join(" "));
+                    lastLinkIndex = index;
+                }
+
+                last = index;
+                return;
+            }
+
             if (emotesFiltered.indexOf(val) !== -1) {
-                processedMessage.push(words.slice(lastEmote, index).join(" "));
+                processedMessage.push(words.slice(last, index).join(" "));
                 processedMessage.push(<img className="chat__emote" src={getEmote(val).url}></img>)
-                lastEmote = index;
+                last = index;
                 return;
             }
 
             if (index === words.length-1) {
-                processedMessage.push(words.slice(lastEmote, index+1).join(" "));
+                processedMessage.push(words.slice(last ? last + 1 : 0, index+1).join(" "));
             }
         });
 
 
+        const shadeAmount = 150;
+
         return (
             <div className="chat__message" key={index}>
                 {ownerTagElement}
-                <span style={{fontWeight: "bold", color: colorShade(stringToColor(message.sender.socket_id), 50)}}>{ message.sender.username + ": " }</span>
+                {botTagElement}
+                <span style={{fontWeight: "bold", color: colorShade(stringToColor(message.sender.socket_id), shadeAmount)}}>{ message.sender.username + ": " }</span>
                 <span>{ processedMessage }</span>
             </div>
         )

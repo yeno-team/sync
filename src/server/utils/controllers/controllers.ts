@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { RouteUtility } from "./routes";
+import { RouteUtility } from "../routes/routes";
 
 /**
  * Dependencies for ControllerUtility class
