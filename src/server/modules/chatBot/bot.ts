@@ -16,7 +16,7 @@ export class ChatBotModule implements IChatBot {
         if (messageData.message.startsWith(this._prefix)) {
             for (const command of this._commands) {
                 const commandCalled = messageData.message.split(" ")[0].slice(1);
-                
+
                 if (commandCalled.toLowerCase() === command.name.toLowerCase()) {
                     command.execute(socket, messageData);
                 }
