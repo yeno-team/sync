@@ -1,8 +1,8 @@
 import React , { useState , useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
+import CreateRoomForm from './CreateRoomForm';
 import Alert from '../../components/Alert';
-import Modal , { ModalHeader , ModalBody , ModalFooter } from '../../components/Modal';
 import Rooms from './Rooms';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import './index.css'
@@ -71,14 +71,7 @@ export const RoomMenu = (props) => {
                 There was a problem fetching the avaliable rooms. Please try again by refreshing the page or contact us if this problem still persists.
             </Alert> }
             
-            <Modal show={modalShow} onHide={() => setModalShow(false)} className="faggot">
-                <ModalHeader closeButton>
-                    <h1> Create A Room </h1>
-                </ModalHeader>
-                <ModalBody>
-                    This isa test...
-                </ModalBody>
-            </Modal>
+            <CreateRoomForm onHide={() => setModalShow(false)} show={modalShow}/>
     
             <section className="room-options">
                 <button id="create-room-button" onClick={() => setModalShow(true)}>Create A Room</button>

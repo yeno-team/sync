@@ -19,11 +19,11 @@
 }
 
 .modal {
-    top: 20%;
+    top: 30%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
-    position: fixed;
+    position: absolute;
     width: 90%;
     background-color: white;
     border-radius: 5px;
@@ -35,8 +35,6 @@
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    -webkit-transition: opacity 0.4s linear , top 0.4s linear;
-    transition: opacity 0.4s linear , top 0.4s linear;
 }
 
 .modal-header {

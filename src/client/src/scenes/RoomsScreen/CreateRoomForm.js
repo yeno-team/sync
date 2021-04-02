@@ -1,10 +1,10 @@
 import React , { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import socketSubscriber from '../../api/socket/socketSubscriber'
-import Modal from 'react-bootstrap/Modal';
-import { Col , Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import Axios from 'axios';
+import Modal , { ModalHeader , ModalBody } from '../../components/Modal'
+import Button from '../../components/Button';
+import { FormCol , FormRow , FormGroup , FormControl, FormLabel , FormSwitch} from '../../components/Form'
 
 function JoinRoomForm(props){
     const history = useHistory()
@@ -52,52 +52,48 @@ function JoinRoomForm(props){
         })
     }
 
-
     return (
-        <Modal {...props}>
-            <Modal.Header closeButton>
-                <Modal.Title>Create Room</Modal.Title>     
-            </Modal.Header>
-            <Modal.Body> 
-                <Form onSubmit={submitForm}>
-                    <Form.Row>
-                        <Form.Group as={Col} controlId="createRoom.name">
-                                <Form.Label>Room Name</Form.Label>
-                                <Form.Control type="text" placeholder="Anime Room" name="name" maxlength="45" onChange={handleInputChange} value={formVals.name} required></Form.Control>
-                        </Form.Group>
-                        <Form.Group as={Col} controlId="createRoom.max_users">
-                            <Form.Label>Max Users</Form.Label>
-                            <Form.Control as="select" onChange={handleInputChange} value={formVals.max_users} name="max_users">
+        <Modal onHide={props.onHide} show={props.show}>
+            <ModalHeader closeButton>
+                Create Your Room
+            </ModalHeader>
+            <ModalBody>
+                <form id="create-room-form" onSubmit={submitForm}>
+                    <FormRow>
+                        <FormCol>
+                            <FormLabel controlId="name" formId="create-room-form">Room Name : </FormLabel>
+                            <FormControl type="text" onChange={handleInputChange} id="name" name="name" maxLength="30"/>
+                        </FormCol>
+                        <FormCol>
+                            <FormLabel controlId="max_users" formId="create-room-form">Max Users : </FormLabel>
+                            <FormControl type="select" value={formVals.max_users} onChange={handleInputChange} id="max_users" name="max_users">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
-                                <option value="20">25</option>
+                                <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Group controlId="createRoom.description">
-                        <Form.Label> Description</Form.Label>
-                        <Form.Control as="textarea" placeholder="Room Description..." maxlength="200" name="description" onChange={handleInputChange} value={formVals.description}></Form.Control>
-                    </Form.Group>
-                    <Form.Check type="switch" id="is_private" label="Private Room" title="Set Private Room" checked={setFormVals.is_private} onChange={handleInputChange} name="is_private"/>
+                            </FormControl>
+                        </FormCol>
+                    </FormRow>
+                    <FormGroup>
+                        <FormLabel controlId="description" formId="create-room-form">Description : </FormLabel>
+                        <FormControl onChange={handleInputChange} id="description" name="description" maxLength="75" type="textarea"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel style={{ display : "inline-block" , marginRight : "5px"}}>Private Room: </FormLabel>
+                        <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
+                    </FormGroup>
+
                     {
-                        formVals.is_private && 
-                        <Form.Group controlId="createRoom.room_password">
-                            <Form.Label>Room Password</Form.Label>
-                            <Form.Control type="password" onChange={handleInputChange} name="room_password" value={formVals.room_password}></Form.Control> 
-                        </Form.Group> 
+                        formVals.is_private &&
+                        <FormGroup>
+                            <FormLabel controlId="password" formId="create-room-form">Room Password : </FormLabel>
+                            <FormControl onChange={handleInputChange} name="room_password" id="room_password" type="password"/>
+                        </FormGroup>
                     }
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="success" onClick={submitForm}>
-                    Submit
-                </Button>
-                <Button variant="danger" onClick={props.onHide}>
-                    Close
-                </Button>
-            </Modal.Footer>
+                    <Button variant="green">Submit</Button>
+                </form> 
+            </ModalBody>
         </Modal>
     )
 }

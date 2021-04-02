@@ -41,6 +41,7 @@ body {
   min-height: 100vh;
   background: -webkit-gradient(linear, left top, left bottom, from(#2D3132), to(#202323));
   background: linear-gradient(to bottom, #2D3132, #202323);
+  /* overflow : visible; */
 }
 
 code {

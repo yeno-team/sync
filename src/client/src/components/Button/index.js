@@ -16,7 +16,8 @@ export default function Button({
     animatedColor,
     animatedStyle,
     className,
-    onClick
+    onClick,
+    style
 }) {
     const btnClasses = [
         "btn",
@@ -43,7 +44,7 @@ export default function Button({
     const btnClassNames = classNames(...btnClasses)
 
     return (
-        <button className={`${btnClassNames} ${className}`} disabled={disabled || false} onClick={typeof(onClick) === "function" ? onClick : undefined}>
+        <button className={`${btnClassNames} ${className}`} disabled={disabled || false} onClick={typeof(onClick) === "function" ? onClick : undefined} style={style}>
             {children}
         </button>
     )

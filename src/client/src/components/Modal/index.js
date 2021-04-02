@@ -9,9 +9,16 @@ export default function Modal({
     onHide,
     className
 }) {
-    if(!show) {
+    const showModal = typeof(show) === "undefined" ? true : show;
+
+    if(!showModal) {
+        // Show the scrollbar on the body.
+        document.body.style.overflow = "visible"
         return null;
     }
+
+    // Hide the scrollbar on the body.
+    document.body.style.overflow = "hidden"
 
     const modalClassNames = classNames([
         'modal',

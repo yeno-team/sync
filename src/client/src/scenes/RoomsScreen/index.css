@@ -111,6 +111,14 @@
     color: gray;
 }
 
+/* Form */
+
+#description {
+    max-width : 100%;
+    resize : none;
+    height : 60px;
+}
+
 @media only screen and (max-width : 768px) {
     #search-input {
         padding : 13px;
