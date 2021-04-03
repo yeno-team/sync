@@ -50,7 +50,7 @@ export const Chat = (props) => {
         const words = message.text
             .replace(/\n/g, " <br> ")
             .replace(/\*\*/g, " <b> ")
-            .replace(/&/g, " <a> ")
+            .replace(/[()]/g, " <a> ")
             .split(" ");
 
         /**
