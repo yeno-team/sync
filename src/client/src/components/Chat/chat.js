@@ -126,7 +126,7 @@ export const Chat = (props) => {
             }
 
             if (emotesFiltered.indexOf(val) !== -1) {
-                processedMessage.push(words.slice(last, index).join(" "));
+                processedMessage.push(words.slice(last+1, index).join(" "));
                 processedMessage.push(<img className="chat__emote" src={getEmote(val).url}></img>)
                 last = index;
                 return;
