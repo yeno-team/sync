@@ -61,6 +61,15 @@ export const FormControl = (props) => {
     }
 }
 
+export const FormControlErrorText = (props) => {
+    const { className , ...rest } = props
+    const formClassNames = classNames("form-error-message" , className)
+
+    return (
+        <div {...rest} className={formClassNames}/>
+    )
+}
+
 export const FormSwitch = (props) => {
     return (
         <label className="switch">

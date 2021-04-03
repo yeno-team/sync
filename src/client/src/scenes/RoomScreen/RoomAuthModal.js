@@ -1,11 +1,11 @@
 import React , { useState, useEffect } from 'react'
 import { useHistory , useParams } from 'react-router-dom'
-import { Modal } from 'react-bootstrap'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { RoomView } from './RoomView';
 import { getRoomData } from '../../api/room/roomService';
 import { useRoomAuth, usePrevious } from '../../hooks';
+import Modal from '../../components/Modal';
+import { FormControl , FormLabel } from '../../components/Form';
+import Button from '../../components/Button';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 
 export const RoomAuthModal = (props) => { 
@@ -86,22 +86,8 @@ export const RoomAuthModal = (props) => {
         {
             roomData && roomData.is_private && !authorized ?
             (
-                <Modal show={true} backdrop="static" keyboard={false}>
-                    <Modal.Header>
-                        <Modal.Title>Password Required!</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group controlId="roomPassword">
-                                <Form.Control type="password" placeholder="Password" required value={roomPassword} onChange={(e) => setRoomPassword(e.target.value)}/>
-
-                            </Form.Group>           
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="success" onClick={submitPassword}>Submit</Button>
-                        <Button variant="danger" onClick={() => history.push('/')}>Go back!</Button>
-                    </Modal.Footer>
+                <Modal show={true}>
+                    
                 </Modal>
             ) : <RoomView roomData={roomData} setRoomData={setRoomData}/>
         }

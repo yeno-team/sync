@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import { RoomsLayout } from '../scenes/RoomsScreen/RoomsLayout'
-// import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
+import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
 
 export function Routes() {
@@ -16,10 +16,10 @@ export function Routes() {
                 <Route path="/" exact>
                     <HomeLayout/>
                 </Route>
-{/* 
+
                 <Route path="/room/:code">
                     <RoomLayout/>
-                </Route> */}
+                </Route>
 
                 <Route path="/rooms" exact>
                     <RoomsLayout />

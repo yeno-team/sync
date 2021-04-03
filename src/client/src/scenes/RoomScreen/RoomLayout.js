@@ -6,7 +6,6 @@ import "./Room.css";
 
 
 export const RoomLayout = (props) => {
-
     return (
         <RoomAuthModal />
     )

@@ -48,11 +48,11 @@ export default function Modal({
 }
 
 
-export function ModalHeader({
+const ModalHeader = ({
     children,
     className,
     closeButton
-}) {
+}) => {
     const modalHeaderClassNames = classNames([
         'modal-header',
         className
@@ -66,10 +66,10 @@ export function ModalHeader({
     )
 }
 
-export function ModalBody({
+const ModalBody = ({
     children,
     className
-}) {
+}) => {
     const modalBodyClassNames = classNames([
         'modal-body',
         className
@@ -82,10 +82,10 @@ export function ModalBody({
     )
 }
 
-export function ModalFooter({
+const ModalFooter = ({
     children,
     className
-}) {
+}) => {
     const modalFooterClassNames = classNames([
         'modal-footer',
         className
@@ -97,3 +97,7 @@ export function ModalFooter({
         </div>
     )
 }
+
+Modal.Header = ModalHeader;
+Modal.Body= ModalBody;
+Modal.Footer = ModalFooter;

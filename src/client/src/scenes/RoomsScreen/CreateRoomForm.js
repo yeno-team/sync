@@ -4,7 +4,7 @@ import socketSubscriber from '../../api/socket/socketSubscriber'
 import { createRoom } from '../../api/room/roomService';
 import Modal , { ModalHeader , ModalBody } from '../../components/Modal'
 import Button from '../../components/Button';
-import { FormCol , FormRow , FormGroup , FormControl, FormLabel , FormSwitch} from '../../components/Form'
+import { FormCol , FormRow , FormGroup , FormControl, FormLabel , FormSwitch , FormControlErrorText } from '../../components/Form'
 
 function JoinRoomForm(props){
     let nameInput = null;
@@ -23,6 +23,10 @@ function JoinRoomForm(props){
         if(ele) {
             ele.classList.contains("form-control-invalid") && ele.classList.remove("form-control-invalid")
             ele.classList.add("form-control-valid")
+
+            const errorElement = ele.parentNode.querySelector(".form-error-message")
+
+            errorElement && (errorElement.style.display = "none")
         }
     }
 
@@ -30,13 +34,19 @@ function JoinRoomForm(props){
         if(ele) {
             ele.classList.contains("form-control-valid") && ele.classList.remove("form-control-valid")
             ele.classList.add("form-control-invalid")
+
+            const errorElement = ele.parentNode.querySelector(".form-error-message")
+
+            errorElement && (errorElement.style.display = "block")
         }
     }
+
+
 
     const validateForm = () => {
         let isValidateForm = true;
 
-        if(nameInput) { // Name Input Validation
+        if(nameInput) {
             if(formVals.name.length > 0) {
                 addInputValid(nameInput)
             } else {
@@ -63,6 +73,7 @@ function JoinRoomForm(props){
         if(!validateForm()) {
             return
         }
+
 
         try{
             const req = await createRoom(formVals)
@@ -101,6 +112,7 @@ function JoinRoomForm(props){
                         <FormCol>
                             <FormLabel htmlFor="name" form="create-room-form">Room Name : </FormLabel>
                             <FormControl type="text" onChange={handleInputChange} id="name" name="name" maxLength="40" inputRef={(ele) => (nameInput = ele)}/>
+                            <FormControlErrorText>Required*</FormControlErrorText>
                         </FormCol>
                         <FormCol>
                             <FormLabel htmlFor="max_users" form="create-room-form">Max Users : </FormLabel>
@@ -116,6 +128,7 @@ function JoinRoomForm(props){
                     <FormGroup>
                         <FormLabel htmlFor="description" form="create-room-form">Description : </FormLabel>
                         <FormControl onChange={handleInputChange} id="description" name="description" maxLength="75" type="textarea" inputRef={ele => (descriptionInput = ele)}/>
+                        <FormControlErrorText>Required*</FormControlErrorText>
                     </FormGroup>
                     <FormGroup>
                         <FormLabel style={{ display : "inline-block" , marginRight : "5px"}} htmlFor={"is_private"} form ="create-room-form">Private Room: </FormLabel>

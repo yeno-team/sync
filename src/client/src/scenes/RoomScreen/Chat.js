@@ -19,13 +19,13 @@ export const Chat = (props) => {
     }
 
     const getEmoteFromCode = (code) => {
-        const emote = emotes.filter(emote => emote.code == code);
+        const emote = emotes.filter(emote => emote.code === code);
 
         return emote && emote[0];
     }
 
     const isWordAEmote = (word) => {
-        const emotesFiltered = emotes.filter(emote => emote.code == word);
+        const emotesFiltered = emotes.filter(emote => emote.code === word);
 
         return emotesFiltered && emotesFiltered.length > 0;
     }
@@ -42,15 +42,14 @@ export const Chat = (props) => {
         let lastEmote = 0;
 
 
-        words.map((val, index) => {
+        words.forEach((val, index) => {
             if (emotesFiltered.indexOf(val) !== -1) {
                 processedMessage.push(words.slice(lastEmote, index).join(" "));
-                processedMessage.push(<img className="room__image" src={getEmoteFromCode(val).url}></img>)
+                processedMessage.push(<img className="room__image" alt="emoji" src={getEmoteFromCode(val).url}></img>)
                 lastEmote = index;
             }
 
             if (index === words.length-1) {
-                console.log("helo");
                 processedMessage.push(words.slice(lastEmote+1, index+1).join(" "));
             }
         });

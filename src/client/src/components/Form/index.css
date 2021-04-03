@@ -51,6 +51,13 @@
     border : 1px green solid;
 }
 
+.form-error-message {
+    margin-top : 5px;
+    font-size : 12px;
+    color : red;
+    display : none;
+}
+
 /* Row and Column */
 
 .form-row {
