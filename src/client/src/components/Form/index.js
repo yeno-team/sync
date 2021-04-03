@@ -2,61 +2,45 @@ import React from 'react';
 import classNames from 'classnames';
 import './index.css';
 
-export const FormGroup = ({
-    className,
-    children
-}) => {
-    const formGroupClassNames = classNames('form-group' , className)
+export const FormGroup = (props) => {
+    const formGroupClassNames = classNames('form-group' , props.className)
     
     return (
-        <div className={formGroupClassNames}>
-            {children}
+        <div {...props} className={formGroupClassNames}>
+            {props.children}
         </div>
     )
 }
 
-export const FormRow = ({
-    children,
-    className
-}) => {
-    const formRowClassNames = classNames('form-row' , className)
+export const FormRow = (props) => {
+    const formRowClassNames = classNames('form-row' , props.className)
 
     return (
-        <div className={formRowClassNames}>
-            {children}
+        <div {...props} className={formRowClassNames}>
+            {props.children}
         </div>
     )
 }
 
-export const FormCol = ({
-    children,
-    className
-}) => {
-    const formColClassNames = classNames('form-col' , className)
+export const FormCol = (props) => {
+    const formColClassNames = classNames('form-col' , props.className)
 
     return (
-        <div className={formColClassNames}>
-            {children}
+        <div {...props} className={formColClassNames}>
+            {props.children}
         </div>
     )
 
 }
 
-export const FormLabel = ({
-    className,
-    children,
-    controlId,
-    formId,
-    style
-}) => {
-    const formLabelClassNames = classNames('form-label' , className)
+export const FormLabel = (props) => {
+    const formLabelClassNames = classNames('form-label' , props.className)
 
     return (
-        <label htmlFor={controlId} form={formId} className={formLabelClassNames} style={style}>{children}</label>
+        <label {...props} className={formLabelClassNames}>{props.children}</label>
     )
 
 }
-
 
 export const FormControl = (props) => {
     const formControlClassNames = classNames('form-control' , props.className)

@@ -83,7 +83,6 @@ function JoinRoomForm(props){
                         <FormLabel style={{ display : "inline-block" , marginRight : "5px"}}>Private Room: </FormLabel>
                         <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
                     </FormGroup>
-
                     {
                         formVals.is_private &&
                         <FormGroup>
