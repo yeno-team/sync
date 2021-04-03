@@ -19,36 +19,30 @@ function JoinRoomForm(props){
         is_private : false
     })
 
-    const addInputValid = (ele) => {
+    const removeInputInvalid = (ele) => {
         if(ele) {
             ele.classList.contains("form-control-invalid") && ele.classList.remove("form-control-invalid")
-            ele.classList.add("form-control-valid")
 
             const errorElement = ele.parentNode.querySelector(".form-error-message")
-
             errorElement && (errorElement.style.display = "none")
         }
     }
 
     const addInputInvalid = (ele) => {
         if(ele) {
-            ele.classList.contains("form-control-valid") && ele.classList.remove("form-control-valid")
             ele.classList.add("form-control-invalid")
 
             const errorElement = ele.parentNode.querySelector(".form-error-message")
-
             errorElement && (errorElement.style.display = "block")
         }
     }
-
-
 
     const validateForm = () => {
         let isValidateForm = true;
 
         if(nameInput) {
             if(formVals.name.length > 0) {
-                addInputValid(nameInput)
+                removeInputInvalid(nameInput)
             } else {
                 isValidateForm = false
                 addInputInvalid(nameInput)
@@ -57,7 +51,7 @@ function JoinRoomForm(props){
 
         if(descriptionInput) {
             if(formVals.description.length > 0) {
-                addInputValid(descriptionInput)
+                removeInputInvalid(descriptionInput)
             } else {
                 isValidateForm = false
                 addInputInvalid(descriptionInput)
@@ -107,42 +101,40 @@ function JoinRoomForm(props){
                 Create Your Room
             </Modal.Header>
             <Modal.Body>
-                <form id="create-room-form" onSubmit={submitForm}>
-                    <FormRow>
-                        <FormCol>
-                            <FormLabel htmlFor="name" form="create-room-form">Room Name : </FormLabel>
-                            <FormControl type="text" onChange={handleInputChange} id="name" name="name" maxLength="40" inputRef={(ele) => (nameInput = ele)}/>
-                            <FormControlErrorText>Required*</FormControlErrorText>
-                        </FormCol>
-                        <FormCol>
-                            <FormLabel htmlFor="max_users" form="create-room-form">Max Users : </FormLabel>
-                            <FormControl type="select" value={formVals.max_users} onChange={handleInputChange} id="max_users" name="max_users">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </FormControl>
-                        </FormCol>
-                    </FormRow>
-                    <FormGroup>
-                        <FormLabel htmlFor="description" form="create-room-form">Description : </FormLabel>
-                        <FormControl onChange={handleInputChange} id="description" name="description" maxLength="75" type="textarea" inputRef={ele => (descriptionInput = ele)}/>
+                <FormRow>
+                    <FormCol>
+                        <FormLabel htmlFor="name" form="create-room-form">Room Name : </FormLabel>
+                        <FormControl type="text" onChange={handleInputChange} id="name" name="name" maxLength="40" inputRef={(ele) => (nameInput = ele)}/>
                         <FormControlErrorText>Required*</FormControlErrorText>
-                    </FormGroup>
+                    </FormCol>
+                    <FormCol>
+                        <FormLabel htmlFor="max_users" form="create-room-form">Max Users : </FormLabel>
+                        <FormControl type="select" value={formVals.max_users} onChange={handleInputChange} id="max_users" name="max_users">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </FormControl>
+                    </FormCol>
+                </FormRow>
+                <FormGroup>
+                    <FormLabel htmlFor="description" form="create-room-form">Description : </FormLabel>
+                    <FormControl onChange={handleInputChange} id="description" name="description" maxLength="75" type="textarea" inputRef={ele => (descriptionInput = ele)}/>
+                    <FormControlErrorText>Required*</FormControlErrorText>
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel style={{ display : "inline-block" , marginRight : "5px"}} htmlFor={"is_private"} form ="create-room-form">Private Room: </FormLabel>
+                    <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
+                </FormGroup>
+                {
+                    formVals.is_private &&
                     <FormGroup>
-                        <FormLabel style={{ display : "inline-block" , marginRight : "5px"}} htmlFor={"is_private"} form ="create-room-form">Private Room: </FormLabel>
-                        <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
+                        <FormLabel htmlFor="password" form="create-room-form">Room Password : </FormLabel>
+                        <FormControl onChange={handleInputChange} name="room_password" id="room_password" type="password"/>
                     </FormGroup>
-                    {
-                        formVals.is_private &&
-                        <FormGroup>
-                            <FormLabel htmlFor="password" form="create-room-form">Room Password : </FormLabel>
-                            <FormControl onChange={handleInputChange} name="room_password" id="room_password" type="password"/>
-                        </FormGroup>
-                    }
-                    <Button variant="green">Submit</Button>
-                </form> 
+                }
+                <Button variant="green" onClick={submitForm}>Submit</Button>
             </Modal.Body>
         </Modal>
     )
