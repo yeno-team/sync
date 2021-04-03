@@ -1,7 +1,7 @@
 import React , { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import socketSubscriber from '../../api/socket/socketSubscriber'
-import Axios from 'axios';
+import { createRoom } from '../../api/room/roomService';
 import Modal , { ModalHeader , ModalBody } from '../../components/Modal'
 import Button from '../../components/Button';
 import { FormCol , FormRow , FormGroup , FormControl, FormLabel , FormSwitch} from '../../components/Form'
@@ -17,19 +17,15 @@ function JoinRoomForm(props){
         is_private : false
     })
 
+
+
     const submitForm = async (e) => {
         e.preventDefault()
 
         try{
-            const req = await Axios({
-                url : "http://localhost:8000/api/room/create",
-                method : "POST",
-                data : {
-                    ...formVals
-                }
-            })
+            const req = await createRoom(formVals)
 
-            const { code , is_private } = req.data;
+            const { code , is_private } = req;
 
             if(!is_private) { 
                 socketSubscriber.emit("RoomCreated" , { roomCode : code })
