@@ -12,13 +12,13 @@ export class ChatBotModule implements IChatBot {
         this._commands = builder.commands;
     }
 
-    onMessage(socket: Server, messageData: RoomChatNewMessage) {
+    async onMessage(socket: Server, messageData: RoomChatNewMessage) {
         if (messageData.message.startsWith(this._prefix)) {
             for (const command of this._commands) {
                 const commandCalled = messageData.message.split(" ")[0].slice(1);
 
                 if (commandCalled.toLowerCase() === command.name.toLowerCase()) {
-                    command.execute(socket, messageData);
+                    await command.execute(socket, messageData);
                 }
             }
         }

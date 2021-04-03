@@ -1,11 +1,15 @@
 import { Server, Socket } from "socket.io";
+import { RoomService } from "src/server/api/room/roomService";
 import { RoomChatNewMessage } from "src/server/api/room/subscribers/chat";
+import { RoomSettingChangedPayload } from "src/server/api/room/subscribers/settings";
+import { IVideoScraper } from "src/server/modules/videoScraper/types";
 import { ChatBotUtility } from "src/server/utils";
 import {IChatBotCommand, IChatBotCommandDependencies } from "../../types";
 
 export interface SetVideoCommandDependencies {
     chatBotUtility: ChatBotUtility,
-    
+    videoScraperModule: IVideoScraper,
+    roomService: RoomService
 }
 
 export class SetVideoCommand implements IChatBotCommand {
@@ -15,9 +19,50 @@ export class SetVideoCommand implements IChatBotCommand {
 
     constructor(private dependencies: SetVideoCommandDependencies) {}
 
+    async execute(socket: Server, messageData: RoomChatNewMessage) {
+        try {
+            const { args } = this.dependencies.chatBotUtility.parseRoomMessageData(messageData);
 
-    execute(socket: Server, messageData: RoomChatNewMessage) {
-        
+            const roomData = await this.dependencies.roomService.getRoom(messageData.roomCode);
+
+            /**  
+            * Find the user emitting the event in the users list 
+            */
+            const user = roomData.users.filter((user) => user.socket_id === messageData.sender.socket_id);
+
+            /**
+            * Check if the user is the owner
+            */
+            
+            if (user && user[0].rank !== 0) {
+                throw new Error("You do not have permission");
+            }   
+
+            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Attempting to change video...");
+    
+            const videoSources = await this.dependencies.videoScraperModule.getVideoSource(args[0]);
+
+          
+            if (videoSources.length < 1) {
+                throw new Error("Could not get video source");
+            }
+
+            const roomSettingData: RoomSettingChangedPayload = {
+                roomCode: roomData.code,
+                settingName: "video_src",
+                value: videoSources[videoSources.length-1]
+            }
+
+            const updatedRoom = await this.dependencies.roomService.editRoomSetting(roomSettingData);
+
+            if (!updatedRoom) {
+                throw new Error("Unexpectedly could not change video");
+            }
+
+            socket.to(roomData.code).emit("RoomVideoUrlChanged", { url: videoSources[videoSources.length-1], sources: videoSources });
+            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Sucessfully changed video.");
+        } catch (e) {
+            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, e.message);
+        }
     }
-
 }

@@ -1,12 +1,12 @@
 import { Server, Socket } from "socket.io";
 import { RoomUserRank } from "src/server/modules/room/types";
-import { VideoSourceUtility } from "src/server/utils/videoSource/videoSource";
+import { IVideoScraper } from "src/server/modules/videoScraper/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
 
 export type RoomSettingsSubscriberDependencies = {
     roomService: RoomService,
-    videoSourceUtility: VideoSourceUtility
+    videoScraperModule: IVideoScraper
 }
 
 export type RoomSettingChangedPayload = {
@@ -62,7 +62,7 @@ export class RoomSettingsSubscriber implements ISubscriber {
         }   
 
         try {
-            const videoSource = await this.dependencies.videoSourceUtility.getVideoSource(data.url);
+            const videoSource = await this.dependencies.videoScraperModule.getVideoSource(data.url);
 
             if (!videoSource || videoSource && videoSource.length === 0) {
                 return socket.emit("RoomSettingChangeError", { message: "Could not grab video source" });

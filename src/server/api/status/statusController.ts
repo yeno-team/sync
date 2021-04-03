@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Logger } from "../../modules/logger/logger";
 import { ControllerUtility } from "src/server/utils/controllers/controllers";
 import { IController } from "src/types/api/IController";
-import { VideoSourceUtility } from "src/server/utils/videoSource/videoSource";
+import { IVideoScraper } from "src/server/modules/videoScraper/types";
 
 /**
  * The dependencies for StatusController class
@@ -10,7 +10,7 @@ import { VideoSourceUtility } from "src/server/utils/videoSource/videoSource";
 export type StatusControllerDependencies = {
     controllerUtility: ControllerUtility,
     logger: Logger,
-    videoSourceUtility: VideoSourceUtility
+    videoScraperModule: IVideoScraper
 }
 
 export class StatusController implements IController {

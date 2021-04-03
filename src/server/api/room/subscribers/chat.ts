@@ -76,9 +76,8 @@ export class RoomChatSubscriber implements ISubscriber {
         // emit to everyone in the socket room
         this._socketServer.to(roomData.code).emit("RoomChatNewMessage", response);
         
-         // send to the chat bot for processing
-         this.dependencies.chatBot.onMessage(this._socketServer, response);
-
+        // send to the chat bot for processing
+        await this.dependencies.chatBot.onMessage(this._socketServer, response);
     }
 
     

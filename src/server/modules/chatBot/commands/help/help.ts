@@ -12,9 +12,7 @@ export class HelpCommand implements IChatBotCommand {
     constructor(private dependencies: IChatBotCommandDependencies) {}
 
     execute(socket: Server, messageData: RoomChatNewMessage) {
-        const splitMessage = messageData.message.split(" ");
-        const prefix = splitMessage[0].charAt(0);
-        const args = splitMessage.slice(1);
+        const { args, prefix } = this.dependencies.chatBotUtility.parseRoomMessageData(messageData);
 
         const commandHelpList = commands.map(command => `**${prefix}${command.name} ->** ${command.description}\n`);
 

@@ -1,3 +1,9 @@
 export interface IVideoScraper {
-     getVideoSource(): Promise<string[]>
+     getVideoSource(url: string): Promise<string[]>
+}
+
+export interface IVideoSource {
+     hostname: string;
+
+     execute(url: string): Promise<string[]>;
 }

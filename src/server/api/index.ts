@@ -13,9 +13,10 @@ import RoomSubscribers from "./room/subscribers";
 import LoggerModule from "../modules/logger";
 import RoomModule from "../modules/room";
 import RequestModule from "../modules/request";
+import videoScraperModule from "../modules/videoScraper";
 
 // Utilities
-import { RouteUtility, ControllerUtility, RandomUtility, VideoSourceUtility } from "../utils";
+import { RouteUtility, ControllerUtility, RandomUtility} from "../utils";
 
 // Services
 import { RoomService } from "./room/roomService";
@@ -26,12 +27,11 @@ import chatBot from '../modules/chatBot';
 const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join, logger: LoggerModule});
 const ControllerUtilityDep = new ControllerUtility({ pathResolve: resolve, routeUtility: RouteUtilityDep });
 const RandomUtilityDep = new RandomUtility({});
-const VideoSourceUtilityDep = new VideoSourceUtility({ requestModule: RequestModule })
+
 const RoomServiceDep = new RoomService({
     logger: LoggerModule,
     roomModule: RoomModule,
-    randomUtility: RandomUtilityDep,
-    videoSourceUtility: VideoSourceUtilityDep
+    randomUtility: RandomUtilityDep
 });
 
 
@@ -51,7 +51,7 @@ const defaultControllerDependencies = {
 export const controllers = [
     new StatusController({
         ...defaultControllerDependencies,
-        videoSourceUtility: VideoSourceUtilityDep
+        videoScraperModule
     }),
     new RoomController({
         ...defaultControllerDependencies,
@@ -66,7 +66,7 @@ export const controllers = [
 export const subscribers: ISubscriber[] = [
     new RoomSubscribers.RoomSettingsSubscriber({
         roomService: RoomServiceDep,
-        videoSourceUtility: VideoSourceUtilityDep
+        videoScraperModule
     }),
     new RoomSubscribers.RoomUserSubscriber({
         roomService: RoomServiceDep
@@ -76,7 +76,6 @@ export const subscribers: ISubscriber[] = [
         chatBot: chatBot
     }),
     new RoomSubscribers.RoomVideoSubscriber({
-        roomService: RoomServiceDep,
-        videoSourceUtility: VideoSourceUtilityDep
+        roomService: RoomServiceDep
     })
 ];

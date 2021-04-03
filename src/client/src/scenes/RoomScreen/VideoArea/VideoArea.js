@@ -21,7 +21,8 @@ export const VideoArea = (props) => {
 
     useEffect(() => {
         if (roomData) {
-            if (videoSrc === null) {
+            if (videoSrc == null) {
+                console.log(roomData);
                 setVideoSrc(roomData.video_src || "");
             }
         }
@@ -111,7 +112,7 @@ export const VideoArea = (props) => {
         <div className="room__videoArea">
             <VideoPlayer 
                 className="room__video"
-                src={"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"} 
+                src={videoSrc} 
                 hideControls={!clientIsOwner}  
                 fluid={false} 
                 handleStateChange={videoStateChanged}
