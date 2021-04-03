@@ -17,6 +17,9 @@ function JoinRoomForm(props){
         is_private : false
     })
 
+    const validateInputs = () => {
+
+    }
 
 
     const submitForm = async (e) => {
@@ -57,11 +60,11 @@ function JoinRoomForm(props){
                 <form id="create-room-form" onSubmit={submitForm}>
                     <FormRow>
                         <FormCol>
-                            <FormLabel controlId="name" formId="create-room-form">Room Name : </FormLabel>
+                            <FormLabel htmlFor="name" form="create-room-form">Room Name : </FormLabel>
                             <FormControl type="text" onChange={handleInputChange} id="name" name="name" maxLength="30"/>
                         </FormCol>
                         <FormCol>
-                            <FormLabel controlId="max_users" formId="create-room-form">Max Users : </FormLabel>
+                            <FormLabel htmlFor="max_users" form="create-room-form">Max Users : </FormLabel>
                             <FormControl type="select" value={formVals.max_users} onChange={handleInputChange} id="max_users" name="max_users">
                                 <option value="5">5</option>
                                 <option value="10">10</option>
@@ -72,17 +75,17 @@ function JoinRoomForm(props){
                         </FormCol>
                     </FormRow>
                     <FormGroup>
-                        <FormLabel controlId="description" formId="create-room-form">Description : </FormLabel>
+                        <FormLabel htmlFor="description" form="create-room-form">Description : </FormLabel>
                         <FormControl onChange={handleInputChange} id="description" name="description" maxLength="75" type="textarea"/>
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel style={{ display : "inline-block" , marginRight : "5px"}}>Private Room: </FormLabel>
+                        <FormLabel style={{ display : "inline-block" , marginRight : "5px"}} htmlFor={"is_private"} form ="create-room-form">Private Room: </FormLabel>
                         <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
                     </FormGroup>
                     {
                         formVals.is_private &&
                         <FormGroup>
-                            <FormLabel controlId="password" formId="create-room-form">Room Password : </FormLabel>
+                            <FormLabel htmlFor="password" form="create-room-form">Room Password : </FormLabel>
                             <FormControl onChange={handleInputChange} name="room_password" id="room_password" type="password"/>
                         </FormGroup>
                     }
