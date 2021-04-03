@@ -37,25 +37,27 @@ export const FormLabel = (props) => {
     const formLabelClassNames = classNames('form-label' , props.className)
 
     return (
-        <label {...props} className={formLabelClassNames}>{props.children}</label>
+        <label {...props} className={formLabelClassNames}/>
     )
 
 }
 
 export const FormControl = (props) => {
-    const formControlClassNames = classNames('form-control' , props.className)
+    const { type , inputRef , className , ...rest} = props
 
-    switch(props.type) {
+    const formControlClassNames = classNames('form-control' , className)
+
+    switch(type) {
         case "select":
             return (
-                <select {...props} className={formControlClassNames}> {props.children} </select>
+                <select {...rest} ref={inputRef} className={formControlClassNames}/>
             )
         case "textarea":
             return (
-                <textarea {...props} className={formControlClassNames}/>
+                <textarea {...rest} ref={inputRef} className={formControlClassNames}/>
             )
         default:
-            return <input {...props} className={formControlClassNames} type={props.type || "text"}/>
+            return <input {...rest} ref={inputRef} className={formControlClassNames} type={type || "text"}/>
     }
 }
 

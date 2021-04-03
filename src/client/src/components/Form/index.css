@@ -41,9 +41,14 @@
     background-color : lightgray;
 }
 
-.form-control:invalid {
+.form-control.form-control-invalid {
     box-shadow : 0 0 0 .2rem rgba(245, 51, 125, 0.25);
     border : 1px red solid;
+}
+
+.form-control.form-control-valid {
+    box-shadow : 0 0 0 .2rem rgba(var(--green-rgb), 0.25);
+    border : 1px green solid;
 }
 
 /* Row and Column */
@@ -63,7 +68,7 @@
 
 .switch {
     margin-bottom : 10px;
-    width : 30px;
+    width : 35px;
     height : 20px;
     position : relative;
     display : inline-block;
