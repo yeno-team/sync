@@ -2,7 +2,7 @@ import React , { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import socketSubscriber from '../../api/socket/socketSubscriber'
 import { createRoom } from '../../api/room/roomService';
-import Modal , { ModalHeader , ModalBody } from '../../components/Modal'
+import Modal from '../../components/Modal'
 import Button from '../../components/Button';
 import { FormCol , FormRow , FormGroup , FormControl, FormLabel , FormSwitch , FormControlErrorText } from '../../components/Form'
 
@@ -103,10 +103,10 @@ function JoinRoomForm(props){
 
     return (
         <Modal onHide={props.onHide} show={props.show}>
-            <ModalHeader closeButton>
+            <Modal.Header closeButton>
                 Create Your Room
-            </ModalHeader>
-            <ModalBody>
+            </Modal.Header>
+            <Modal.Body>
                 <form id="create-room-form" onSubmit={submitForm}>
                     <FormRow>
                         <FormCol>
@@ -143,7 +143,7 @@ function JoinRoomForm(props){
                     }
                     <Button variant="green">Submit</Button>
                 </form> 
-            </ModalBody>
+            </Modal.Body>
         </Modal>
     )
 }
