@@ -33,11 +33,11 @@
     background-color: var(--orange);
 }
 
-.btn.yellow{
+.btn.btn-yellow{
     background-color : var(--dark-yellow);
 }
 
-.btn.red{
+.btn.btn-red{
     background-color : var(--red);
 }
 /* Outline border */

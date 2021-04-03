@@ -8,21 +8,21 @@ const animationStyles = [
     "underline",
 ]
 
-export default function Button({
-    children,
-    variant,
-    disabled,
-    animated,
-    animatedColor,
-    animatedStyle,
-    className,
-    onClick,
-    style
-}) {
+export default function Button(props) {
+    const {
+        variant,
+        animated,
+        animatedColor,
+        animatedStyle,
+        className,
+        ...rest
+    } = props
+
     const btnClasses = [
         "btn",
         { "btn-animated" : animated ? true : false },
-        `btn-${variants.includes(variant) ? variant : "blue"}`
+        `btn-${variants.includes(variant) ? variant : "blue"}`,
+        className
      ]
 
     if(animated) {
@@ -44,8 +44,6 @@ export default function Button({
     const btnClassNames = classNames(...btnClasses)
 
     return (
-        <button className={`${btnClassNames} ${className}`} disabled={disabled || false} onClick={typeof(onClick) === "function" ? onClick : undefined} style={style}>
-            {children}
-        </button>
+        <button {...rest} className={btnClassNames} />
     )
 }

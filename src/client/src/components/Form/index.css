@@ -1,9 +1,5 @@
 /* Form-Group */
 
-#create-room-form > *:first-child {
-    margin-top: 0;
-}
-
 .form-group {
     margin : 10px 0px 10px;
 }

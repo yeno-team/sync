@@ -4,7 +4,7 @@ import { RoomView } from './RoomView';
 import { getRoomData } from '../../api/room/roomService';
 import { useRoomAuth, usePrevious } from '../../hooks';
 import Modal from '../../components/Modal';
-import { FormControl , FormLabel } from '../../components/Form';
+import { FormGroup , FormControl , FormLabel } from '../../components/Form';
 import Button from '../../components/Button';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 
@@ -87,7 +87,21 @@ export const RoomAuthModal = (props) => {
             roomData && roomData.is_private && !authorized ?
             (
                 <Modal show={true}>
-                    
+                    <Modal.Header>
+                        Password Protected
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormGroup>
+                            <FormLabel htmlFor="room_password">Room Password : </FormLabel>
+                            <FormControl type="password" id="room_password" onChange={(e) => setRoomPassword(e.target.value)}/>
+                        </FormGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div style={{textAlign : "right"}}>
+                            <Button variant="red" onClick={() => history.push('/rooms')}>Go Back</Button>
+                            <Button variant="green" onClick={submitPassword}>Submit</Button>
+                        </div>
+                    </Modal.Footer>
                 </Modal>
             ) : <RoomView roomData={roomData} setRoomData={setRoomData}/>
         }
