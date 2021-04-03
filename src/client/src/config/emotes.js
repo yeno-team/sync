@@ -60,11 +60,6 @@ export default [
         imageType: "png"
     },
     {
-        id: "5d6096974932b21d9c332904",
-        code: "5Head",
-        imageType: "png"
-    },
-    {
         id: "5e4e7a1f08b4447d56a92967",
         code: "PogU",
         imageType: "png"
@@ -123,5 +118,124 @@ export default [
         id: "5ec39a9db289582eef76f733",
         code: "NOPERS",
         imageType: "gif"
-    }
+    },
+    {
+        id: "5cdaa967a591865373324fa6",
+        code: "FeelsOKMan",
+        imageType: "gif"
+    },
+    {
+        id: "55cbeb8f8b9c49ef325bf738",
+        code: "WaitWhat",
+        imageType: "png"
+    },
+    {
+        id: "58ae8407ff7b7276f8e594f2",
+        code: "POGGERS",
+        imageType: "png"
+    },
+    {
+        id: "5e9cdca974046462f7673006",
+        code: "PogO",
+        imageType: "png"
+    },
+    {
+        id: "5a21576595c4af067c869ba9",
+        code: "monkaCHRIST",
+        imageType: "png"
+    },
+    {
+        id: "5cd6b08cf1dac14a18c4b61f",
+        code: "PauseChamp",
+        imageType: "png"
+    },
+    {
+        id: "5ff827395ef7d10c7912c106",
+        code: "Pog",
+        imageType: "png"
+    },
+    {
+        id: "5fa99424eca18f6455c2bca5",
+        code: "BOOBA",
+        imageType: "gif"
+    },
+    {
+        id: "5ba6d5ba6ee0c23989d52b10",
+        code: "bongoTap",
+        imageType: "gif"
+    },
+    {
+        id: "5e1fc363bca2995f13fb89d7",
+        code: "peepoRiot",
+        imageType: "gif"
+    },
+    {
+        id: "5d0d7140ca4f4b50240ff6b4",
+        code: "PepegaAim",
+        imageType: "gif"
+    },
+    {
+        id: "5d38aaa592fc550c2d5996b8",
+        code: "peepoClap",
+        imageType: "gif"
+    },
+    {
+        id: "5b1740221c5a6065a7bad4b5",
+        code: "pepeD",
+        imageType: "gif"
+    },
+    {
+        id: "5d1e70f498539c4801cc3811",
+        code: "TriDance",
+        imageType: "gif"
+    },
+    {
+        id: "5b35cae2f3a33e2b6f0058ef",
+        code: "RainbowPls",
+        imageType: "gif"
+    },
+    {
+        id: "55898e122612142e6aaa935b",
+        code: "PepePls",
+        imageType: "gif"
+    },
+    {
+        id: "5bec16e1c3cac7088d09bdd7",
+        code: "pikaOMG",
+        imageType: "gif"
+    },{
+        id: "5d7eefb7c0652668c9e4d394",
+        code: "modCheck",
+        imageType: "gif"
+    },
+    {
+        id: "59143b496996b360ff9b807c",
+        code: "gachiHYPER",
+        imageType: "gif"
+    },
+    {
+        id: "5ed0fd17f54be95e2a835054",
+        code: "monkaSTEER",
+        imageType: "gif"
+    },
+    {
+        id: "5e8c3a008fb1ca5cde58723f",
+        code: "Smoge",
+        imageType: "gif"
+    },
+    {
+        id: "5efcd82551e3910deed68751",
+        code: "DonoWall",
+        imageType: "gif"
+    },
+    {
+        id: "5e0bcf69031ec77bab473476",
+        code: "peepoGiggles",
+        imageType: "gif"
+    },
+    {
+        id: "59a4ea2865231102cde26e9c",
+        code: "ABDULpls",
+        imageType: "gif"
+    },
 ]

@@ -35,4 +35,14 @@ export class RandomUtility {
             });
         })
     }
+
+    /**
+     * Generate a random integer
+     * @param min 
+     * @param max 
+     * @returns a random number
+     */
+    public getRandomInteger(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
 }

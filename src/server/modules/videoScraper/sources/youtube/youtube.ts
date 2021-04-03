@@ -17,6 +17,10 @@ export class YoutubeSource implements IVideoSource {
 
             if (response && response.length >= 3) {
                 try {
+                    if (response[2].playerResponse["streamingData"] == null) {
+                        return reject("YoutubeSource: No support for encrypted videos");
+                    }
+
                     const formats = response[2].playerResponse.streamingData.formats;
 
                     const urls = formats.map((format) => format.url);

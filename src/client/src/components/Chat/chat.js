@@ -28,7 +28,7 @@ export const Chat = (props) => {
         }
 
         if (newMessages.length > 0) {
-            const chat = document.getElementById("chat__main");
+            const chat = document.getElementById("chat__messages");
             chat.scrollTop = chat.scrollHeight;
         }
     
@@ -47,6 +47,11 @@ export const Chat = (props) => {
 
     const messageElements = messages.map((message , index) => {
         let processedMessage = [];
+
+        if (message.text == null) {
+            return console.error("Text was null!");
+        }
+
         const words = message.text
             .replace(/\n/g, " <br> ")
             .replace(/\*\*/g, " <b> ")
@@ -84,7 +89,7 @@ export const Chat = (props) => {
             if (val === "<b>") {
                 if (lastBoldIndex) {
                      
-                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ") + " "}</b>);
+                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ")}</b>);
                     lastBoldIndex = null;
                     lastLinkIndex = null;
                 } else {
@@ -161,7 +166,7 @@ export const Chat = (props) => {
         <div className={props.className + " chat__ctn"}>
             <div id="chat__main" className="chat__main">
                 <div className="chat__header">{ headerElements }</div>
-                <div className="chat__messages">
+                <div id="chat__messages" className="chat__messages">
                     {
                         messageElements 
                     }

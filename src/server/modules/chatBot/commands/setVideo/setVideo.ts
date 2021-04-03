@@ -62,7 +62,7 @@ export class SetVideoCommand implements IChatBotCommand {
             socket.to(roomData.code).emit("RoomVideoUrlChanged", { url: videoSources[videoSources.length-1], sources: videoSources });
             this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Sucessfully changed video.");
         } catch (e) {
-            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, e.message);
+            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, e);
         }
     }
 }
