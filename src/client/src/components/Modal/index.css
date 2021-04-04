@@ -1,0 +1,98 @@
+.modal-overlay {
+    position: fixed;
+    top : 0;
+    left : 0;
+    height : 100vh;
+    width : 100%;
+    z-index : 1;
+    background-color : rgba(0,0,0,0.5);
+}
+
+.modal , .modal-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.modal-header , .modal-body , .modal-footer {
+    padding: 15px 20px;
+}
+
+
+.modal {
+    top : calc(50vh - 100px);
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    position: absolute;
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 3;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.modal-header {
+    width: 100%;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    min-height: 50px;
+    border-bottom: 1px solid lightgray;
+}
+
+.modal-header , .modal-header > * {
+    margin : 0;
+    font-size : 24px;
+    font-weight : bold;
+}
+
+.modal-body > *:first-child {
+    margin : 0;
+}
+
+.modal-close {
+    align-self: center;
+}
+
+.modal-close::before , .modal-close::after {
+    background-color: var(--red);
+}
+
+.modal-close:hover::before , .modal-close:hover::after {
+    background-color : rgba(var(--red-rgb) , 0.7);
+}
+
+.modal-footer {
+    border-top : 1px lightgray solid;
+}
+
+
+/* Width */
+
+@media only screen and (min-width: 768px) {
+    .modal {
+        width : 75%;
+    }
+} 
+
+@media only screen and (min-width: 992px) {
+    .modal {
+        width : 55%;
+    }
+} 
+
+@media only screen and (min-width: 1200px) {
+    .modal {
+        width : 45%;
+    }
+} 

@@ -24,7 +24,7 @@ export const RoomView = (props) => {
             try {
                 const { users, video_src } = props.roomData;
                 
-                if (users.length == 0) {
+                if (users.length === 0) {
                     return props.setRoomData(await getRoomData(props.roomData.code));
                 }
                 
@@ -53,7 +53,7 @@ export const RoomView = (props) => {
             if (owner != null && !owner) {
                 if(Math.abs((data.state.currentTime - videoState.currentTime)) > 1.5) { // Duration Change
                     // If the client is paused, no need to change
-                    videoState.paused == false && player.seek(data.state.currentTime);
+                    videoState.paused === false && player.seek(data.state.currentTime);
                 }
 
                 if(data.state.muted !== videoState.muted) { // Mute Change

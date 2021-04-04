@@ -1,6 +1,6 @@
 import { IRequestModule, RequestOptions } from "../modules/request/types";
-import cheerio from "cheerio";
 import config from '../../config';
+import cheerio from 'cheerio'
 import { url } from "inspector";
 
 /**

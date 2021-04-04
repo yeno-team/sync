@@ -1,0 +1,181 @@
+.alert {
+    min-height : 25px;
+    font-size : 16px;
+    padding : 10px 15px;
+    border-radius : 7px;
+    position: relative;
+    text-align: left;
+    margin-bottom  : 5px;
+}
+
+/* Styles */
+
+.alert *:first-child:not(hr) {
+    margin-top : 0;
+}
+
+/* Alert variants */
+.alert.alert-green {
+    color : var(--green);
+    border : 1px rgba(var(--green-rgb) , 0.3) solid;
+    background-color: rgba(var(--green-rgb) , 0.3);
+}
+
+.alert.alert-blue {
+    color : var(--blue);
+    border : 1px rgba(var(--blue-rgb) , 0.3) solid;
+    background-color: rgba(var(--blue-rgb) , 0.3);
+}
+
+.alert.alert-dark-blue {
+    color : var(--dark-blue);
+    border : 1px rgba(var(--dark-blue-rgb) , 0.3) solid;
+    background-color: rgba(var(--dark-blue-rgb) , 0.3);
+}
+
+.alert.alert-black {
+    color : var(--black);
+    border : 1px rgba(var(--black-rgb) , 0.3) solid;
+    background-color: rgba(var(--black-rgb) , 0.3);
+}
+
+.alert.alert-white {
+    color : var(--white);
+    border : 1px rgba(var(--white-rgb) , 0.3) solid;
+    background-color: rgba(var(--white-rgb) , 0.3);
+}
+
+.alert.alert-orange {
+    color : var(--orange);
+    border : 1px rgba(var(--orange-rgb) , 0.3) solid;
+    background-color: rgba(var(--orange-rgb) , 0.3);
+}
+
+.alert.alert-red {
+    color : var(--red);
+    border : 1px rgba(var(--red-rgb) , 0.3) solid;
+    background-color: rgba(var(--red-rgb) , 0.3);
+}
+
+.alert.alert-yellow {
+    color : var(--yellow);
+    border : 1px rgba(var(--yellow-rgb) , 0.3) solid;
+    background-color: rgba(var(--yellow-rgb) , 0.3);
+}
+
+/* Horizontal Rule  */
+.alert hr {
+    margin : 15px 0px;
+    border : none;
+    height : 1px;
+}
+
+.alert.alert-green hr {
+    background-color : rgba(var(--green-rgb) , 0.8);
+}
+
+.alert.alert-blue hr {
+    background-color : rgba(var(--blue-rgb) , 0.8);
+}
+
+.alert.alert-dark-blue hr {
+    background-color : rgba(var(--dark-blue-rgb) , 0.8);
+}
+
+.alert.alert-black hr {
+    background-color : rgba(var(--black-rgb) , 0.8);
+}
+.alert.alert-white hr {
+    background-color : rgba(var(--white-rgb) , 0.8);
+}
+.alert.alert.alert-orange hr {
+    background-color : rgba(var(--orange-rgb) , 0.8);
+}
+
+.alert.alert-red hr {
+    background-color: rgba(var(--red-rgb) , 0.8);
+}
+
+.alert.alert-yellow hr {
+    background-color: rgba(var(--yellow-rgb) , 0.8);
+}
+
+
+/* Dismissable Button */
+
+.alert .exit {
+    align-self: flex-start;
+    position: absolute;
+    top : 10px;
+    right : 5px;
+    z-index : 1;
+}
+
+/* Dismissable Button Color */
+
+.alert.alert-green .exit::before , .alert.alert-green .exit::after {
+    background-color : var(--green);
+}
+
+.alert.alert-blue .exit::before , .alert.alert-blue .exit::after {
+    background-color : var(--blue);
+}
+
+.alert.alert-dark-blue .exit::before , .alert.alert-dark-blue .exit::after {
+    background-color : var(--dark-blue);
+}
+
+.alert.alert-black .exit::before , .alert.alert-black .exit::after {
+    background-color : var(--black);
+}
+
+.alert.alert-white .exit::before , .alert.alert-white .exit::after {
+    background-color : var(--white);
+}
+
+.alert.alert-orange .exit::before , .alert.alert-orange .exit::after {
+    background-color : var(--orange);
+}
+
+.alert.alert-red .exit::before , .alert.alert-red .exit::after {
+    background-color : var(--red);
+}
+
+.alert.alert-yellow .exit::before , .alert.alert-yellow .exit::after {
+    background-color : var(--yellow);
+}
+
+/* Dismissable Button Hover Color */
+
+
+.alert.alert-green .exit:hover::before , .alert.alert-green .exit:hover::after {
+    background-color : rgba(var(--green-rgb) , 0.7);
+}
+
+.alert.alert-blue .exit:hover::before , .alert.alert-blue .exit:hover::after {
+    background-color : rgba(var(--blue) , 0.7);
+}
+
+.alert.alert-dark-blue .exit:hover::before , .alert.alert-dark-blue .exit:hover::after {
+    background-color : rgba(var(--dark-blue-rgb) , 0.7);
+}
+
+.alert.alert-black .exit:hover::before , .alert.alert-black .exit:hover::after {
+    background-color : rgba(var(--black-rgb) , 0.7);
+}
+
+.alert.alert-white .exit:hover::before , .alert.alert-white .exit:hover::after {
+    background-color : rgba(var(--white-rgb) , 0.7);
+}
+
+.alert.alert-orange .exit:hover::before , .alert.alert-orange .exit:hover::after {
+    background-color : rgba(var(--orange-rgb) , 0.7);
+}
+
+.alert.alert-red .exit:hover::before , .alert.alert-red .exit:hover::after {
+    background-color : rgba(var(--red-rgb) , 0.7);
+}
+
+.alert.alert-yellow .exit:hover::before , .alert.alert-yellow .exit:hover::after {
+    background-color : rgba(var(--yellow-rgb) , 0.7);
+}
