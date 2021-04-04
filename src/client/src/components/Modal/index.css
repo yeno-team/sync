@@ -20,7 +20,7 @@
 
 
 .modal {
-    top : 30%;
+    top : calc(50vh - 100px);
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
@@ -76,17 +76,6 @@
     border-top : 1px lightgray solid;
 }
 
-@media only screen and (max-height : 600px) {
-    .modal {
-        top : 50%;
-    }
-}
-
-@media only screen and (min-height : 900px) {
-    .modal {
-        top : 25%;
-    }
-}
 
 /* Width */
 
