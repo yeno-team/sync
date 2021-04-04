@@ -73,6 +73,16 @@ export class RoomUserSubscriber implements ISubscriber {
                 return socket.emit("RoomJoinError", { message: "Room is full" });
             }
 
+            const userFound = roomData.users.filter((user) => user.socket_id === socket.id);
+
+            /**
+             * Checks if user already joined the room
+             * @emits RoomJoinError if already joined
+             */
+            if (userFound.length > 0) {
+                return socket.emit("RoomJoinError", { message: "Already Joined" });
+            }
+
             socket.join(roomData.code);
 
             if (roomData.users.length === 0) {

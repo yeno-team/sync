@@ -28,7 +28,7 @@ export const RoomView = (props) => {
                     return props.setRoomData(await getRoomData(props.roomData.code));
                 }
                 
-                setOwner(users.some((user) => socketSubscriber.getSocket().id === user.socket_id && user.rank === 0))
+                setOwner()
                 setVideoSrc(video_src);
             } catch (e) {
                 setOwner(false)
@@ -74,7 +74,7 @@ export const RoomView = (props) => {
         })
 
         socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
-            console.log("ERROR: " +  data.message);
+            console.log("ROOM_VIDEO_ERROR: " +  data.message);
         });
 
         if (videoState && videoState.hasStarted && !started) {

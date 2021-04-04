@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Logger } from "../../modules/logger/logger";
-import { ControllerUtility } from "src/server/utils/controllers";
+import { ControllerUtility } from "src/server/utils/controllers/controllers";
 import { IController } from "src/types/api/IController";
 import { RoomService } from "./roomService";
 

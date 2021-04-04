@@ -1,16 +1,25 @@
 import { Server, Socket } from "socket.io";
-import { RoomUserRank } from "src/server/modules/room/types";
+import { IChatBot } from "src/server/modules/chatBot/types";
+import { RoomUser, RoomUserRank } from "src/server/modules/room/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
 
 export type RoomChatSubscriberDependencies = {
-    roomService: RoomService
+    roomService: RoomService,
+    chatBot: IChatBot
 }
 
 export type RoomChatSendMessagePayload = {
     roomCode: string,
     message: string
 }
+
+export type RoomChatNewMessage = {
+    sender: RoomUser,
+    message: string,
+    roomCode: string
+}
+
 
 export class RoomChatSubscriber implements ISubscriber {
     private _socketServer: Server;
@@ -58,14 +67,17 @@ export class RoomChatSubscriber implements ISubscriber {
             return socket.emit("RoomChatError", { message: "Cannot send an empty message" });
         }
 
-        this._socketServer.to(roomData.code).emit("RoomChatNewMessage", 
-            { 
-                sender: {
-                    socketId: socket.id,
-                    username: userData[0].username
-                },
-                message: data.message
-        });
+        const response: RoomChatNewMessage = {
+            sender: userData[0],
+            message: data.message,
+            roomCode: data.roomCode
+        }
+
+        // emit to everyone in the socket room
+        this._socketServer.to(roomData.code).emit("RoomChatNewMessage", response);
+        
+        // send to the chat bot for processing
+        await this.dependencies.chatBot.onMessage(this._socketServer, response);
     }
 
     

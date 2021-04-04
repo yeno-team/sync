@@ -1,0 +1,35 @@
+.inputScreen__main {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(#2D3132, #202323);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.inputScreen__main > div {
+    text-align: center;
+
+    padding: 50px 100px;
+}
+
+.inputScreen__main > div input {
+    border: none;
+    padding: 10px 18px;
+    width: 75%;
+    margin: 20px 0;
+}
+
+.inputScreen__main > div button {
+    border: none;
+    padding: 10px 18px;
+    background-color: #1BAA65;
+    color: #ECE8E8;
+    width: 25%;
+}
+
+.inputScreen__main > div button:hover {
+    background-color: #18974d;
+}
+

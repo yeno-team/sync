@@ -1,7 +1,7 @@
 jest.mock('./routes');
-import { Logger } from "../modules/logger/logger";
+import { Logger } from "../../modules/logger/logger";
 import { ControllerUtility } from "./controllers";
-import { RouteUtility } from './routes';
+import { RouteUtility } from '../routes/routes';
 import Express from 'express';
 
 describe('ControllerUtility Class', () => {

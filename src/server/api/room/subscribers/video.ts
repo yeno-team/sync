@@ -2,11 +2,9 @@ import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomUserRank } from "src/server/modules/room/types";
 import { Server, Socket } from "socket.io";
 import { RoomService } from "../roomService";
-import { QualityLabel, VideoSourceUtility } from "src/server/utils/videoSource";
 
 export type RoomVideoSubscriberDependencies = {
-    roomService: RoomService,
-    videoSourceUtility: VideoSourceUtility
+    roomService: RoomService
 }
 
 export type RoomVideoState = {

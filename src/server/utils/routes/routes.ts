@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { IExecuteable } from "src/types/IExecuteable";
-import { Logger } from '../modules/logger/logger';
+import { Logger } from '../../modules/logger/logger';
 
 /**
  * Dependencies for RouteUtility class

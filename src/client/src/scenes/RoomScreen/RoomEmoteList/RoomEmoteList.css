@@ -1,0 +1,28 @@
+.RoomEmoteList {
+    position: absolute;
+    width: 350px;
+    z-index: 10;
+    background-color: rgb(240, 240, 240);
+    right: 20px;
+    bottom: 90px;
+    padding: 10px;
+    height: 350px;
+    border-radius: 5px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.RoomEmoteList div {
+    display: inline-block;
+    border: 1px solid rgb(221, 221, 221);
+}
+
+.RoomEmoteList img {
+    width: 40px;
+    margin: 5px;
+}
+
+.RoomEmoteList div:hover {
+    border: 1px solid rgb(122, 122, 122);
+    cursor: pointer;
+}

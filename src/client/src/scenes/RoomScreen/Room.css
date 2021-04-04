@@ -1,3 +1,138 @@
-.video-react {
-    display: inline-block;
+.room__layout {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(#2D3132, #202323);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
 }
+
+.room__layoutMessage > p {
+    font-size: 30px;
+    display: block;
+}
+
+.room__layoutMessage > a {
+    display: block;
+    text-align: center;
+}
+
+.room__video {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.room__layout .video-react-big-play-button {
+    position: relative;
+}
+
+.room__layout .video-react {
+    width: 76% !important;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room__chat .chat__main {
+    width: 24%;
+    right: 0;
+    top: 0;
+    left: 76%;
+}
+
+
+.room__layout .chat__header {
+    display: grid;
+    padding: 15px 0;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.room__layout .chat__formCtn {
+  position: relative;
+}
+
+.room__chatIcon {
+    width: 16px;
+    display: inline-block;
+    filter: invert(100%);
+    vertical-align: middle;
+    margin: auto 0;
+}
+
+.room__chatIcon:hover {
+    cursor: pointer;
+}
+
+.room__chatIcon:nth-of-type(1) {
+    margin-left: 15px;
+}
+
+.room__chatIcon:nth-of-type(2) {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.room__chatEmoteIcon {
+    position: absolute;
+    right: 33px;
+    top: 33px;
+    filter: invert(50%);
+    width: 18px;
+}
+
+.room__chatEmoteIcon:hover {
+    cursor: pointer;
+    filter: invert(65%);
+}
+
+img {
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 0px) and (max-width: 1200px) {
+    
+    .room__layout .video-react {
+        width: 100% !important;
+        height: 45% !important;
+    }
+
+    .room__chat .chat__main {
+        width: 100%;
+        height: 55%;
+        left: 0;
+        bottom: 0;
+        top: 45%;
+    }
+
+    .room__chat .chat__messages {
+        height: 70%;
+    }
+
+    .room__chatEmoteIcon {
+        right: 7%;
+        top: 35px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1550px) {
+    .room__layout .video-react {
+        width: 70% !important;
+    }
+
+    .room__chat .chat__main {
+        width: 30%;
+        right: 0;
+        top: 0;
+        left: 70%;
+    }
+}
+
