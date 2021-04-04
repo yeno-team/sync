@@ -125,7 +125,7 @@ function JoinRoomForm(props){
                 </FormGroup>
                 <FormGroup>
                     <FormLabel style={{ display : "inline-block" , marginRight : "5px"}} htmlFor={"is_private"} form ="create-room-form">Private Room: </FormLabel>
-                    <FormSwitch onChange={handleInputChange} name="is_private" id="is_private"/>
+                    <FormSwitch onChange={handleInputChange} isToggled={formVals.is_private} name="is_private" id="is_private"/>
                 </FormGroup>
                 {
                     formVals.is_private &&

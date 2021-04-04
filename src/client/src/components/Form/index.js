@@ -71,9 +71,11 @@ export const FormControlErrorText = (props) => {
 }
 
 export const FormSwitch = (props) => {
+    const { isToggled , ...rest} = props
+
     return (
         <label className="switch">
-            <input type="checkbox" {...props}/>
+            <input type="checkbox" checked={isToggled} {...rest}/>
             <span className="slider"/>
         </label>
 
