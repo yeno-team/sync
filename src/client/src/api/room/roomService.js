@@ -16,3 +16,21 @@ export const getRoomData = async (roomCode) => {
         }
     });
 };
+
+export const createRoom = (roomData) => {
+    return new Promise(async (resolve , reject) => {
+        try {
+            const req = await Axios({
+                url : config.api.endpoint + "/api/room/create",
+                method : "POST",
+                data : {
+                    ...roomData
+                }
+            })
+
+            return resolve(req.data)
+        } catch (e) {
+            return reject(e)
+        }
+    })
+}

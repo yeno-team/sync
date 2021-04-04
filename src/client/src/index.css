@@ -1,17 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,700&display=swap');
 
 * {
+:root {
+  --green : #1BAA65;
+  --green-rgb : 27 , 170, 101;
+  --blue : #669BBC;
+  --blue-rgb : 102 , 155 , 188;
+  --dark-blue : #94B0DA;
+  --dark-blue-rgb : 148 , 176 , 218;
+  --black : #353535;
+  --black-rgb : 53 , 53, 53;
+  --white : #fff;
+  --white-rgb : 255 , 255 , 255;
+  --orange : #E4572B;
+  --orange-rgb : 228 , 87 , 43;
+  --red : #DB3A34;
+  --red-rgb : 219 , 58 , 52;
+  --yellow : #EAC435;
+  --yellow-rgb : 234 , 196 , 53;
+}
+
+*, *::before, *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+ul {
+  padding : 0;
+  list-style-type: none;
 }
 
 body {
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  min-height: 100vh;
+  background: -webkit-gradient(linear, left top, left bottom, from(#2D3132), to(#202323));
+  background: linear-gradient(to bottom, #2D3132, #202323);
+  /* overflow : visible; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Rounded */
+
+.rounded {
+  border-radius : 7px;
+}
+
+/* Exit Button */
+
+.exit {
+  position : relative;
+  width : 15px;
+  height : 15px;
+  cursor : pointer;
+}
+
+
+.exit::before , .exit::after {
+  transition: background-color 0.3s linear;
+  content : "";
+  position: absolute;
+  height : 100%;
+  width : 4px;
+  transform: rotate(45deg);
+  border-radius : 10px;
+}
+
+.exit::before {
+  transform: rotate(45deg);
+}
+
+.exit::after {
+  transform: rotate(-45deg);
 }
