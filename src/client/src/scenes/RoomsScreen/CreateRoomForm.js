@@ -30,7 +30,7 @@ function JoinRoomForm(props){
 
     const addInputInvalid = (ele) => {
         if(ele) {
-            ele.classList.add("form-control-invalid")
+            !ele.classList.contains("form-control-invalid") && ele.classList.add("form-control-invalid")
 
             const errorElement = ele.parentNode.querySelector(".form-error-message")
             errorElement && (errorElement.style.display = "block")

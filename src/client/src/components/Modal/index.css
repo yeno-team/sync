@@ -20,8 +20,7 @@
 
 
 .modal {
-    top : 0%;
-    margin-top : 20%;
+    top : 30%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
@@ -76,6 +75,20 @@
 .modal-footer {
     border-top : 1px lightgray solid;
 }
+
+@media only screen and (max-height : 600px) {
+    .modal {
+        top : 50%;
+    }
+}
+
+@media only screen and (min-height : 900px) {
+    .modal {
+        top : 25%;
+    }
+}
+
+/* Width */
 
 @media only screen and (min-width: 768px) {
     .modal {
