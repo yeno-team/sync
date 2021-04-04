@@ -4,6 +4,7 @@ import { RoomView } from './RoomView';
 import { getRoomData } from '../../api/room/roomService';
 import { useRoomAuth, usePrevious } from '../../hooks';
 import Modal from '../../components/Modal';
+import Alert from '../../components/Alert';
 import { FormGroup , FormControl , FormLabel } from '../../components/Form';
 import Button from '../../components/Button';
 import socketSubscriber from '../../api/socket/socketSubscriber';
@@ -91,6 +92,7 @@ export const RoomAuthModal = (props) => {
                         Password Protected
                     </Modal.Header>
                     <Modal.Body>
+                        { prevErrors && prevErrors.map((error , index) => <Alert variant="red" key={index}>{error}</Alert>)}
                         <FormGroup>
                             <FormLabel htmlFor="room_password">Room Password : </FormLabel>
                             <FormControl type="password" id="room_password" onChange={(e) => setRoomPassword(e.target.value)}/>
