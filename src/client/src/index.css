@@ -49,6 +49,12 @@ code {
     monospace;
 }
 
+/* Rounded */
+
+.rounded {
+  border-radius : 7px;
+}
+
 /* Exit Button */
 
 .exit {

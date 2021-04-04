@@ -134,7 +134,9 @@ function JoinRoomForm(props){
                         <FormControl onChange={handleInputChange} name="room_password" id="room_password" type="password"/>
                     </FormGroup>
                 }
-                <Button variant="green" onClick={submitForm}>Submit</Button>
+                <div style={{textAlign : "right"}}>
+                    <Button variant="green" className="rounded" onClick={submitForm}>Submit</Button>
+                </div>
             </Modal.Body>
         </Modal>
     )

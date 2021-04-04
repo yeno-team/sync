@@ -98,8 +98,8 @@ export const RoomAuthModal = (props) => {
                     </Modal.Body>
                     <Modal.Footer>
                         <div style={{textAlign : "right"}}>
-                            <Button variant="red" onClick={() => history.push('/rooms')}>Go Back</Button>
-                            <Button variant="green" onClick={submitPassword}>Submit</Button>
+                            <Button variant="red" className="rounded" onClick={() => history.push('/rooms')} style={{"margin" : "0px 5px"}}>Go Back</Button>
+                            <Button variant="green" className="rounded" onClick={submitPassword} style={{"margin" : "0px 5px"}}>Submit</Button>
                         </div>
                     </Modal.Footer>
                 </Modal>
