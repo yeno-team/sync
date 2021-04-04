@@ -6,7 +6,7 @@ import socketSubscriber from '../api/socket/socketSubscriber';
 const NEW_USER_JOINED_EVENT = "RoomUserJoined";
 const ERROR_EVENT = "RoomJoinError";
 
-export default (roomCode) => {
+const useRoomAuth = (roomCode) => {
     const [users, setUsers] = useState([]);
     const [errors, setErrors] = useState([]);
     
@@ -24,11 +24,14 @@ export default (roomCode) => {
             socketSubscriber.off(ERROR_EVENT);
         }
     }, [])
-
     
+
+
     const joinRoom = (username, password) => {
         socketSubscriber.emit("UserJoin" , { roomCode, username , password});
     };
 
     return { users, joinRoom, errors };
 }
+
+export default useRoomAuth;

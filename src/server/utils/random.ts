@@ -24,7 +24,15 @@ export class RandomUtility {
      * Generates a random string by length
      * @param length 
      */
-    public getRandomString(length: number) {
-        return crypto.randomBytes(length).toString('hex');
+    public getRandomString(length: number): Promise<string> {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(Math.ceil(length/2), (err, buffer) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(buffer.toString('hex').slice(0, length));
+            });
+        })
     }
 }

@@ -14,6 +14,11 @@ export default {
             username: validateVariable("PROXY_USERNAME"),
             password: validateVariable("PROXY_PASSWORD")
         }
+    },
+    redis: {
+        port: validateVariable("REDIS_PORT"),
+        host: validateVariable("REDIS_HOST"),
+        password: validateVariable("REDIS_PASSWORD")
     }
 }
 

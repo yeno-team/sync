@@ -1,9 +1,7 @@
+import redisModule from "../redis";
+import { RoomRedisModule } from "./redisModule";
 
-import { MemoryRoomModule } from "./memoryModule";
 
-/**
- * Creates a new Logger Module for use as dependency
- */
-const DbModule = new MemoryRoomModule();
+const RoomModule = new RoomRedisModule({ redis: redisModule });
 
-export default DbModule;
+export default RoomModule;

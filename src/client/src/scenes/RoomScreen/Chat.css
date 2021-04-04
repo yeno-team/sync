@@ -9,3 +9,9 @@
     overflow-x: hidden;
     padding: 10px 15px;
 }
+
+.room__image {
+    display: inline-block;
+    width: 35px;
+    margin: 0 5px;
+}

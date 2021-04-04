@@ -1,12 +1,13 @@
 import React , { useState, useEffect } from 'react'
 import { useHistory , useParams } from 'react-router-dom'
-import { Modal } from 'react-bootstrap'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { RoomView } from './RoomView';
 import { getRoomData } from '../../api/room/roomService';
 import { useRoomAuth, usePrevious } from '../../hooks';
-
+import Modal from '../../components/Modal';
+import Alert from '../../components/Alert';
+import { FormGroup , FormControl , FormLabel } from '../../components/Form';
+import Button from '../../components/Button';
+import socketSubscriber from '../../api/socket/socketSubscriber';
 
 export const RoomAuthModal = (props) => { 
     const { code } = useParams();
@@ -17,49 +18,61 @@ export const RoomAuthModal = (props) => {
     const prevUsers = usePrevious(users);
     const prevErrors = usePrevious(errors);
 
-
     const [ roomData, setRoomData ] = useState();
     const [ roomPassword , setRoomPassword ] = useState("");
     const [ roomExists, setRoomExists ] = useState();
     const [ authorized, setAuthorized ] = useState();
+    const [ username, setUsername ] = useState();
 
-    const newUsers = users.filter(user => prevUsers.indexOf(user) === -1);
-    const newErrors = errors.filter(error => prevErrors.indexOf(error) === -1);
+  
+    useEffect(() => {
+        const newUsers = users.filter((user, index) => prevUsers[index] !== user);
+        const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
+        if (newUsers.length > 0) {
+            console.log("A new user is here!");
     
-    if (newUsers.length > 0) {
-        console.log("A new user is here!");
-    }
-
-    if (newErrors.length > 0) {
-        if(newErrors.indexOf("Incorrect Room Password") != -1) {
-            setAuthorized(false);
+            // This case of authorization is true because the first ever user joined will always be the client's socket
+            if (!authorized) {
+                setAuthorized(true);
+            }
         }
-    }
+    
+        if (newErrors.length > 0) {
+            console.log(newErrors);
+            if(newErrors.indexOf("Incorrect Room Password") !== -1 && !authorized) {
+                setAuthorized(false);
+            }
+        }    
+    }, [users, errors]);
+
 
     useEffect(() => {
-        (async () => {
-            try {
-                const roomData = await getRoomData(code);
-
-                setRoomExists(true);
-                setRoomData(roomData);
-
-                if (roomData.is_private == false) {
-                    joinRoom("khai93", "");
+        setTimeout(() => {
+            (async () => {
+                try {
+                    const roomData = await getRoomData(code);
+    
+                    setRoomExists(true);
+                    setRoomData(roomData);
+                    
+                    if (roomData.is_private === false || roomData.users.length === 0) {               
+                        joinRoom(socketSubscriber.getSocket().id, "");
+                    }
+                } catch (e) {
+                    setRoomExists(false);
+                    console.error(e);
                 }
-            } catch (e) {
-                setRoomExists(false);
-                console.error(e);
-            }
-        })();
-    }, []);
+            })();
+        } , 500)
+    } , []);
 
         
     const submitPassword = () => {
-        joinRoom("khai983", roomPassword);
+        joinRoom(socketSubscriber.getSocket().id, roomPassword);
     }
 
-    if (roomExists != null && roomExists == false) {
+
+    if (roomExists !== null && roomExists === false) {
         return (
             <h1>Room doesn't exist</h1>
         )
@@ -74,24 +87,25 @@ export const RoomAuthModal = (props) => {
         {
             roomData && roomData.is_private && !authorized ?
             (
-                <Modal show={true} backdrop="static" keyboard={false}>
+                <Modal show={true}>
                     <Modal.Header>
-                        <Modal.Title>Password Required!</Modal.Title>
+                        Password Protected
                     </Modal.Header>
                     <Modal.Body>
-                        <Form>
-                            <Form.Group controlId="roomPassword">
-                                <Form.Control type="password" placeholder="Password" required value={roomPassword} onChange={(e) => setRoomPassword(e.target.value)}/>
-
-                            </Form.Group>           
-                        </Form>
+                        { prevErrors && prevErrors.map((error , index) => <Alert variant="red" key={index}>{error}</Alert>)}
+                        <FormGroup>
+                            <FormLabel htmlFor="room_password">Room Password : </FormLabel>
+                            <FormControl type="password" id="room_password" onChange={(e) => setRoomPassword(e.target.value)}/>
+                        </FormGroup>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="success" onClick={submitPassword}>Submit</Button>
-                        <Button variant="danger" onClick={() => history.push('/')}>Go back!</Button>
+                        <div style={{textAlign : "right"}}>
+                            <Button variant="red" className="rounded" onClick={() => history.push('/rooms')} style={{"margin" : "0px 5px"}}>Go Back</Button>
+                            <Button variant="green" className="rounded" onClick={submitPassword} style={{"margin" : "0px 5px"}}>Submit</Button>
+                        </div>
                     </Modal.Footer>
                 </Modal>
-            ) : <RoomView />
+            ) : <RoomView roomData={roomData} setRoomData={setRoomData}/>
         }
      </React.Fragment>
     )

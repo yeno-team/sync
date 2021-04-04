@@ -20,8 +20,8 @@ export default class RoomListRoute implements IExecuteable {
     * Sends list of rooms currently available
     */
    public execute() {
-      this.dependencies.router.get('/list', (req, res) => {
-         res.send(this.parentDependencies.roomService.getRoomList());
+      this.dependencies.router.get('/list', async (req, res) => {
+         res.send(await this.parentDependencies.roomService.getRoomList());
       });
    }
 }

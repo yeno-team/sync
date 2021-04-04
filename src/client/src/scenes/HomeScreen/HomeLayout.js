@@ -1,12 +1,15 @@
 import React from 'react';
+import HeroSection from './HeroSection';
+import Sections from './Sections';
+import Footer from './Footer';
+import "./index.css";
 
-import { RoomMenu } from './RoomMenu';
-
-export const HomeLayout = (props) => {
-    
+export function HomeLayout(props) {
     return (
-        <div>
-            <RoomMenu />
-        </div>
+        <React.Fragment>
+            <HeroSection/>
+            <Sections/>
+            <Footer/>
+        </React.Fragment>
     )
-}   
+}

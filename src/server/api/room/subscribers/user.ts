@@ -3,6 +3,7 @@ import { Server, Socket } from "socket.io";
 import { RoomUserRank } from "src/server/modules/room/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
+import cheerio from "cheerio";
 
 export type RoomUserSubscriberDependencies = {
     roomService: RoomService
@@ -18,6 +19,10 @@ export type RoomUserLeavePayload = {
     roomCode: string
 }
 
+export type RoomCreatedPayload = {
+    roomCode : string,
+}
+
 export class RoomUserSubscriber implements ISubscriber {
 
     private _socketServer: Server;
@@ -31,22 +36,32 @@ export class RoomUserSubscriber implements ISubscriber {
 
         socketServer.on('connection', (socket) => {
             socket.on("UserJoin", (data: RoomUserJoinPayload) => this.onUserJoin(socket, data));
+            socket.on("RoomCreated" , (data : RoomCreatedPayload) => this.onNewRoomCreated(socket , data))
             socket.on("UserLeave", (data: RoomUserLeavePayload) => this.onUserLeave(socket, data));
             socket.on("disconnecting", (reason) => this.onSocketDisconnecting(socket, reason));
         });
 
     }
 
-    private onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onNewRoomCreated(socket : Socket , data : RoomCreatedPayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode)
+
+        if(!roomData.is_private) {
+            this._socketServer.emit("NewRoomCreated" , roomData)
+        }
+    }
+
+    private async onUserJoin(socket: Socket, data: RoomUserJoinPayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             /**
             * If the room is private,
-            * check if the password is incorrect
+            * check if the password is incorrect,
+            * the owner bypasses this
             * @emits RoomJoinError event if incorrect
             */
-            if (roomData.is_private && roomData.room_password != data.password) {
+            if (roomData.is_private && roomData.room_password != data.password && roomData.users.length > 0) {
                 return socket.emit("RoomJoinError", { message: "Incorrect Room Password" });
             }
 
@@ -64,9 +79,9 @@ export class RoomUserSubscriber implements ISubscriber {
                 /**
                  * User is the creator of the room because no users were in the room before him
                  */
-                this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.owner, data.username);
+                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.owner, data.username);
             } else {
-                this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
+                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
             }
 
             /**
@@ -78,8 +93,8 @@ export class RoomUserSubscriber implements ISubscriber {
         }
     }
 
-    private onUserLeave(socket: Socket, data: RoomUserLeavePayload) {
-        const roomData = this.dependencies.roomService.getRoom(data.roomCode);
+    private async onUserLeave(socket: Socket, data: RoomUserLeavePayload) {
+        const roomData = await this.dependencies.roomService.getRoom(data.roomCode);
 
         if (roomData) {
             const userData = roomData.users.filter(user => user.socket_id === socket.id);

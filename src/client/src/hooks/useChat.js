@@ -7,7 +7,7 @@ const NEW_CHAT_MESSAGE_EVENT = "RoomChatNewMessage";
 const SEND_CHAT_MESSAGE_EVENT = "ChatSendMessage";
 const ERROR_EVENT = "RoomChatError";
 
-export default (roomCode) => {
+const useChat = (roomCode) => {
     const [messages, setMessages] = useState([]);
     const [errors, setErrors] = useState([]);
 
@@ -35,3 +35,5 @@ export default (roomCode) => {
 
     return { messages, sendMessage, errors };
 }
+
+export default useChat;

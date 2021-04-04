@@ -28,18 +28,21 @@ export class VideoPlayer extends Component {
 
     didOwnerChangeVideoDuration(oldDuration , newDuration) {
         if((newDuration - oldDuration) > 1 || (newDuration - oldDuration) < -1) {
-            this.props.manualDurationChangeHandler && this.props.manualDurationChangeHandler();
+            this.props.manualDurationChangeHandler &&
+              this.props.manualDurationChangeHandler(newDuration);
         }
     }
 
-    handleStateChange(state) {  
+    handleStateChange(state, prevState) {  
         if(this.state.player && this.state.player.currentTime) {
             this.didOwnerChangeVideoDuration(this.state.player.currentTime , state.currentTime)
         }
 
         this.setState({
             player: state
-        })
+        });
+        
+        this.props.handleStateChange && this.props.handleStateChange(state, prevState, this.player);
     }
     
     play() {
@@ -58,7 +61,7 @@ export class VideoPlayer extends Component {
         return () => {
           const { player } = this.player.getState();
           this.player.seek(player.currentTime + seconds);
-        };
+        }
       }
     
     seek(seconds) {
@@ -88,7 +91,9 @@ export class VideoPlayer extends Component {
                 this.player = player;
             }} {...this.props} 
             >
-            <ControlBar autoHide={false} />
+
+              <ControlBar  autoHide={true} disableCompletely={this.props.hideControls}/>
+
         </Player>
         )
     }

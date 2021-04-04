@@ -24,18 +24,21 @@ export default class RoomRoute implements IExecuteable {
             res.sendStatus(200);
         })
 
-        this.dependencies.router.get('/:roomCode', (req, res) => {
+        this.dependencies.router.get('/:roomCode', async(req, res) => {
             if (!req.params.roomCode) {
                 return res.sendStatus(400);
             }
 
-            const roomFound = this.parentDependencies.roomService.getRoom(req.params.roomCode);
+            const roomFound = await this.parentDependencies.roomService.getRoom(req.params.roomCode);
             if (roomFound) {
                 res.json({
                     code: roomFound.code,
                     is_private: roomFound.is_private,
                     max_users: roomFound.max_users,
-                    users: roomFound.users
+                    users: roomFound.users,
+                    name : roomFound.name,
+                    description : roomFound.description,
+                    video_src: roomFound.video_src
                 })
             }
             else{

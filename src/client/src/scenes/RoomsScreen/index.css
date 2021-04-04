@@ -1,0 +1,137 @@
+.roomContainer {
+    max-width: 700px;
+    margin: 50px auto;
+    text-align: center;
+}
+  
+#or {
+    margin: 7px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+  
+#search-input {
+    width: 70%;
+    background-color: #ECE8E8;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    font-weight: 500;
+    font-size : 16px;
+}
+
+#create-room-button {
+    cursor: pointer;
+    background-color: #1BAA65;
+    font-family: "Open Sans", sans-serif;
+    color: white;
+    border: none;
+    -webkit-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    padding: 10px 30px;
+    font-size: 16px;
+    text-transform: capitalize;
+    position: relative;
+    outline : none;
+}
+
+#create-room-button:hover{
+    background-color : rgba(#1BAA65 , 0.6);
+}
+
+#create-room-button::after {
+    position: absolute;
+    width: 0%;
+    content: "";
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px solid white;
+    -webkit-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+  
+#create-room-button:hover::after {
+    width: 100%;
+}
+
+.rooms {
+    margin: auto;
+    width : 85%;
+}
+  
+.room {
+    margin : auto;
+    width : 80%;
+    background-color: #1B1919;
+    border-radius: 5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 15px;
+    margin-top: 10px;
+    min-height: 100px;
+    cursor: pointer;
+    -webkit-transition: 0.3s linear;
+    transition: 0.3s linear;
+}
+
+.room:hover {
+    background-color: #373535;   
+}
+  
+.room .room-content {
+    flex : 1;
+    text-align: left;
+    padding-left: 5px;
+}
+  
+.room .room-name, .room .room-description {
+    margin: 0;
+    word-break: break-all;
+    color: white;
+}
+  
+.room .room-name {
+    font-size: 18px;
+}
+  
+.room .room-description {
+    font-size: 14px;
+    line-height: 20px;
+}
+  
+.room .room-user-count {
+    color: white;
+    font-size: 16px;
+}
+  
+.room .room-user-count .current-users {
+    color: gray;
+}
+
+/* Form */
+
+#description {
+    max-width : 100%;
+    resize : none;
+    height : 60px;
+}
+
+@media only screen and (max-width : 768px) {
+    #search-input {
+        padding : 13px;
+        font-size : 14px;
+    }
+}
+
+@media only screen and (min-width : 1200px) {
+    main {
+        max-width : 70%;
+    }
+
+    #create-room-button {
+        padding : 10px 45px;
+    }
+}
