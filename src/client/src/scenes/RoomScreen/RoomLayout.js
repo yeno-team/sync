@@ -9,7 +9,7 @@ import { getRoomData } from '../../api/room/roomService'
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import { withRouter } from "react-router-dom";
 
-import './room.css';
+import './Room.css';
 import Chat from '../../components/Chat/';
 import backArrowIcon from "../../assets/icons/back-arrow.svg";
 import settingIcon from "../../assets/icons/settings.svg";

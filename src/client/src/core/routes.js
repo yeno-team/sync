@@ -5,7 +5,6 @@ import {
     Route
 } from 'react-router-dom';
 
-import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
 import InputScreen from '../components/InputScreen';
 import { RoomsLayout } from '../scenes/RoomsScreen/RoomsLayout'
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
