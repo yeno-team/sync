@@ -10,14 +10,15 @@
 
 .inputScreen__main > div {
     text-align: center;
-
     padding: 50px 100px;
+    font-size: 21px;
 }
 
 .inputScreen__main > div input {
     border: none;
     padding: 10px 18px;
     width: 75%;
+    font-size: 16px;
     margin: 20px 0;
 }
 
@@ -26,6 +27,7 @@
     padding: 10px 18px;
     background-color: #1BAA65;
     color: #ECE8E8;
+    font-size: 16px;
     width: 25%;
 }
 
