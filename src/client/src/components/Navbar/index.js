@@ -4,7 +4,7 @@ import './index.css'
 
 export function Navbar () {
     return (
-        <header>
+        <header className="navbar__ctn">
             <div className="logo"><img src="#" alt="Sync Logo"/></div>
             <nav className="navigation">
                 <ul>
