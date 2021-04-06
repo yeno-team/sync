@@ -14,7 +14,8 @@
 .hero-container {
     color: white;
     padding: 20px 250px;
-    height: 90vh;
+    margin-top: 0;
+    height: 80vh;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
@@ -196,9 +197,8 @@ footer {
 footer .footer-cols {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    max-width: 40%;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 20%;
     margin: auto;
 }
   
@@ -285,7 +285,8 @@ footer p {
 
 
     footer .footer-cols {
-        grid-template-columns: repeat(2, 1fr);
+        -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
     }
 }
 

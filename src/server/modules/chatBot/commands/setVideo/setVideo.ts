@@ -23,6 +23,13 @@ export class SetVideoCommand implements IChatBotCommand {
         try {
             const { args } = this.dependencies.chatBotUtility.parseRoomMessageData(messageData);
 
+            /**
+             * Video Url Not Provided
+             */
+            if (args[0] == null || !args[0]) {
+                return this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Please provide a video url.");
+            }
+
             const roomData = await this.dependencies.roomService.getRoom(messageData.roomCode);
 
             /**  
@@ -62,7 +69,7 @@ export class SetVideoCommand implements IChatBotCommand {
             socket.to(roomData.code).emit("RoomVideoUrlChanged", { url: videoSources[videoSources.length-1], sources: videoSources });
             this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Sucessfully changed video.");
         } catch (e) {
-            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, e);
+            this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, e.message);
         }
     }
 }

@@ -20,7 +20,7 @@
   --yellow-rgb : 234 , 196 , 53;
 }
 
-*, *::before, *::after {
+* {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
