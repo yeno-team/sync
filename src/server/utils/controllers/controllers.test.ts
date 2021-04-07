@@ -1,4 +1,4 @@
-jest.mock('./routes');
+jest.mock('../routes/routes');
 import { Logger } from "../../modules/logger/logger";
 import { ControllerUtility } from "./controllers";
 import { RouteUtility } from '../routes/routes';

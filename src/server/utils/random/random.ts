@@ -43,6 +43,10 @@ export class RandomUtility {
      * @returns a random number
      */
     public getRandomInteger(min: number, max: number): number {
+        if (min >= max) {
+            throw new Error("RandomUtility: Minimum number cannot be greater than or equal to max");
+        }
+
         return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
 }
