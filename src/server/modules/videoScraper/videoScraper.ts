@@ -1,25 +1,25 @@
 import { IVideoScraper, IVideoSource } from "./types";
-import sources from './sources';
+
+export type VideoScraperModuleDependencies = {
+    sources: {[s: string]: IVideoSource}
+}
 
 export class VideoScraperModule implements IVideoScraper {
+    constructor(private dependencies: VideoScraperModuleDependencies) {}
+
     getVideoSource(url: string): Promise<string[]> {
         return new Promise(async (resolve, reject) => {
-            try {
-                for (const source in sources) {
-                    const sourceModule: IVideoSource = sources[source];
-                    
-                    const videoUrl = new URL(url);
-                    
-                    if (videoUrl.hostname === sourceModule.hostname) {
-                        return resolve(await sourceModule.execute(url));
-                    }
+            for (const source in this.dependencies.sources) {
+                const sourceModule: IVideoSource = this.dependencies.sources[source];
+                
+                const videoUrl = new URL(url);
+                
+                if (videoUrl.hostname === sourceModule.hostname) {
+                    return resolve(await sourceModule.execute(url));
                 }
-
-                return reject("Unsupported website was requested!");
-            } catch(e) {
-                return reject(e);
             }
-        })
-        
+
+            return reject("Unsupported website was requested!");
+        });
     }
 }
