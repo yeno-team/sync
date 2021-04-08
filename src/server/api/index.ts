@@ -24,7 +24,7 @@ import chatBot from '../modules/chatBot';
 
 
 // Dependencies 
-const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join, logger: LoggerModule});
+const RouteUtilityDep = new RouteUtility({ readdir, pathJoin: join});
 const ControllerUtilityDep = new ControllerUtility({ pathResolve: resolve, routeUtility: RouteUtilityDep });
 const RandomUtilityDep = new RandomUtility({});
 
