@@ -1,6 +1,6 @@
 import { RandomUtility } from "./random";
 const randomUtil = new RandomUtility({});
-import crypto from 'crypto';
+import crypto from "crypto";
 
 function defuse(promise) {
   promise.catch(() => {});
@@ -25,12 +25,30 @@ describe("RandomUtility Class", () => {
       }
     );
 
-    it("should reject if there is an size is out of range", async () => {
+    it("should reject if given a size that is out of range", async () => {
       expect.assertions(1);
 
-      return randomUtil.getRandomString(-2).catch(e => 
-        expect(e).toMatchSnapshot()
-      )
+      return randomUtil
+        .getRandomString(-2)
+        .catch((e) =>
+          expect(e).toMatchInlineSnapshot(
+            `[RangeError: The value of "size" is out of range. It must be >= 0 && <= 4294967295. Received -1]`
+          )
+        );
+    });
+
+    it("should reject if any error occurs", async () => {
+      expect.assertions(1);
+
+      jest.spyOn(crypto, "randomBytes").mockImplementationOnce(
+        jest.fn((number, cb) => {
+          cb(new Error("Mock Error"), Buffer.alloc(1));
+        })
+      );
+
+      return randomUtil.getRandomString(-2).catch((e) => {
+        expect(e).toMatchInlineSnapshot(`[Error: Mock Error]`);
+      });
     });
   });
 
