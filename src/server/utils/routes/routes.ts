@@ -7,8 +7,7 @@ import { Logger } from '../../modules/logger/logger';
  */
 export type RouteUtilityDependencies = {
     readdir: Function,
-    pathJoin: Function,
-    logger: Logger
+    pathJoin: Function
 }
 
 /**
@@ -40,25 +39,21 @@ export class RouteUtility {
      * @returns A Promise resolved into an array of routes implementing IExecuteable 
      */
     public async loadRoutes(params: LoadRoutesParams): Promise<IExecuteable[]> {
-        try {
-            const files = await this.dependencies.readdir(params.routesPath);
+        const files = await this.dependencies.readdir(params.routesPath);
 
-            return Promise.resolve(files.map(async route => {
-                const routeModule = await import(this.dependencies.pathJoin(params.routesPath, `${route}`));
+        return Promise.resolve(files.map(async route => {
+            const routeModule = await import(this.dependencies.pathJoin(params.routesPath, `${route}`));
                 
-                /**
-                 * Assumes that all route modules export a default class whoose dependencies are type RouteDependencies.
-                 */
-                const routeObj = new routeModule.default({ 
-                    router: params.router                    
-                }, params.parentDependencies);
+            /**
+            * Assumes that all route modules export a default class whoose dependencies are type RouteDependencies.
+            */
+            const routeObj = new routeModule.default({ 
+                router: params.router                    
+            }, params.parentDependencies);
 
-                routeObj.execute();
+            routeObj.execute();
 
-                return routeObj; 
-            }));
-        } catch (e) {
-            this.dependencies.logger.error(e);
-        }
+            return routeObj; 
+        }));
     }
 }

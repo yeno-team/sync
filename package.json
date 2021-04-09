@@ -10,8 +10,8 @@
     "start": "cross-env NODE_PATH=. npx ts-node src/index.ts",
     "build": "node scripts/build.js",
     "deploy": "set NODE_ENV=production && node build/index.js",
-    "test": "jest",
-    "coverage": "jest --coverage"
+    "test": "cross-env NODE_PATH=. jest",
+    "coverage": "cross-env NODE_PATH=. jest --coverage"
   },
   "dependencies": {
     "@types/express": "^4.17.8",
@@ -27,6 +27,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "https-proxy-agent": "^5.0.0",
+    "prettier": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "redis": "^3.0.2",
     "redux": "^4.0.5",

@@ -16,23 +16,19 @@ export class YoutubeSource implements IVideoSource {
             const response = await this.getYoutubeLinkInfo(url);
 
             if (response && response.length >= 3) {
-                try {
-                    if (response[2].playerResponse["streamingData"] == null) {
-                        return reject("YoutubeSource: No support for encrypted videos");
-                    }
-
-                    const formats = response[2].playerResponse.streamingData.formats;
-
-                    const urls = formats.map((format) => format.url);
-        
-                    if (urls[0] == null) {
-                        return reject("YoutubeSource: No support for encrypted videos");
-                    }
-        
-                    return resolve(urls);
-                } catch (e) {
-                    return reject("YoutubeSource: Unexpected error occured, " + e.toString());
+                if (response[2].playerResponse["streamingData"] == null) {
+                    return reject("YoutubeSource: No support for encrypted videos");
                 }
+
+                const formats = response[2].playerResponse.streamingData.formats;
+
+                const urls = formats.map((format) => format.url);
+    
+                if (urls[0] == null) {
+                    return reject("YoutubeSource: No support for encrypted videos");
+                }
+    
+                return resolve(urls);
             }
         });
     }
@@ -57,6 +53,4 @@ export class YoutubeSource implements IVideoSource {
         
         return response;
     }
-
-
 }

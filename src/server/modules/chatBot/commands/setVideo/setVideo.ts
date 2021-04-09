@@ -23,6 +23,13 @@ export class SetVideoCommand implements IChatBotCommand {
         try {
             const { args } = this.dependencies.chatBotUtility.parseRoomMessageData(messageData);
 
+            /**
+             * Video Url Not Provided
+             */
+            if (args[0] == null || !args[0]) {
+                return this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, "Please provide a video url.");
+            }
+
             const roomData = await this.dependencies.roomService.getRoom(messageData.roomCode);
 
             /**  
