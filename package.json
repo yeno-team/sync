@@ -11,7 +11,8 @@
     "build": "node scripts/build.js",
     "deploy": "set NODE_ENV=production && node build/index.js",
     "test": "cross-env NODE_PATH=. jest",
-    "coverage": "cross-env NODE_PATH=. jest --coverage"
+    "coverage": "cross-env NODE_PATH=. jest --coverage",
+    "coveralls": "cross-env NODE_PATH=. jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "@types/express": "^4.17.8",
@@ -23,6 +24,7 @@
     "cheerio": "^1.0.0-rc.5",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
+    "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

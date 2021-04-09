@@ -1,3 +1,16 @@
 language: node_js
 node_js:
   - node
+branches:
+  - main
+  - develop
+cache:
+  directories:
+  - node_modules
+before_install:
+- yarn update
+install:
+- yarn install
+script:
+- yarn coveralls
+
