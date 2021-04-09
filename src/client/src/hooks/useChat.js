@@ -13,7 +13,7 @@ const useChat = (roomCode) => {
 
     useEffect(() => {
         socketSubscriber.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
-            setMessages((messages) => [...messages, data.sender.username + ": " + data.message])
+            setMessages((messages) => [...messages, {text: data.message, sender: data.sender}])
         });
 
         socketSubscriber.on(ERROR_EVENT, (data) => {

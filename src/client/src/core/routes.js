@@ -5,6 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 
+import InputScreen from '../components/InputScreen';
 import { RoomsLayout } from '../scenes/RoomsScreen/RoomsLayout'
 import { RoomLayout } from '../scenes/RoomScreen/RoomLayout';
 import { HomeLayout } from '../scenes/HomeScreen/HomeLayout';
@@ -18,7 +19,7 @@ export function Routes() {
                 </Route>
 
                 <Route path="/room/:code">
-                    <RoomLayout/>
+                    <InputScreen inputName="username" nextComponent={RoomLayout} />
                 </Route>
 
                 <Route path="/rooms" exact>

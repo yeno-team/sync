@@ -1,14 +1,13 @@
 import { IRoomModule, IRoom, RoomUserRank, RoomUser } from "src/server/modules/room/types";
 import { Logger } from "src/server/modules/logger/logger";
-import { RandomUtility } from "src/server/utils/random";
-import { VideoSourceUtility } from "src/server/utils/videoSource";
+import { RandomUtility } from "src/server/utils/random/random";
 import { RoomSettingChangedPayload } from "./subscribers/settings";
+import { IVideoScraper } from "src/server/modules/videoScraper/types";
 
 export type RoomServiceDependencies = {
     roomModule: IRoomModule,
     logger: Logger,
-    randomUtility: RandomUtility,
-    videoSourceUtility: VideoSourceUtility
+    randomUtility: RandomUtility
 }
 
 export enum RoomSetting {
