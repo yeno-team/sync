@@ -1,10 +1,6 @@
 language: node_js
 node_js:
   - node
-addons:
-  code_climate:
-      repo_token:
-        secure: RPwTDn1h5j62zZy5JTzsMUAtgiWqPLKQaEEl5pcIrcNBQYIUpqfIiryD2Ci49sFTLX6RHPIRXtOaTtXKluRtw7sEDtgg6r5ZG4S4AvbHUNk6UYjtBnroSFJPf4C9yJ3FVlQURXHT92u3InloHRlCj7ZEBGVIwS27oacdk2zCIIlOXPgFCB1OTgHILHQz1dXsT33EeIP2HLxOQ73FPcG4c9Sy3EqGz6osD2yN1I50xOkSGNI+tNLkoYiy9wsRolqm+MHy/mXq1zJIfzUetlcj0ISLIEqUK+FeoavIaJx+TbErlFT/wI0XgHiilynaW8/4q7Fck6JrBZhcRdL+4GBhvcaN2VnacuHYYDHk0zM7OKaW26cfelxy50q5upS0qqz3H5xDakA7Qyt0UKkTDy6k1gZlEd6OWkBehlGPwOTCPwPmHdQesBIQRbTBE9wsqh1llwTGnggNEtAgUmEWBPmnbyI898v6/gLXvwBpebhTkCnZ5UPTltz47uzL9RD+Hvu29rtc23rH/TEOIfWxwlyFfoJzYCldl1wYIKiRBcMTLEKikCkBOJvTb1mNkTqq33e55nVgidcuDRO8CwexZ9tz+oP3LJMlOGcS2Q89khza6uuX3lfoSivpzqjB+nY2A3aNewRfDlZluV4HAfVb2DCL+gAVIDrYJMVYlXHcp/qx36o=
 branches:
   - main
   - develop
@@ -14,5 +10,5 @@ cache:
 install:
 - yarn install
 script:
-- yarn codeclimate
+- yarn coveralls
 

@@ -39,5 +39,15 @@ describe("Video Scraper Module", () => {
           )
         );
     });
+
+    it("should reject if the provided url is not a valid url", () => {
+      expect.assertions(1);
+
+      return scraper
+        .getVideoSource("invalidURL")
+        .catch((e) =>
+          expect(e).toMatchInlineSnapshot(`"Invalid URL was requested!"`)
+        );
+    });
   });
 });
