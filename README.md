@@ -17,6 +17,7 @@
 Sync is a web application where you can watch videos from other websites with others in a chatroom! Our chatroom comes loaded with emotes from [BTTV](https://betterttv.com/) while also providing entertainment with a chatbot! 
 #### Main Dependencies
 * Express.js
+* Socket.io
 * React.js
 * Typescript
 
