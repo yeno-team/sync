@@ -8,7 +8,7 @@ describe('ControllerUtility Class', () => {
     describe('#setUpController', () => {
         it('should call loadRoutes', () => {
             const Func = jest.fn();
-            const routeUtil = new RouteUtility({readdir: Func, pathJoin: Func, logger: new Logger()});
+            const routeUtil = new RouteUtility({readdir: Func, pathJoin: Func});
 
             const controllerUtility = new ControllerUtility({routeUtility: routeUtil, pathResolve: Func});
 
