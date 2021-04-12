@@ -1,7 +1,6 @@
 
 
-[![Build Status](https://travis-ci.com/yeno-team/sync.svg?branch=main)](https://travis-ci.com/yeno-team/sync) [![Coverage Status](https://coveralls.io/repos/github/yeno-team/sync/badge.svg?branch=main)](https://coveralls.io/github/yeno-team/sync?branch=main)[![Known Vulnerabilities](https://snyk.io/test/github/yeno-team/sync/badge.svg)](https://snyk.io/test/github)
-[ ![Maintainability](https://api.codeclimate.com/v1/badges/4b1e10c1f337cca6a616/maintainability)](https://codeclimate.com/github/yeno-team/sync/maintainability)  [![Code Quality ](https://www.code-inspector.com/project/21072/score/svg)](https://www.code-inspector.com/project/) [![Code Grade ](https://www.code-inspector.com/project/21072/status/svg)](https://www.code-inspector.com/)
+[![Build Status](https://travis-ci.com/yeno-team/sync.svg?branch=main)](https://travis-ci.com/yeno-team/sync) [![Coverage Status](https://coveralls.io/repos/github/yeno-team/sync/badge.svg?branch=main)](https://coveralls.io/github/yeno-team/sync?branch=main) [![Known Vulnerabilities](https://snyk.io/test/github/yeno-team/sync/badge.svg)](https://snyk.io/test/github) [![Maintainability](https://api.codeclimate.com/v1/badges/4b1e10c1f337cca6a616/maintainability)](https://codeclimate.com/github/yeno-team/sync/maintainability)  
 
 ~~[View Demo](localhost)~~  *deploying by next week*
 
@@ -17,9 +16,9 @@
 Sync is a web application where you can watch videos from other websites with others in a chatroom! Our chatroom comes loaded with emotes from [BTTV](https://betterttv.com/) while also providing entertainment with a chatbot! 
 #### Main Dependencies
 * Express.js
-* Socket.io
 * React.js
 * Typescript
+* Socket.io
 
 ## Installation
 ```bash
