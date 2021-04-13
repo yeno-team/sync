@@ -67,7 +67,7 @@ const RoomLayoutComponent = (props) => {
         <VideoArea roomData={roomData} />
         <Chat formElements={chatFormElements} headerElements={chatHeaderElements} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
-        <RoomEmoteList active={emoteListActive} emotes={emotes}/>
+        <RoomEmoteList active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> :
     <RoomAuth username={username} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} roomData={roomData}  />
 

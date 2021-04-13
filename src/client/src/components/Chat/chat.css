@@ -38,9 +38,9 @@
 }
 
 .chat__form input {
-    padding: 15px;
+    padding: 20px;
     width: 90%;
-    margin: 16px;
+    margin: 5px;
     border-radius: 12px;
     font-size: 15px;
     border: none;

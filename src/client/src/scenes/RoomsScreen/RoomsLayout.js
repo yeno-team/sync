@@ -10,7 +10,6 @@ export const RoomsLayout = (props) => {
         <>
             <Navbar />
             <RoomMenu />
-            <Foort />
         </>
     )
 }   
