@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from '../../components/Button';
-import YoutubeGraphicSVG from '../../assets/images/youtubeGraphics.svg';
-import ChatGraphicsSVG from '../../assets/images/chatGraphics.svg';
+import YoutubeGraphicSVG from '../../assets/images/youtubeGraphics.min.svg';
+import ChatGraphicsSVG from '../../assets/images/chatGraphics.min.svg';
 import VideoClip from '../../assets/videos/xqC1.mp4';
 
 export default function FeatureSections(props) {

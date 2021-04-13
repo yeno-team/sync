@@ -22,7 +22,7 @@ const options = {
 
 ReactDOM.render(
   <React.StrictMode>
-      <AlertProvider template={AlertTemplate} {...options}>
+      <AlertProvider template={AlertTemplate} {...options}>  
         <Routes />
       </AlertProvider>
   </React.StrictMode>,

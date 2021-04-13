@@ -36,7 +36,7 @@ export const Chat = (props) => {
 
 
     const handleChange = (e) => {
-        setMessageText(e.target.value)
+        setMessageText(e.target.value);
     }
 
     const isWordAEmote = (word) => {
@@ -51,6 +51,12 @@ export const Chat = (props) => {
         if (message.text == null) {
             return console.error("Text was null!");
         }
+
+        if (typeof message.text == 'object') {
+            message.text = "Unexpected error occured, make sure the url is a page on the video!"
+        }
+
+    
 
         const words = message.text
             .replace(/\n/g, " <br> ")
@@ -112,7 +118,7 @@ export const Chat = (props) => {
                 if (lastLinkIndex) {
                     const link = words.slice(lastLinkIndex+1, index);
 
-                    processedMessage.push(<a href={link}>{ link.join(" ") + " "}</a>);
+                    processedMessage.push(<a target="_blank" href={link}>{ link.join(" ") + " "}</a>);
                     lastLinkIndex = null;
                     lastBoldIndex = null;
                 } else {
@@ -179,8 +185,6 @@ export const Chat = (props) => {
                 </div>
                 
             </div>
-                
-            
         </div>
     )
 }

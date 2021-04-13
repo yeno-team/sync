@@ -45,7 +45,6 @@
     left: 76%;
 }
 
-
 .room__layout .chat__header {
     display: grid;
     padding: 15px 0;
@@ -79,8 +78,8 @@
 
 .room__chatEmoteIcon {
     position: absolute;
-    right: 33px;
-    top: 33px;
+    right: 38px;
+    top: 28px;
     filter: invert(50%);
     width: 18px;
 }
@@ -118,8 +117,8 @@ img {
     }
 
     .room__chatEmoteIcon {
-        right: 7%;
-        top: 35px;
+        right: 8%;
+        top: 27px;
     }
 }
 

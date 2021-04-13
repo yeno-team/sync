@@ -17,8 +17,7 @@ export default function Modal({
         return null;
     }
 
-    // Hide the scrollbar on the body.
-    document.body.style.overflow = "hidden"
+    
 
     const modalClassNames = classNames([
         'modal',

@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Rooms = (props) => {
-    const history = useHistory()
+    const history = useHistory();
 
     return (
         props.rooms && props.rooms.map((room) => (

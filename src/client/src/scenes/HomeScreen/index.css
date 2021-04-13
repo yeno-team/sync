@@ -288,6 +288,19 @@ footer p {
         -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
     }
+
+    .video-clip {
+        position: absolute;
+        top: 18%;
+        left: 5.5%;
+        max-width: 66.5%;
+        max-height: 50%;
+    }
+      
+    .video-clip video {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 @media only screen and (min-width: 800px)  {

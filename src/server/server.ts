@@ -32,10 +32,6 @@ export class Server {
      * Starts the express server.
     */
     public start() {
-        if (this._env == 'production') {
-            this.serveClientProductionBuild();
-        }
-
         const apiRouter = Router();
         
         this._app.use(cors());
@@ -45,6 +41,11 @@ export class Server {
         }));
 
         this._app.use("/api", apiRouter)
+
+        if (this._env == 'production') {
+            this.serveClientProductionBuild();
+            console.log("Served client build")
+        }
 
         this._controllers.forEach((controller) => {
             controller.handler(apiRouter);
@@ -57,7 +58,7 @@ export class Server {
         this._app.use(express.static(path.resolve("./") + "/build/client"));
             
         this._app.get("*", (req: Request, res: Response) => {
-            res.sendFile(path.resolve("./") + "/build/client/index.html");
+            res.sendFile("index.html", {root: path.resolve("./") + "/build/client/"});
          });
     }
 }

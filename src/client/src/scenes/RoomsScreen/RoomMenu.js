@@ -4,6 +4,7 @@ import Axios from 'axios';
 import CreateRoomForm from './CreateRoomForm';
 import Alert from '../../components/Alert';
 import Rooms from './Rooms';
+import { getRoomList } from '../../api/room/roomService';
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import './index.css'
 import "video-react/dist/video-react.css";
@@ -28,6 +29,7 @@ export const RoomMenu = (props) => {
         const state = location.state
 
         if(state && state.hasOwnProperty("showModal") && state.showModal) {
+            window.scrollTo(0, 0);
             setModalShow(true)
         }
     } , [])
@@ -36,13 +38,10 @@ export const RoomMenu = (props) => {
         (async () => {
             try {
                 // Fetch current rooms
-                const req = await Axios({
-                    url : "http://localhost:8000/api/room/list",
-                    method : "GET"
-                })
+                const roomData = await getRoomList();
         
-                setRooms(req.data)
-                setFilteredRooms(req.data)
+                setRooms(roomData)
+                setFilteredRooms(roomData)
             } catch {
                 setIsError(true)
             }

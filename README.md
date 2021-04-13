@@ -1,6 +1,7 @@
 
 
-[![Build Status](https://travis-ci.com/yeno-team/sync.svg?branch=main)](https://travis-ci.com/yeno-team/sync) [![Coverage Status](https://coveralls.io/repos/github/yeno-team/sync/badge.svg?branch=main)](https://coveralls.io/github/yeno-team/sync?branch=main) [![Known Vulnerabilities](https://snyk.io/test/github/yeno-team/sync/badge.svg)](https://snyk.io/test/github) [![Maintainability](https://api.codeclimate.com/v1/badges/4b1e10c1f337cca6a616/maintainability)](https://codeclimate.com/github/yeno-team/sync/maintainability)  
+
+# Sync [![Build Status](https://travis-ci.com/yeno-team/sync.svg?branch=main)](https://travis-ci.com/yeno-team/sync) [![Coverage Status](https://coveralls.io/repos/github/yeno-team/sync/badge.svg?branch=main)](https://coveralls.io/github/yeno-team/sync?branch=main) [![Known Vulnerabilities](https://snyk.io/test/github/yeno-team/sync/badge.svg)](https://snyk.io/test/github) [![Maintainability](https://api.codeclimate.com/v1/badges/4b1e10c1f337cca6a616/maintainability)](https://codeclimate.com/github/yeno-team/sync/maintainability)  
 
 ~~[View Demo](localhost)~~  *deploying by next week*
 
@@ -8,6 +9,8 @@
 - [What is Sync?](#what-is-sync)  
 	* [Main Dependencies](#main-dependencies)
 - [Installation](#installation)  
+- [Configuration](#configuration)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -32,6 +35,35 @@ yarn install
 cd src/client
 yarn install
 ```
+
+## Configuration
+### Server Environment Variables
+
+> File should be at root named .env.[environment here] ex. **.env.development**, **.env.production**
+
+> A Proxy is **Required** because it is used to scrape from sites.
+
+|Name| Description |
+|--|--|
+| PORT | Main Server's Port *(default: 8080)*  |
+| SOCKET_PORT | Socket.io Port *(default: 51282)* |
+| PROXY_HOST | HTTP proxy host *(required)*  |
+| PROXY_PORT | HTTP proxy port *(required)* |
+| PROXY_USERNAME | HTTP proxy auth username *(optional)*  |
+| PROXY_PASSWORD | HTTP proxy auth password *(optional)* |
+| REDIS_HOST | Redis Instance hostname *(required)* |
+| REDIS_PORT | Redis Instance Port *(required)* |
+| REDIS_PASSWORD | Redis Instance Password *(required)* |
+
+## Deployment
+>  A **.env.production** file is required 
+```bash
+# IN ROOT DIRECTORY
+yarn build
+yarn deploy
+```
+
+
 
 
 
