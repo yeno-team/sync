@@ -55,6 +55,9 @@ yarn install
 | REDIS_PORT | Redis Instance Port *(required)* |
 | REDIS_PASSWORD | Redis Instance Password *(required)* |
 
+### Client
+There is a config folder with the configurations.
+
 ## Deployment
 >  A **.env.production** file is required 
 ```bash
