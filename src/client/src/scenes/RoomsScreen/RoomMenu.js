@@ -29,6 +29,7 @@ export const RoomMenu = (props) => {
         const state = location.state
 
         if(state && state.hasOwnProperty("showModal") && state.showModal) {
+            window.scrollTo(0, 0);
             setModalShow(true)
         }
     } , [])
