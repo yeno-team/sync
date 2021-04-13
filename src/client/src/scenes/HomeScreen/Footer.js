@@ -9,7 +9,7 @@ export default function Footer(props) {
                 <div class="footer-col">
                     <h1 class="col-title">Site Links</h1>
                     <ul>
-                        <li><Link to="#">Supported sites list</Link></li>
+                        <li><a target="_blank" href="https://github.com/yeno-team/sync/blob/main/docs/supported-sites.md">Supported sites list</a></li>
                         <li><Link to="/rooms">Rooms page</Link></li>
                     </ul>
                 </div>

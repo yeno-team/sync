@@ -8,7 +8,7 @@
     -ms-flex-align: center;
     align-items: center;
     width: 100%;
-    padding: 20px 250px;
+    padding: 20px 260px;
     background-color : transparent;
 }
   
@@ -36,6 +36,10 @@
   font-weight : 600;
   text-transform: uppercase;
 }
+
+.navigation ul li button {
+  padding: 4px 20px;
+}
   
 .navigation-link:hover {
   text-decoration: underline;
@@ -48,6 +52,7 @@
     -ms-flex-direction: column;
     flex-direction: column;
     width : 100%;
+    padding: 20px 200px;
   }
 
   .navbar__ctn .navigation ul li {

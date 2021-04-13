@@ -7,10 +7,11 @@ import './RoomEmoteList.css';
 export const RoomEmoteList = (props) => {
     const emotes = props.emotes;
     const active = props.active;
+    const setActive = props.setActive;
 
     const alert = useAlert();
 
-    const emoteElements = emotes.map((emote) => <CopyToClipboard text={emote.code} onCopy={() => {alert.show(emote.code + " copied to clipboard.", {timeout: 800});}}>
+    const emoteElements = emotes.map((emote) => <CopyToClipboard text={emote.code} onCopy={() => {alert.show(emote.code + " copied to clipboard.", {timeout: 800}); setActive && setActive(false)}}>
         <div>
             <img src={emote.url}></img>
         </div>
