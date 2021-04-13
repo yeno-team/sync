@@ -9,6 +9,8 @@
 - [What is Sync?](#what-is-sync)  
 	* [Main Dependencies](#main-dependencies)
 - [Installation](#installation)  
+- [Configuration](#configuration)
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
