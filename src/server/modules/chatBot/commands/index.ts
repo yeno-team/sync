@@ -1,5 +1,7 @@
 import HelpCommand from "./help";
 import SetVideoCommand from "./setVideo";
+import SitesCommand from './sites';
+
 import videoScraperModule from '../../videoScraper'
 
 import { ChatBotUtility, RandomUtility } from '../../../utils/';
@@ -21,5 +23,6 @@ const RoomServiceDep = new RoomService({
 export default [
     new HelpCommand({chatBotUtility: ChatBotUtilityDep}),
     new SetVideoCommand({chatBotUtility: ChatBotUtilityDep, videoScraperModule, roomService: RoomServiceDep}),
-    new RollCommand({chatBotUtility: ChatBotUtilityDep, randomUtility: RandomUtilityDep})
+    new RollCommand({chatBotUtility: ChatBotUtilityDep, randomUtility: RandomUtilityDep}),
+    new SitesCommand({chatBotUtility: ChatBotUtilityDep})
 ];
