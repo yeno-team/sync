@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from '../../components/Button'
-import RoomGrahpics from '../../assets/images/roomGraphics.svg';
+import RoomGrahpics from '../../assets/images/roomGraphics.min.svg';
 
 export default function HeroSection(props) {
     let history = useHistory();
