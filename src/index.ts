@@ -14,7 +14,7 @@ const server = new ServerBuilder(app)
     .build();
 
 const socketServer = new SocketServerBuilder(app)
-    .setPort(config.server.SOCKET_PORT)
+    .setPort(PORT)
     .setSubscribers(subscribers)
     .build();
 

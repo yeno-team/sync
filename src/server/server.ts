@@ -51,7 +51,6 @@ export class Server {
             controller.handler(apiRouter);
         });
 
-        this._app.listen(this._port, () => console.log(`Server started at port ${this._port}`))
     }
 
     public serveClientProductionBuild() {

@@ -7,7 +7,7 @@ let socket;
 const socketSubscriber = {
     listeners : [],
     init() {
-        socket = io(config.socket.endpoint);
+        socket = io(config.api.endpoint);
     },
     on(eventName, callback) {
         socket.on(eventName, callback);

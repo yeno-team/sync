@@ -46,7 +46,6 @@ yarn install
 |Name| Description |
 |--|--|
 | PORT | Main Server's Port *(default: 8080)*  |
-| SOCKET_PORT | Socket.io Port *(default: 51282)* |
 | PROXY_HOST | HTTP proxy host *(required)*  |
 | PROXY_PORT | HTTP proxy port *(required)* |
 | PROXY_USERNAME | HTTP proxy auth username *(optional)*  |
