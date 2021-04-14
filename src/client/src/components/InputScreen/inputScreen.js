@@ -41,7 +41,7 @@ export const InputScreen = (props) => {
         <React.Fragment>
             {
                 submitted ? 
-                <NextComponent {...{[InputName]: value}} {...props} /> :
+                <NextComponent {...{[InputName]: value, ["set" + InputName]: setValue}} {...props} /> :
                 <div className="inputScreen__main">
                     <div>
                         <h3>Enter your {`${InputName.charAt(0).toUpperCase() + InputName.slice(1)}`}</h3>

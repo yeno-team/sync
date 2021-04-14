@@ -114,6 +114,8 @@ img {
 
     .room__chat .chat__messages {
         height: 70%;
+        width: 90%;
+        margin: 0 auto;
     }
 
     .room__chatEmoteIcon {

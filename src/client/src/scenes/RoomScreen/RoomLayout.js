@@ -26,6 +26,7 @@ const RoomLayoutComponent = (props) => {
     const [emoteListActive, setEmoteListActive] = useState(false);
 
     const username = props.username;
+    const setUsername = props.setUsername;
 
     const chatHeaderElements = [
         <img className="room__chatIcon" src={backArrowIcon} onClick={() => props.history.push("/")}></img>,
@@ -69,7 +70,7 @@ const RoomLayoutComponent = (props) => {
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> :
-    <RoomAuth username={username} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} roomData={roomData}  />
+    <RoomAuth username={username} setUsername={setUsername} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} roomData={roomData}  />
 
     return (
         <div className="room__layout">

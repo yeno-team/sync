@@ -18,6 +18,7 @@ export const RoomAuth = (props) => {
     const isAuthenticated = props.isAuthenticated;
     const roomData = props.roomData;
     const username = props.username;
+    const setUsername = props.setUsername;
 
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
@@ -25,25 +26,25 @@ export const RoomAuth = (props) => {
     const alert = useAlert();
     const prevUsers = usePrevious(users);
     const prevErrors = usePrevious(errors);
-    
 
     useEffect(() => {
         const newUsers = users.filter((user, index) => prevUsers[index] !== user);
         const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
-        console.log(prevErrors);
+
         if (newUsers.length > 0) {
             // new user joined
             if (submitted && !isAuthenticated) {
                 const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
-                console.log(clientFound);
+
                 if (clientFound.length > 0) {
                     setIsAuthenticated(true);
-                    alert.show("Joined Room");
+                    alert.show(clientFound.username + " joined room");
                 }
             }
         }   
     
         if (newErrors.length > 0) {
+            console.error(newErrors);
             newErrors.map(error => alert.show(error));
 
             if (newErrors.indexOf("Incorrect Room Password") !== -1) {
