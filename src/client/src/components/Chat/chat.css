@@ -61,7 +61,7 @@
 
 .chat__messageText {
     word-wrap: break-word;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .chat__tag {
