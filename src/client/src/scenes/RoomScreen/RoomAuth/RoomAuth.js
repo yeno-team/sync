@@ -18,6 +18,7 @@ export const RoomAuth = (props) => {
     const isAuthenticated = props.isAuthenticated;
     const roomData = props.roomData;
     const username = props.username;
+    const setUsernameInputActive = props.setUsernameInputActive;
 
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
@@ -25,20 +26,20 @@ export const RoomAuth = (props) => {
     const alert = useAlert();
     const prevUsers = usePrevious(users);
     const prevErrors = usePrevious(errors);
-    
 
     useEffect(() => {
         const newUsers = users.filter((user, index) => prevUsers[index] !== user);
         const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
-        console.log(prevErrors);
+
         if (newUsers.length > 0) {
             // new user joined
+
+            newUsers.map(user => alert.show("You joined the room!"))
+
             if (submitted && !isAuthenticated) {
                 const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
-                console.log(clientFound);
                 if (clientFound.length > 0) {
                     setIsAuthenticated(true);
-                    alert.show("Joined Room");
                 }
             }
         }   
@@ -46,18 +47,33 @@ export const RoomAuth = (props) => {
         if (newErrors.length > 0) {
             newErrors.map(error => alert.show(error));
 
+            if (newErrors.indexOf("Already Joined") === -1) {
+                setUsernameInputActive(true);
+            }
+
             if (newErrors.indexOf("Incorrect Room Password") !== -1) {
-                setSubmitted(false);
+                setSubmitted(true);
             }
         }    
     }, [users, errors]);
 
     useEffect(() => {
-        if (roomData.is_private === false || roomData.users.length === 0 && isAuthenticated === false) {               
+        if (roomData.is_private === false && roomData.users.length === 0 && isAuthenticated === false) {           
             joinRoom(username, "");
-            setIsAuthenticated(true);
+            setSubmitted(true);
+        } else if (roomData.users.length > 0) {
+           
+            const clientFound = roomData.users.filter(user => socketSubscriber.getSocket().id === user.socket_id);
+
+            if (clientFound.length > 0) {
+                setSubmitted(true);
+                setIsAuthenticated(true);
+            } else if (isAuthenticated === false && roomData.is_private === false) {
+                joinRoom(username, "");
+                setSubmitted(true);
+            }
         }
-    }, [roomData]);
+    }, []);
 
     const handleChange = (e) => {
         setPassword(e.target.value);

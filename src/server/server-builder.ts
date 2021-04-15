@@ -1,5 +1,5 @@
 import { Server } from './server';
-import { Express } from 'express';
+import { Application, Express } from 'express';
 import { IController } from 'src/types/api/IController';
 
 /**
@@ -10,6 +10,7 @@ export class ServerBuilder {
     private _env: string = 'development';
     private _port: number = 8080;
     private _controllers: IController[] = [];
+    private _apiLimiter: Application;
 
     constructor(app: Express) {
         this._app = app;
@@ -24,8 +25,14 @@ export class ServerBuilder {
         this._port = port;
         return this;
     }
+
     setControllers(controllers: IController[]) {
         this._controllers = controllers;
+        return this;
+    }
+
+    setApiLimiter(limiter: Application) {
+        this._apiLimiter = limiter;
         return this;
     }
 
@@ -47,5 +54,9 @@ export class ServerBuilder {
 
     get controllers() {
         return this._controllers
+    }
+
+    get apiLimiter() {
+        return this._apiLimiter;
     }
 }

@@ -13,7 +13,7 @@ export class SocketServerBuilder {
     constructor(app: Express) {
         this._app = app;
     }
-
+    
     setPort(port: number) {
         this._port = port;
         return this;

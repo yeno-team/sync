@@ -22,7 +22,11 @@ export class YoutubeSource implements IVideoSource {
 
                 const formats = response[2].playerResponse.streamingData.formats;
 
-                const urls = formats.map((format) => format.url);
+                if (formats == null) {
+                    return reject("YoutubeSource: Unexpectedly could get grab video data, make sure its not a livestream!")
+                }
+
+                const urls = formats.map((format) => format.url);   
     
                 if (urls[0] == null) {
                     return reject("YoutubeSource: No support for encrypted videos");

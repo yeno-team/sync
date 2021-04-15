@@ -1,6 +1,7 @@
 import { IExecuteable } from "src/types/IExecuteable";
 import { RouteDependencies } from "src/types/api/RouteDependencies";
 import { RoomControllerDependencies } from "../roomController";
+import rateLimit from 'express-rate-limit';
 
 /**
  * Room Add Route
@@ -20,7 +21,14 @@ export default class RoomCreateRoute implements IExecuteable {
     * Attempt to create a new room
     */
    public execute() {
-      this.dependencies.router.post('/create', async (req, res) => {
+      const createRateLimit = rateLimit({
+         windowMs: 60 * 60 * 1000, // 1 hour window
+         max: 100, // start blocking after 5 requests
+         message:
+            "Too many rooms created from this IP, please try again after an hour"
+      })
+
+      this.dependencies.router.post('/create', createRateLimit, async (req, res) => {
          const options = {
             name: req.body.name,
             description : req.body.description,

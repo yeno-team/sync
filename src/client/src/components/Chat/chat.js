@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useChat, usePrevious, useEmotes } from "../../hooks";
 import { colorShade, stringToColor } from "../../utils/color";
+import { useAlert } from 'react-alert'
 
 import "./chat.css";
 
@@ -11,12 +12,14 @@ import BotTag from '../../assets/icons/bot-tag.svg';
 export const Chat = (props) => {
     const { code } = useParams();
     const [messageText, setMessageText] = useState("");
+    const alert = useAlert();
     const {messages, sendMessage, errors} = useChat(code);
     const {emotes, getEmote} = useEmotes();
     const prevErrors = usePrevious(errors);
     const prevMessages = usePrevious(messages);
+   
 
-    const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle">Chat</h4>)]
+    const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle" key="0">Chat</h4>)]
     const formElements = props.formElements;
     
     useEffect(() => {
@@ -24,7 +27,7 @@ export const Chat = (props) => {
         const newMessages = messages.filter((message, index) => prevMessages[index] !== message);
 
         if (newErrors.length > 0) {
-            newErrors.forEach((v) => console.log("ERROR: " + v));
+            newErrors.forEach((v) => alert.show(v));
         }
 
         if (newMessages.length > 0) {
@@ -53,7 +56,7 @@ export const Chat = (props) => {
         }
 
         if (typeof message.text == 'object') {
-            message.text = "Unexpected error occured, make sure the url is a page on the video!"
+            message.text = "Unexpected error occured!"
         }
 
     
@@ -95,7 +98,7 @@ export const Chat = (props) => {
             if (val === "<b>") {
                 if (lastBoldIndex) {
                      
-                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ")}</b>);
+                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ") + " "}</b>);
                     lastBoldIndex = null;
                     lastLinkIndex = null;
                 } else {
@@ -118,7 +121,7 @@ export const Chat = (props) => {
                 if (lastLinkIndex) {
                     const link = words.slice(lastLinkIndex+1, index);
 
-                    processedMessage.push(<a target="_blank" href={link}>{ link.join(" ") + " "}</a>);
+                    processedMessage.push(<a className="chat__messageLink" target="_blank" href={link}>{ link.join(" ") + " "}</a>);
                     lastLinkIndex = null;
                     lastBoldIndex = null;
                 } else {
@@ -128,7 +131,7 @@ export const Chat = (props) => {
                         processedMessage.push(leftOver + " ");
                     }
                     
-                    processedMessage.push(words.slice(last+2, index).join(" "));
+                    processedMessage.push(words.slice(last+2, index).join(""));
                     lastLinkIndex = index;
                 }
 
@@ -144,7 +147,7 @@ export const Chat = (props) => {
             }
 
             if (index === words.length-1) {
-                processedMessage.push(words.slice(last ? last + 1 : 0, index+1).join(" "));
+                processedMessage.push(words.slice(last != null ? last + 1 : 0, index+1).join(" "));
             }
         });
 
@@ -155,8 +158,8 @@ export const Chat = (props) => {
             <div className="chat__message" key={index}>
                 {ownerTagElement}
                 {botTagElement}
-                <span style={{fontWeight: "bold", color: colorShade(stringToColor(message.sender.socket_id), shadeAmount)}}>{ message.sender.username + ": " }</span>
-                <span>{ processedMessage }</span>
+                <span style={{fontWeight: "bold", color: colorShade(stringToColor(message.sender.socket_id), shadeAmount)}} className="chat__messageUsername">{ message.sender.username + ": " }</span>
+                <span className="chat__messageText">{ processedMessage }</span>
             </div>
         )
     });

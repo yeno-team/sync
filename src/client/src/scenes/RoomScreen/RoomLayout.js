@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 
 import './Room.css';
 import Chat from '../../components/Chat/';
+import InputScreen from '../../components/InputScreen';
 import backArrowIcon from "../../assets/icons/back-arrow.svg";
 import settingIcon from "../../assets/icons/settings.svg";
 import emoteIcon from "../../assets/icons/happy.svg";
@@ -24,8 +25,9 @@ const RoomLayoutComponent = (props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [settingModalActive, setSettingModalActive] = useState(false);
     const [emoteListActive, setEmoteListActive] = useState(false);
+    const [usernameInputActive, setUsernameInputActive] = useState(true);
 
-    const username = props.username;
+    const [username, setUsername] = useState("");
 
     const chatHeaderElements = [
         <img className="room__chatIcon" src={backArrowIcon} onClick={() => props.history.push("/")}></img>,
@@ -68,8 +70,12 @@ const RoomLayoutComponent = (props) => {
         <Chat formElements={chatFormElements} headerElements={chatHeaderElements} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
-    </React.Fragment> :
-    <RoomAuth username={username} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} roomData={roomData}  />
+    </React.Fragment> : (
+        usernameInputActive ? 
+        <InputScreen inputName="Username" value={username} setValue={setUsername} active={usernameInputActive} setActive={setUsernameInputActive}/> :
+        <RoomAuth username={username} roomData={roomData} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
+    )
+    
 
     return (
         <div className="room__layout">

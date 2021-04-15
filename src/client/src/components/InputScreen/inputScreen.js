@@ -14,19 +14,19 @@ import "./inputScreen.css";
  * @returns 
  */
 export const InputScreen = (props) => {
-    const [value, setValue] = useState("");
-    const [submitted, setSubmitted] = useState(false);
-
-    const NextComponent = props.nextComponent;
-    const InputName = props.inputName;
+    const InputName = props.inputName || "value";
+    const value = props.value; 
+    const setValue = props.setValue;
+    const active = props.active;
+    const setActive = props.setActive;
 
     const handleChange = (e) => {
         setValue(e.target.value);
     }
 
     const handleSubmit = () => {
-        if (submitted === false) {
-            setSubmitted(true);
+        if (active === true) {
+            setActive(false);
         }
     }
 
@@ -37,11 +37,12 @@ export const InputScreen = (props) => {
         }
     }
 
+
     return (
         <React.Fragment>
             {
-                submitted ? 
-                <NextComponent {...{[InputName]: value}} {...props} /> :
+                !active ? 
+                null :
                 <div className="inputScreen__main">
                     <div>
                         <h3>Enter your {`${InputName.charAt(0).toUpperCase() + InputName.slice(1)}`}</h3>

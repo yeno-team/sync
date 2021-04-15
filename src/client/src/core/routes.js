@@ -21,7 +21,7 @@ export function Routes() {
                 </Route>
 
                 <Route path="/room/:code">
-                    <InputScreen inputName="username" nextComponent={RoomLayout} />
+                    <RoomLayout />
                 </Route>
 
                 <Route path="/rooms" exact>
