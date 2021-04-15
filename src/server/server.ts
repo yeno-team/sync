@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Router } from 'express';
+import express, { Application, Express, Request, Response, Router } from 'express';
 import cors from "cors";
 import { ServerBuilder } from './server-builder';
 import path from 'path';
@@ -13,6 +13,7 @@ export class Server {
     private _app: Express;
     private _port: number;
     private _env: String;
+    private _apiLimiter: Application;
     private _controllers: IController[];
 
     /**
@@ -23,6 +24,7 @@ export class Server {
         this._app = serverBuilder.app;
         this._port = serverBuilder.port;
         this._env = serverBuilder.env;
+        this._apiLimiter = serverBuilder.apiLimiter;
         this._controllers = serverBuilder.controllers;
     }
 
@@ -40,11 +42,11 @@ export class Server {
             extended: true
         }));
 
-        this._app.use("/api", apiRouter)
+        this._app.use("/api", this._apiLimiter, apiRouter)
 
         if (this._env == 'production') {
             this.serveClientProductionBuild();
-            console.log("Served client build")
+            console.log("Served client build");
         }
 
         this._controllers.forEach((controller) => {
