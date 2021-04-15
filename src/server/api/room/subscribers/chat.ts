@@ -67,6 +67,13 @@ export class RoomChatSubscriber implements ISubscriber {
             return socket.emit("RoomChatError", { message: "Cannot send an empty message" });
         }
 
+        /**
+         * @emits RoomChatError if message is longer than 300 characters
+         */
+        if(data.message.length > 250) {
+            return socket.emit("RoomChatError", { message: "Max message length limit is 250 characters!" })
+        }
+
         const response: RoomChatNewMessage = {
             sender: userData[0],
             message: data.message,
