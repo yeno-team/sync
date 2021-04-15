@@ -16,7 +16,6 @@ const useRoomAuth = (roomCode) => {
         });
     
         socketSubscriber.on(ERROR_EVENT, (data) => {
-            console.log(errors);
             setErrors([...errors, data.message]);
         });
 

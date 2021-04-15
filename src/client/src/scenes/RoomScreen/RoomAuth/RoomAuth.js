@@ -18,7 +18,7 @@ export const RoomAuth = (props) => {
     const isAuthenticated = props.isAuthenticated;
     const roomData = props.roomData;
     const username = props.username;
-    const setUsername = props.setUsername;
+    const setUsernameInputActive = props.setUsernameInputActive;
 
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
@@ -33,22 +33,23 @@ export const RoomAuth = (props) => {
 
         if (newUsers.length > 0) {
             // new user joined
+
+            newUsers.map(user => alert.show("You joined the room!"))
+
             if (submitted && !isAuthenticated) {
                 const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
-
                 if (clientFound.length > 0) {
                     setIsAuthenticated(true);
-                    alert.show(clientFound.username + " joined room");
                 }
             }
         }   
     
         if (newErrors.length > 0) {
-            console.error(newErrors);
             newErrors.map(error => alert.show(error));
 
+            setUsernameInputActive(true);
             if (newErrors.indexOf("Incorrect Room Password") !== -1) {
-                setSubmitted(false);
+                setSubmitted(true);
             }
         }    
     }, [users, errors]);
@@ -56,9 +57,9 @@ export const RoomAuth = (props) => {
     useEffect(() => {
         if (roomData.is_private === false || roomData.users.length === 0 && isAuthenticated === false) {               
             joinRoom(username, "");
-            setIsAuthenticated(true);
+            setSubmitted(true);
         }
-    }, [roomData]);
+    }, []);
 
     const handleChange = (e) => {
         setPassword(e.target.value);
