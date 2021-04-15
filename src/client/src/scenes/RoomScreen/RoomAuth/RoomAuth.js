@@ -64,11 +64,13 @@ export const RoomAuth = (props) => {
         } else if (roomData.users.length > 0) {
            
             const clientFound = roomData.users.filter(user => socketSubscriber.getSocket().id === user.socket_id);
-            console.log(roomData.users);
+
             if (clientFound.length > 0) {
-                console.log("hi");
                 setSubmitted(true);
                 setIsAuthenticated(true);
+            } else if (isAuthenticated === false && roomData.is_private === false) {
+                joinRoom(username, "");
+                setSubmitted(true);
             }
         }
     }, []);
