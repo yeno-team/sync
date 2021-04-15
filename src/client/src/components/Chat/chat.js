@@ -98,7 +98,7 @@ export const Chat = (props) => {
             if (val === "<b>") {
                 if (lastBoldIndex) {
                      
-                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ")}</b>);
+                    processedMessage.push(<b>{ words.slice(lastBoldIndex+1, index).join(" ") + " "}</b>);
                     lastBoldIndex = null;
                     lastLinkIndex = null;
                 } else {
@@ -131,7 +131,7 @@ export const Chat = (props) => {
                         processedMessage.push(leftOver + " ");
                     }
                     
-                    processedMessage.push(words.slice(last+2, index).join(" "));
+                    processedMessage.push(words.slice(last+2, index).join(""));
                     lastLinkIndex = index;
                 }
 
