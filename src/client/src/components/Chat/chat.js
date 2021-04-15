@@ -121,7 +121,7 @@ export const Chat = (props) => {
                 if (lastLinkIndex) {
                     const link = words.slice(lastLinkIndex+1, index);
 
-                    processedMessage.push(<a target="_blank" href={link}>{ link.join(" ") + " "}</a>);
+                    processedMessage.push(<a className="chat__messageLink" target="_blank" href={link}>{ link.join(" ") + " "}</a>);
                     lastLinkIndex = null;
                     lastBoldIndex = null;
                 } else {

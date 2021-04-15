@@ -48,6 +48,15 @@ body {
   /* overflow : visible; */
 }
 
+a {
+  color: rgb(140, 209, 255);
+}
+
+a:active {
+  color: rgb(85, 158, 180);
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
