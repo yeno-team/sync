@@ -147,7 +147,7 @@ export const Chat = (props) => {
             }
 
             if (index === words.length-1) {
-                processedMessage.push(words.slice(last ? last + 1 : 0, index+1).join(" "));
+                processedMessage.push(words.slice(last ? last + 1 : -1, index+1).join(" "));
             }
         });
 
