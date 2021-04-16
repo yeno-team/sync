@@ -1,0 +1,45 @@
+#chat__users {
+    max-height : 100%;
+    text-align: center;
+    padding : 10px;
+    overflow-x : hidden;
+    overflow-y : auto;
+}
+
+#filter__users {
+    display : block;
+    margin : 0px auto;
+    width : 80%;
+    padding : 7px 15px;
+    border-radius : 7px;
+    border : none; 
+    outline: none;
+    box-sizing: border-box;
+    transition: outline 0.6s linear;
+    background-color : darkgray;
+    transition: background-color 0.3s linear , box-shadow 0.3s linear;
+}
+
+#filter__users:focus {
+    background-color : white;
+    box-shadow: 0 0 0 2px var(--orange);
+}
+
+.broadcast__user , .room__users {
+    text-align: left;
+}
+
+.chat-section-title {
+    font-size : 16px;
+    margin-bottom : 0px;
+}
+
+.room-user-list {
+    margin-top : 5px;
+}
+
+.room-user-list li {
+    font-size : 15px;
+    padding-left : 5px;
+    margin : 5px 0px;
+}

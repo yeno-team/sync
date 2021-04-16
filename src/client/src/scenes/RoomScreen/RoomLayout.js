@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory , useParams } from 'react-router-dom'
 import { useRoomAuth, usePrevious, useEmotes } from '../../hooks';
-
 import { VideoArea } from './VideoArea/VideoArea';
 import RoomSettingModal from './RoomSettingModal/';
 import RoomEmoteList from './RoomEmoteList';
@@ -15,6 +14,7 @@ import InputScreen from '../../components/InputScreen';
 import backArrowIcon from "../../assets/icons/back-arrow.svg";
 import settingIcon from "../../assets/icons/settings.svg";
 import emoteIcon from "../../assets/icons/happy.svg";
+import userIcon from '../../assets/icons/users.svg';
 import { RoomAuth } from './RoomAuth/RoomAuth';
 
 const RoomLayoutComponent = (props) => {
@@ -30,9 +30,9 @@ const RoomLayoutComponent = (props) => {
     const [username, setUsername] = useState("");
 
     const chatHeaderElements = [
-        <img className="room__chatIcon" src={backArrowIcon} onClick={() => props.history.push("/")}></img>,
+        <img src={userIcon} alt="userIcon" className="room__chatIcon"/>,
         <h4 className="chat__defaultTitle">Chat</h4>,
-        <img className="room__chatIcon" src={settingIcon} onClick={() => setSettingModalActive(!settingModalActive)}></img>
+        <img className="room__chatIcon" alt="settingIcon" src={settingIcon} onClick={() => setSettingModalActive(!settingModalActive)}></img>,
     ];
 
     const chatFormElements = [
@@ -80,7 +80,7 @@ const RoomLayoutComponent = (props) => {
         <RoomAuth username={username} roomData={roomData} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
     )
     
-
+    
     return (
         <div className="room__layout">
             {

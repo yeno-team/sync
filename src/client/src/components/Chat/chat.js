@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import classNames from "classnames";
 import { useChat, usePrevious, useEmotes } from "../../hooks";
 import { colorShade, stringToColor } from "../../utils/color";
+import RoomUsers from "./RoomUsers";
 import { useAlert } from 'react-alert'
 
 import "./chat.css";
 
 import OwnerTag from "../../assets/icons/owner-tag.svg";
 import BotTag from '../../assets/icons/bot-tag.svg';
+
 
 export const Chat = (props) => {
     const { code } = useParams();
@@ -174,10 +177,12 @@ export const Chat = (props) => {
 
 
     return (
-        <div className={props.className + " chat__ctn"}>
+        <div className={classNames(props.className , "chat__ctn")}>
             <div id="chat__main" className="chat__main">
                 <div className="chat__header">{ headerElements }</div>
-                <div id="chat__messages" className="chat__messages">
+                <RoomUsers/>
+
+                {/* <div id="chat__messages" className="chat__messages">
                     {
                         messageElements 
                     }
@@ -187,7 +192,7 @@ export const Chat = (props) => {
                         <input id="chat__input" type="text" placeholder="Send a message..." value={messageText} onChange={handleChange}/>
                         { formElements }
                     </form>
-                </div>
+                </div> */}
                 
             </div>
         </div>
