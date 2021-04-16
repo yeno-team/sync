@@ -87,8 +87,8 @@ export class RoomUserSubscriber implements ISubscriber {
              * Validate the username
              * @emits RoomJoinError if username is invalid
              */
-            if (!/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/g.test(data.username)) {
-                return socket.emit("RoomJoinError", {message: "Username is not 8 - 20 characters or has unsupported special characters."})
+            if (!/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/g.test(data.username)) {
+                return socket.emit("RoomJoinError", {message: "Username is not 4 - 20 characters or has unsupported special characters."})
             }
 
             socket.join(roomData.code);
