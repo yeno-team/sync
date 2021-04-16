@@ -60,6 +60,10 @@ const RoomLayoutComponent = (props) => {
                     await fetchRoomData();
                 }
             }
+
+            if (roomData && roomData.users && roomData.users.find(user => user.socket_id === socketSubscriber.getSocket().id)) {
+                setIsAuthenticated(true);
+            } 
             
         })();
     }, [roomData]);
