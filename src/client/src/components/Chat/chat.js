@@ -28,7 +28,8 @@ export const Chat = (props) => {
         const newMessages = messages.filter((message, index) => prevMessages[index] !== message);
 
         if (newErrors.length > 0) {
-            newErrors.forEach((v) => alert.show(v));
+        
+            newErrors.forEach((v) => v !== "Cannot send an empty message" && alert.show(v));
         }
 
         if (newMessages.length > 0) {
