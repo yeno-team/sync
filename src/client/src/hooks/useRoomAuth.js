@@ -25,8 +25,6 @@ const useRoomAuth = (roomCode) => {
         }
     }, [errors, users])
     
-
-
     const joinRoom = (username, password) => {
         socketSubscriber.emit("UserJoin" , { roomCode, username , password});
     };

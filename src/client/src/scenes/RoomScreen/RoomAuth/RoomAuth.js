@@ -33,7 +33,6 @@ export const RoomAuth = (props) => {
 
         if (newUsers.length > 0) {
             // new user joined
-
             newUsers.map(user => alert.show("You joined the room!"))
 
             if (submitted && !isAuthenticated) {

@@ -175,12 +175,12 @@ export const Chat = (props) => {
         setMessageText("");
     }
 
-
+    
     return (
         <div className={classNames(props.className , "chat__ctn")}>
             <div id="chat__main" className="chat__main">
                 <div className="chat__header">{ headerElements }</div>
-                <RoomUsers/>
+                <RoomUsers code={code}/>
 
                 {/* <div id="chat__messages" className="chat__messages">
                     {
