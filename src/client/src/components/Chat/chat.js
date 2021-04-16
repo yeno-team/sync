@@ -11,14 +11,15 @@ import BotTag from '../../assets/icons/bot-tag.svg';
 
 export const Chat = (props) => {
     const { code } = useParams();
-    const [messageText, setMessageText] = useState("");
+    let [messageText, setMessageText] = useState("");
     const alert = useAlert();
     const {messages, sendMessage, errors} = useChat(code);
     const {emotes, getEmote} = useEmotes();
     const prevErrors = usePrevious(errors);
     const prevMessages = usePrevious(messages);
-   
-
+    
+    messageText = props.messageText || messageText;
+    setMessageText = props.setMessageText || setMessageText;
     const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle" key="0">Chat</h4>)]
     const formElements = props.formElements;
     
@@ -182,7 +183,7 @@ export const Chat = (props) => {
                 </div>
                 <div className="chat__formCtn">
                     <form className="chat__form" onSubmit={handleSubmit}>
-                        <input type="text" placeholder="Send a message..." value={messageText} onChange={handleChange}/>
+                        <input id="chat__input" type="text" placeholder="Send a message..." value={messageText} onChange={handleChange}/>
                         { formElements }
                     </form>
                 </div>

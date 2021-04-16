@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory , useParams } from 'react-router-dom'
 import { useRoomAuth, usePrevious, useEmotes } from '../../hooks';
 
@@ -21,12 +21,12 @@ const RoomLayoutComponent = (props) => {
     const { code } = useParams();
     const [roomData, setRoomData] = useState();
     const {emotes, getEmote} = useEmotes();
-    
+    const inputRef = useRef();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [settingModalActive, setSettingModalActive] = useState(false);
     const [emoteListActive, setEmoteListActive] = useState(false);
     const [usernameInputActive, setUsernameInputActive] = useState(true);
-
+    const [chatInputValue, setChatInputValue] = useState("");
     const [username, setUsername] = useState("");
 
     const chatHeaderElements = [
@@ -71,9 +71,9 @@ const RoomLayoutComponent = (props) => {
     const authCheck = isAuthenticated ? 
     <React.Fragment>
         <VideoArea roomData={roomData} />
-        <Chat formElements={chatFormElements} headerElements={chatHeaderElements} className="room__chat"/>
+        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
-        <RoomEmoteList active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
+        <RoomEmoteList chatInputvalue={chatInputValue} setChatInputValue={setChatInputValue} inputRef={inputRef} active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> : (
         usernameInputActive ? 
         <InputScreen inputName="Username" value={username} setValue={setUsername} active={usernameInputActive} setActive={setUsernameInputActive}/> :
