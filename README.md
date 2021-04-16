@@ -3,7 +3,7 @@
 
 # Sync [![Build Status](https://travis-ci.com/yeno-team/sync.svg?branch=main)](https://travis-ci.com/yeno-team/sync) [![Coverage Status](https://coveralls.io/repos/github/yeno-team/sync/badge.svg?branch=main)](https://coveralls.io/github/yeno-team/sync?branch=main) [![Known Vulnerabilities](https://snyk.io/test/github/yeno-team/sync/badge.svg)](https://snyk.io/test/github) [![Maintainability](https://api.codeclimate.com/v1/badges/4b1e10c1f337cca6a616/maintainability)](https://codeclimate.com/github/yeno-team/sync/maintainability)  
 
-[View Demo](https://yeno.dev)
+[View Demo](https://sync.yeno.dev)
 
 ### Table of Contents  
 - [What is Sync?](#what-is-sync)  

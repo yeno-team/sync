@@ -43,6 +43,9 @@
     width: 90%;
     margin: 5px;
     word-wrap: break-word;
+    height: auto;
+    text-overflow: clip;
+    white-space: normal;
     border-radius: 12px;
     font-size: 15px;
     border: none;

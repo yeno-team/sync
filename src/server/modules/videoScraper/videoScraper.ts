@@ -16,7 +16,13 @@ export class VideoScraperModule implements IVideoScraper {
                     return reject("Invalid URL was requested!");
                 }
 
-                const videoUrl = new URL(url);
+                let videoUrl;
+
+                try {
+                    videoUrl = new URL(url);
+                } catch (e) {
+                    return reject(e.message);
+                }
                 
                 if (videoUrl.hostname === sourceModule.hostname) {
                     return resolve(sourceModule.execute(url));

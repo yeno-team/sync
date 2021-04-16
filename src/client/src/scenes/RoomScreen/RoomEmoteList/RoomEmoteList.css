@@ -1,12 +1,12 @@
 .RoomEmoteList {
     position: absolute;
-    width: 350px;
+    width: 400px;
     z-index: 10;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(24, 24, 24);
     right: 20px;
     bottom: 90px;
     padding: 10px;
-    height: 350px;
+    height: 400px;
     border-radius: 5px;
     overflow: scroll;
     overflow-x: hidden;
@@ -14,15 +14,27 @@
 
 .RoomEmoteList div {
     display: inline-block;
-    border: 1px solid rgb(221, 221, 221);
+    border: none;
+    padding: 10px;
+    width: 100px;
+    margin: 10px;
+    background-color:rgb(43, 43, 43);
+    text-align: center;
 }
 
 .RoomEmoteList img {
-    width: 40px;
+    width: 45px;
     margin: 5px;
+    margin-bottom: 0;
 }
 
+.RoomEmoteList p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+
 .RoomEmoteList div:hover {
-    border: 1px solid rgb(122, 122, 122);
+    background-color: rgb(63, 63, 63);
     cursor: pointer;
 }
