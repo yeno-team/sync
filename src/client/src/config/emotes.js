@@ -238,4 +238,79 @@ export default [
         code: "ABDULpls",
         imageType: "gif"
     },
+    {
+        id: "604b93f1306b602acc59b8f8",
+        code: "Kappa",
+        imageType: "png"
+    },
+    {
+        id: "606056b47493072efdeb5f46",
+        code: "Kapp",
+        imageType: "png"
+    },
+    {
+        id: "5fc6dcc0cac2fb4621e4b100",
+        code: "triHard",
+        imageType: "png"
+    },
+    {
+        id: "5d3e1c6b6d68672adc3fbfb2",
+        code: "TriHardo",
+        imageType: "gif"
+    },
+    {
+        id: "5e26196d88e62a5f14dce055",
+        code: "EZ",
+        imageType: "png"
+    },
+    {
+        id: "5f1b0186cf6d2144653d2970",
+        code: "catJAM",
+        imageType: "gif"
+    },
+    {
+        id: "5cd6b08cf1dac14a18c4b61f",
+        code: "PauseChamp",
+        imageType: "png"
+    },
+    {
+        id: "6015f50f6c75a765d4642b18",
+        code: "peepoFinger",
+        imageType: "gif"
+    },
+    {
+        id: "5a5e0e8d80f53146a54a516b",
+        code: "peepoLove",
+        imageType: "gif"
+    },
+    {
+        id: "5afdd149b5f610729e2f6e75",
+        code: "lickR",
+        imageType: "gif"
+    },
+    {
+        id: "5d5d9fe322f52e1d9b41ac91",
+        code: "confusedCat",
+        imageType: "png"
+    },
+    {
+        id: "5afdd15ab5f610729e2f6e7a",
+        code: "lickL",
+        imageType: "gif"
+    },
+    {
+        id: "55028cd2135896936880fdd7",
+        code: "D:",
+        imageType: "png"
+    },
+    {
+        id: "566c9fde65dbbdab32ec053e",
+        code: "FeelsGoodMan",
+        imageType: "png"
+    },
+    {
+        id: "566ca06065dbbdab32ec054e",
+        code: "NaM",
+        imageType: "png"
+    },
 ]
