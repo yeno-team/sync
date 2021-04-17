@@ -40,10 +40,9 @@ const RoomLayoutComponent = (props) => {
     ]
 
     async function fetchRoomData() {
-        try {
+        try {   
             const response = await getRoomData(code);
             setRoomData(response);
-
         } catch(e) {
             setRoomData({});
             console.error(e);
@@ -71,7 +70,7 @@ const RoomLayoutComponent = (props) => {
     const authCheck = isAuthenticated ? 
     <React.Fragment>
         <VideoArea roomData={roomData} />
-        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} className="room__chat"/>
+        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList chatInputvalue={chatInputValue} setChatInputValue={setChatInputValue} inputRef={inputRef} active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> : (

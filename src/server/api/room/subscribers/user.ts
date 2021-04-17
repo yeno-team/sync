@@ -105,11 +105,12 @@ export class RoomUserSubscriber implements ISubscriber {
 
                 this._socketServer.to(roomData.code).emit("RoomUserJoined", { user: { socketId: socket.id, username: data.username , rank : RoomUserRank.owner }});
             } else {
+                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
                 /**
                 * @emits RoomUserJoined when a user has joined, broadcast to a room that they have joined
                 */
                 this._socketServer.to(roomData.code).emit("RoomUserJoined", { user: { socketId: socket.id, username: data.username , rank : RoomUserRank.user }});
-                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
+                
             }
         } else {
             return socket.emit("RoomJoinError", { message: "Room does not exist" });

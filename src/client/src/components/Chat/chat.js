@@ -175,7 +175,7 @@ export const Chat = (props) => {
         setMessageText("");
     }
 
-    
+
     return (
         <div className={classNames(props.className , "chat__ctn")}>
             <div id="chat__main" className="chat__main">

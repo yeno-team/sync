@@ -12,6 +12,7 @@ const useRoomAuth = (roomCode) => {
     
     useEffect(() => {
         socketSubscriber.on(NEW_USER_JOINED_EVENT, (data) => {
+            console.log(data)
             setUsers([...users, data.user]);
         });
     
