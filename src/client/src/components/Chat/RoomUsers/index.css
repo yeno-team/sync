@@ -22,7 +22,7 @@
 
 #filter__users:focus {
     background-color : white;
-    box-shadow: 0 0 0 2px var(--orange);
+    box-shadow: 0 0 0 2px var(--green);
 }
 
 .broadcast__user , .room__users {
