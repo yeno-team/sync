@@ -1,4 +1,5 @@
 import { filter } from "bluebird";
+import { cpuUsage } from "process";
 import React , { useState , useEffect , useRef } from "react";
 import { getRoomData } from "../../../api/room/roomService"
 import useRoomAuth from "../../../hooks/useRoomAuth";
@@ -11,7 +12,8 @@ const RoomUsersComponent = (props) => {
     const [ roomUsers , setRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
-    
+
+    let baseRoomUsers = [];
     let filterInput = null;
 
     useEffect(() => {
@@ -26,7 +28,9 @@ const RoomUsersComponent = (props) => {
 
                 // Returns all the usernames who aren't a broadcaster of the current room.
                 const roomUsernames = roomUsersArr.filter(({ rank }) => rank === 1).map(({ username }) => username)
-                setRoomUsers(roomUsernames)
+                baseRoomUsers = roomUsernames
+
+                setRoomUsers(baseRoomUsers)
             } catch (e) {
                 console.error(e)
             }
@@ -36,8 +40,8 @@ const RoomUsersComponent = (props) => {
     useEffect(() => filterInput && filterInput.focus() , [filterInput])
 
     useEffect(() => {
-        const newUsers = users.filter(({username}) => !roomUsers.includes(username)).map(({ username }) => username)
-        setRoomUsers((prevState) => [...prevState , ...newUsers])
+        const roomAuthUsers = users.map(({ username }) => username)
+        setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
     }, [users])
 
     const filterInputChange = (e) => {

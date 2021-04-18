@@ -157,7 +157,7 @@ export class RoomUserSubscriber implements ISubscriber {
                 /**
                  * @emits RoomUserLeave if user left
                  */
-                socket.to(roomData.code).emit("RoomUserLeave", { message: `${userData[0].username} has left the room` });
+                socket.to(roomData.code).emit("RoomUserLeave", { username : userData[0].username ,  message: `${userData[0].username} has left the room` });
 
                 this.dependencies.roomService.removeUserFromRoom(roomData.code, socket.id);
             }
