@@ -1,5 +1,5 @@
 import { filter } from "bluebird";
-import React , { useState , useEffect } from "react";
+import React , { useState , useEffect , useRef } from "react";
 import { getRoomData } from "../../../api/room/roomService"
 import useRoomAuth from "../../../hooks/useRoomAuth";
 import "./index.css";
@@ -12,6 +12,8 @@ const RoomUsersComponent = (props) => {
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
     
+    let filterInput = null;
+
     useEffect(() => {
         (async () => {
             try {
@@ -31,6 +33,8 @@ const RoomUsersComponent = (props) => {
         })()
     } , [])
 
+    useEffect(() => filterInput && filterInput.focus() , [filterInput])
+
     useEffect(() => {
         const newUsers = users.filter(({username}) => !roomUsers.includes(username)).map(({ username }) => username)
         setRoomUsers((prevState) => [...prevState , ...newUsers])
@@ -46,7 +50,7 @@ const RoomUsersComponent = (props) => {
 
     return (
         <div id="chat__users" className="chat__users">
-            <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} placeholder="Filter"/>
+            <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} ref={(ele) => (filterInput = ele)} placeholder="Filter"/>
             
             <section className="broadcast__user" id="broadcast__user">
                 <h1 className="chat-section-title">Broadcaster</h1>
