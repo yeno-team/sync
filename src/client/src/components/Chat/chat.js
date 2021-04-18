@@ -25,6 +25,7 @@ export const Chat = (props) => {
     setMessageText = props.setMessageText || setMessageText;
     const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle" key="0">Chat</h4>)]
     const formElements = props.formElements;
+    const viewComponent = props.viewComponent;
     
     useEffect(() => {
         const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
@@ -180,20 +181,22 @@ export const Chat = (props) => {
         <div className={classNames(props.className , "chat__ctn")}>
             <div id="chat__main" className="chat__main">
                 <div className="chat__header">{ headerElements }</div>
-                <RoomUsers code={code}/>
-
-                {/* <div id="chat__messages" className="chat__messages">
-                    {
-                        messageElements 
-                    }
-                </div>
-                <div className="chat__formCtn">
-                    <form className="chat__form" onSubmit={handleSubmit}>
-                        <input id="chat__input" type="text" placeholder="Send a message..." value={messageText} onChange={handleChange}/>
-                        { formElements }
-                    </form>
-                </div> */}
                 
+                { viewComponent === "chat" ? 
+                    <React.Fragment>
+                        <div id="chat__messages" className="chat__messages">
+                            { messageElements }
+                        </div>
+                        <div className="chat__formCtn">
+                            <form className="chat__form" onSubmit={handleSubmit}>
+                                <input id="chat__input" type="text" placeholder="Send a message..." value={messageText} onChange={handleChange}/>
+                                { formElements }
+                            </form>
+                        </div>  
+                    </React.Fragment>              
+                    : <RoomUsers code={code}/>
+                }
+
             </div>
         </div>
     )

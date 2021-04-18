@@ -11,7 +11,6 @@ import { withRouter } from "react-router-dom";
 import './Room.css';
 import Chat from '../../components/Chat/';
 import InputScreen from '../../components/InputScreen';
-import backArrowIcon from "../../assets/icons/back-arrow.svg";
 import settingIcon from "../../assets/icons/settings.svg";
 import emoteIcon from "../../assets/icons/happy.svg";
 import userIcon from '../../assets/icons/users.svg';
@@ -28,9 +27,10 @@ const RoomLayoutComponent = (props) => {
     const [usernameInputActive, setUsernameInputActive] = useState(true);
     const [chatInputValue, setChatInputValue] = useState("");
     const [username, setUsername] = useState("");
+    const [ viewComponent , setViewComponent ] = useState("chat");
 
     const chatHeaderElements = [
-        <img src={userIcon} alt="userIcon" className="room__chatIcon"/>,
+        <img src={userIcon} alt="userIcon" className="room__chatIcon" onClick={() => viewComponent === "chat" ? setViewComponent("roomUsers") : setViewComponent("chat")}/>,
         <h4 className="chat__defaultTitle">Chat</h4>,
         <img className="room__chatIcon" alt="settingIcon" src={settingIcon} onClick={() => setSettingModalActive(!settingModalActive)}></img>,
     ];
@@ -70,7 +70,7 @@ const RoomLayoutComponent = (props) => {
     const authCheck = isAuthenticated ? 
     <React.Fragment>
         <VideoArea roomData={roomData} />
-        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} className="room__chat"/>
+        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} viewComponent={viewComponent}className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList chatInputvalue={chatInputValue} setChatInputValue={setChatInputValue} inputRef={inputRef} active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> : (
