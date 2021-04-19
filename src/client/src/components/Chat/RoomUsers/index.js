@@ -1,5 +1,3 @@
-import { filter } from "bluebird";
-import { cpuUsage } from "process";
 import React , { useState , useEffect , useRef } from "react";
 import { getRoomData } from "../../../api/room/roomService"
 import useRoomAuth from "../../../hooks/useRoomAuth";
@@ -13,8 +11,9 @@ const RoomUsersComponent = (props) => {
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
 
+    const filterInput = document.getElementById("filter__users");
     let baseRoomUsers = [];
-    let filterInput = null;
+    
 
     useEffect(() => {
         (async () => {
@@ -54,7 +53,7 @@ const RoomUsersComponent = (props) => {
 
     return (
         <div id="chat__users" className="chat__users">
-            <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} ref={(ele) => (filterInput = ele)} placeholder="Filter"/>
+            <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} placeholder="Filter"/>
             
             <section className="broadcast__user" id="broadcast__user">
                 <h1 className="chat-section-title">Broadcaster</h1>
