@@ -58,13 +58,18 @@
 .room__chatIcon {
     width: 16px;
     display: inline-block;
-    filter: invert(100%);
     vertical-align: middle;
     margin: auto 0;
+    box-sizing:content-box;
+    padding : 5px;
+    transition: background-color 0.3s linear;
+    border-radius : 7px;
 }
 
 .room__chatIcon:hover {
     cursor: pointer;
+    filter: invert(0);
+    background-color : #272929;
 }
 
 .room__chatIcon:nth-of-type(1) {
