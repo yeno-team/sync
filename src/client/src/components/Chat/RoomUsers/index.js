@@ -7,14 +7,13 @@ const RoomUsersComponent = (props) => {
     const { code } = props;
     const { users } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
+    const [ baseRoomUsers , setBaseRoomUsers] = useState([]);
     const [ roomUsers , setRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
 
     const filterInput = document.getElementById("filter__users");
-    let baseRoomUsers = [];
     
-
     useEffect(() => {
         (async () => {
             try {
@@ -27,9 +26,7 @@ const RoomUsersComponent = (props) => {
 
                 // Returns all the usernames who aren't a broadcaster of the current room.
                 const roomUsernames = roomUsersArr.filter(({ rank }) => rank === 1).map(({ username }) => username)
-                baseRoomUsers = roomUsernames
-
-                setRoomUsers(baseRoomUsers)
+                setBaseRoomUsers(roomUsernames)
             } catch (e) {
                 console.error(e)
             }
@@ -39,9 +36,11 @@ const RoomUsersComponent = (props) => {
     useEffect(() => filterInput && filterInput.focus() , [filterInput])
 
     useEffect(() => {
-        const roomAuthUsers = users.map(({ username }) => username)
-        setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
-    }, [users])
+        if(baseRoomUsers) {
+            const roomAuthUsers = users.map(({ username }) => username)
+            setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
+        }
+    }, [users , baseRoomUsers])
 
     const filterInputChange = (e) => {
         const val = e.target.value
