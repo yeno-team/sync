@@ -1,6 +1,6 @@
 
 import { Server, Socket } from "socket.io";
-import { RoomUserRank } from "src/server/modules/room/types";
+import { RoomUser, RoomUserRank } from "src/server/modules/room/types";
 import { ISubscriber } from "src/types/api/ISubscriber";
 import { RoomService } from "../roomService";
 import cheerio from "cheerio";
@@ -93,19 +93,22 @@ export class RoomUserSubscriber implements ISubscriber {
 
             socket.join(roomData.code);
 
-            if (roomData.users.length === 0) {
-                /**
-                 * User is the creator of the room because no users were in the room before him
-                 */
-                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.owner, data.username);
-            } else {
-                await this.dependencies.roomService.appendUserToRoom(roomData.code, socket.id, RoomUserRank.user, data.username);
+            const user : RoomUser = {
+                socket_id : socket.id,
+                rank : roomData.users.length === 0 ? RoomUserRank.owner : RoomUserRank.user,
+                username : data.username
             }
+            
+            /**
+             * Add a user to the room.
+             */
+            await this.dependencies.roomService.appendUserToRoom(roomData.code, user.socket_id, user.rank , user.username);
 
             /**
-             * @emits RoomUserJoined when a user has joined, broadcast to a room that they have joined
-             */
-            this._socketServer.to(roomData.code).emit("RoomUserJoined", { user: { socketId: socket.id, username: data.username }});
+            * @emits RoomUserJoined when a user has joined, broadcast to a room that they have joined
+            */
+            this._socketServer.to(roomData.code).emit("RoomUserJoined", { user: { socketId: user.socket_id, username: user.username , rank : user.rank }});
+
         } else {
             return socket.emit("RoomJoinError", { message: "Room does not exist" });
         }
@@ -151,7 +154,7 @@ export class RoomUserSubscriber implements ISubscriber {
                 /**
                  * @emits RoomUserLeave if user left
                  */
-                socket.to(roomData.code).emit("RoomUserLeave", { message: `${userData[0].username} has left the room` });
+                socket.to(roomData.code).emit("RoomUserLeave", { username : userData[0].username ,  message: `${userData[0].username} has left the room` });
 
                 this.dependencies.roomService.removeUserFromRoom(roomData.code, socket.id);
             }
