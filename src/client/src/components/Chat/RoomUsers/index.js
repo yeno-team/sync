@@ -1,10 +1,11 @@
 import React , { useState , useEffect } from "react";
-import { getRoomData } from "../../../api/room/roomService"
+import { getRoomData } from "../../../api/room/roomService";
 import useRoomAuth from "../../../hooks/useRoomAuth";
+import Button from '../../Button';
 import "./index.css";
 
 const RoomUsersComponent = (props) => {
-    const { code } = props;
+    const { code , setViewComponent } = props;
     const { users } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
     const [ roomUsers , setRoomUsers ] = useState([]);
@@ -52,27 +53,31 @@ const RoomUsersComponent = (props) => {
     }    
 
     return (
-        <div id="chat__users" className="chat__users">
-            <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} placeholder="Filter"/>
-            
-            <section className="broadcast__user" id="broadcast__user">
-                <h1 className="chat-section-title">Broadcaster</h1>
-                <ul className="room-user-list" id="broadcast-user-list">
-                    <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser}</li>
-                </ul>
-            </section>
+        <React.Fragment>
+            <div id="chat__user__title">Room Users</div>
+            <Button variant="green" id="chat__user__close" onClick={() => setViewComponent("chat")}>Close</Button>
+            <div id="chat__users" className="chat__users">
+                <input type="text" id="filter__users" className="filter__users" onChange={filterInputChange} value={filterVal} placeholder="Filter"/>
+                
+                <section className="broadcast__user" id="broadcast__user">
+                    <h1 className="chat-section-title">Broadcaster</h1>
+                    <ul className="room-user-list" id="broadcast-user-list">
+                        <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser}</li>
+                    </ul>
+                </section>
 
-            <section className="room__users" id="room__users">
-                <h1 className="chat-section-title">Users</h1>
-                <ul className="room-user-list" id="room-users-list">
-                    {
-                        filterVal ? 
-                        filterUsers.map((username , index) => <li key={index}>{username}</li>) :
-                        roomUsers.map((username , index) => <li key={index}>{username}</li>)
-                    }
-                </ul>
-            </section>
+                <section className="room__users" id="room__users">
+                    <h1 className="chat-section-title">Users</h1>
+                    <ul className="room-user-list" id="room-users-list">
+                        {
+                            filterVal ? 
+                            filterUsers.map((username , index) => <li key={index}>{username}</li>) :
+                            roomUsers.map((username , index) => <li key={index}>{username}</li>)
+                        }
+                    </ul>
+                </section>
         </div>
+        </React.Fragment>
     )
 }
 

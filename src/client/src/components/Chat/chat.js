@@ -26,6 +26,7 @@ export const Chat = (props) => {
     const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle" key="0">Chat</h4>)]
     const formElements = props.formElements;
     const viewComponent = props.viewComponent;
+    const setViewComponent = props.setViewComponent;
     
     useEffect(() => {
         const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
@@ -194,7 +195,7 @@ export const Chat = (props) => {
                             </form>
                         </div>  
                     </React.Fragment>              
-                    : <RoomUsers code={code}/>
+                    : <RoomUsers code={code} setViewComponent={setViewComponent}/>
                 }
 
             </div>
