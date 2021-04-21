@@ -32,7 +32,7 @@ describe("RandomUtility Class", () => {
         .getRandomString(-2)
         .catch((e) =>
           expect(e).toMatchInlineSnapshot(
-            `[RangeError: The value of "size" is out of range. It must be >= 0 && <= 4294967295. Received -1]`
+            `[RangeError: The value of "size" is out of range. It must be >= 0 && <= 2147483647. Received -1]`
           )
         );
     });
