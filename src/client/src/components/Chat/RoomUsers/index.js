@@ -1,19 +1,59 @@
 import React , { useState , useEffect } from "react";
 import { getRoomData } from "../../../api/room/roomService"
-import useRoomAuth from "../../../hooks/useRoomAuth";
+import socketSubscriber from "../../../api/socket/socketSubscriber";
 import "./index.css";
+
+const NEW_USER_JOINED_EVENT = "RoomUserJoined";
+const USER_LEAVE_EVENT = "RoomUserLeave";
 
 const RoomUsersComponent = (props) => {
     const { code } = props;
-    const { users } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
     const [ baseRoomUsers , setBaseRoomUsers] = useState([]);
+    const [ newRoomUsers , setNewRoomUsers ] = useState([]);
     const [ roomUsers , setRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
-
     const filterInput = document.getElementById("filter__users");
-    
+
+    useEffect(() => {
+        socketSubscriber.on(NEW_USER_JOINED_EVENT , (data) => {
+            const { user : { username } } = data;
+            setNewRoomUsers([...newRoomUsers , username])
+        })
+
+        socketSubscriber.on(USER_LEAVE_EVENT , (data) => {
+            // Look for the username in newUsers and baseRoomUsers array.
+            const { username } = data;
+
+            // If the username is found in the baseRoomUsers array we will remove the username.
+
+            if(baseRoomUsers.length !== 0 && baseRoomUsers.includes(username)) {
+                const findUsernameIndex = baseRoomUsers.indexOf(username)
+                
+                if(findUsernameIndex !== -1) {
+                    baseRoomUsers.splice(findUsernameIndex , 1)
+                    setBaseRoomUsers([...baseRoomUsers])
+                }
+            
+            } else if(newRoomUsers.length !== 0 && newRoomUsers.includes(username)) {
+                // If the username is found in newUsers array we will remove the username.
+
+                const findUsernameIndex = newRoomUsers.indexOf(username)
+
+                if(findUsernameIndex !== -1) {
+                    newRoomUsers.splice(findUsernameIndex , 1)
+                    setNewRoomUsers([...newRoomUsers])
+                }
+            }
+        })
+
+        return () => {
+            socketSubscriber.off(NEW_USER_JOINED_EVENT)
+            socketSubscriber.off(USER_LEAVE_EVENT)
+        }
+    }, [baseRoomUsers , newRoomUsers])
+
     useEffect(() => {
         (async () => {
             try {
@@ -33,14 +73,11 @@ const RoomUsersComponent = (props) => {
         })()
     } , [])
 
-    useEffect(() => filterInput && filterInput.focus() , [filterInput])
-
     useEffect(() => {
-        if(baseRoomUsers) {
-            const roomAuthUsers = users.map(({ username }) => username)
-            setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
-        }
-    }, [users , baseRoomUsers])
+        setRoomUsers([...baseRoomUsers , ...newRoomUsers])
+    } , [baseRoomUsers , newRoomUsers])
+
+    useEffect(() => filterInput && filterInput.focus() , [filterInput])
 
     const filterInputChange = (e) => {
         const val = e.target.value
