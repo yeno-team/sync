@@ -18,7 +18,7 @@ import { RoomAuth } from './RoomAuth/RoomAuth';
 
 const RoomLayoutComponent = (props) => {
     const { code } = useParams();
-    const [roomData, setRoomData] = useState();
+    const [roomData, setRoomData] = useState(null);
     const {emotes, getEmote} = useEmotes();
     const inputRef = useRef();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -44,33 +44,34 @@ const RoomLayoutComponent = (props) => {
             const response = await getRoomData(code);
             setRoomData(response);
         } catch(e) {
-            setRoomData({});
+            setRoomData(null);
             console.error(e);
         }
     }
 
     useEffect(() => {
         (async() => {
-            if (roomData == null) {
-                await fetchRoomData();
-            } else {
-                if (roomData && roomData.users && roomData.users.length === 0) {
-                    
-                    await fetchRoomData();
-                }
+            if(!roomData) {
+                await fetchRoomData()
             }
+        })()
+    }, [roomData])
 
-            if (roomData && roomData.users && roomData.users.find(user => user.socket_id === socketSubscriber.getSocket().id)) {
-                setIsAuthenticated(true);
-            } 
-            
-        })();
-    }, [roomData]);
+    useEffect(() => {
+        // Check if the user socket id is currently in this room. If so , authenticate the user.
+        if(roomData) {
+            const findUserInRoom = roomData.users.find(user => user.socket_id === socketSubscriber.getSocket().id)
+
+            if(findUserInRoom) {
+                setIsAuthenticated(true)
+            }
+        }
+    }, [roomData])
 
     const authCheck = isAuthenticated ? 
     <React.Fragment>
         <VideoArea roomData={roomData} />
-        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} viewComponent={viewComponent}className="room__chat"/>
+        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} viewComponent={viewComponent} setViewComponent={setViewComponent} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList chatInputvalue={chatInputValue} setChatInputValue={setChatInputValue} inputRef={inputRef} active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> : (

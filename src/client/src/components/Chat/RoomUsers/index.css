@@ -1,3 +1,21 @@
+#chat__user__title {
+    text-align: center;
+    font-size : 18px;
+    font-weight : bold;
+    padding : 15px;
+    border-top : 2px solid #272929;;
+    background-color: #2F3334;
+}
+
+#chat__user__close {
+    margin : 10px auto 0px;
+    border-radius : 7px;
+    display : block;
+    padding : 10px 20px;
+    font-size : 16px;
+    height : auto;
+}
+
 #chat__users {
     max-height : 100%;
     text-align: center;
