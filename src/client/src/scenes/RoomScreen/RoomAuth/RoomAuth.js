@@ -22,7 +22,7 @@ export const RoomAuth = (props) => {
 
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
-    const { users, joinRoom, errors } = useRoomAuth(roomData.code);
+    const { roomUsers : { users } , joinRoom, errors } = useRoomAuth(roomData.code);
     const alert = useAlert();
     const prevUsers = usePrevious(users);
     const prevErrors = usePrevious(errors);

@@ -8,46 +8,27 @@ const RoomUsersComponent = (props) => {
     const { code , setViewComponent } = props;
     const { users } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
-    const [ roomUsers , setRoomUsers ] = useState([]);
+    const [ currentRoomUsers , setCurrentRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
-
     const filterInput = document.getElementById("filter__users");
-    let baseRoomUsers = [];
+
+    useEffect(() => {
+        if(roomUsers.broadcaster?.username !== broadcasterUser) {
+            setBroadcastUser(roomUsers.broadcaster?.username)
+        }
+
+        const usernames = roomUsers.users.map(({username}) => username)
+        setCurrentRoomUsers([...usernames])
+
+    } , [roomUsers])
     
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const roomData = await getRoomData(code)
-                const roomUsersArr = roomData.users
-
-                // Find the broadcaster user.
-                const broadcaster = roomUsersArr.find(({rank}) => rank === 0).username
-                setBroadcastUser(broadcaster)                 
-
-                // Returns all the usernames who aren't a broadcaster of the current room.
-                const roomUsernames = roomUsersArr.filter(({ rank }) => rank === 1).map(({ username }) => username)
-                baseRoomUsers = roomUsernames
-
-                setRoomUsers(baseRoomUsers)
-            } catch (e) {
-                console.error(e)
-            }
-        })()
-    } , [])
-
     useEffect(() => filterInput && filterInput.focus() , [filterInput])
-
-    useEffect(() => {
-        const roomAuthUsers = users.map(({ username }) => username)
-        setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
-    }, [users])
 
     const filterInputChange = (e) => {
         const val = e.target.value
         
-        const filteredUsernames = roomUsers.filter((username) => username.includes(val))
+        const filteredUsernames = currentRoomUsers.filter((username) => username.includes(val))
         setFilterVal(val)
         setFilterUsers(filteredUsernames)
     }    

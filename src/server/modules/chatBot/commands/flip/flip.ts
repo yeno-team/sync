@@ -44,7 +44,10 @@ export class FlipCommand implements IChatBotCommand {
 
             if (flipAmount > parsedBank.money) {
                 return this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, `You do not have enough money to flip this amount.`)
-            }   
+            }
+            else if(flipAmount < 0){
+                return this.dependencies.chatBotUtility.sendMessage(socket, messageData.roomCode, `You cannot flip a negative amount.`)
+            }
 
             const randomNumber = this.dependencies.randomUtility.getRandomInteger(1, 2);
 
