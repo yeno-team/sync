@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import socketSubscriber from '../api/socket/socketSubscriber';
 import { getRoomData } from '../api/room/roomService';
@@ -21,55 +20,69 @@ const useRoomAuth = (roomCode) => {
             (async () => {
                 const roomData = await getRoomData(roomCode)
                 const roomUsersArr = roomData.users
-    
-                // Get the broadcast user.
-                const broadcasterUser = roomUsersArr.find(({rank}) => rank === 0).username
+
+                // Get the broadcast user object.
+                const broadcasterUserObj = roomUsersArr.find(({rank}) => rank === 0)
     
                 // Get users who are not the broadcast user.
-                const roomUsernames = roomUsersArr.filter(({ rank }) => rank === 1).map(({ username }) => username)
+                const roomUsernamesObj = roomUsersArr.filter(({ rank }) => rank === 1)
 
                 setRoomUsers({
-                    broadcast : broadcasterUser,
-                    users : [...roomUsernames]
+                    broadcaster : broadcasterUserObj,
+                    users : [...roomUsernamesObj]
                 })
-            })
+            })()
         } catch (e) {
             setErrors((prevState) => [...prevState , "Failed to fetch user information for the current rome."])
         }
     } , [])
 
-    
-    // useEffect(() => {
-    //     socketSubscriber.on(NEW_USER_JOINED_EVENT, (data) => {
-    //         setRoomUsers([...roomUsers, data.user]);
-    //     });
-        
-    //     socketSubscriber.on(USER_LEAVE_EVENT , (data) => {
-    //         const usernameLeft = data.username
-    //         const index = roomUsers.findIndex(({username}) => usernameLeft === username)
 
-    //         if(index !== -1) {
-    //             // Remove the user off the users array.
-    //             roomUsers.splice(index , 1)
-    //             setRoomUsers([...roomUsers])
-    //         }
-    //     })
+    useEffect(() => {
+        socketSubscriber.on(NEW_USER_JOINED_EVENT , (data) => {
+            const { user } = data
 
-    //     socketSubscriber.on(ERROR_JOIN_EVENT, (data) => {
-    //         setErrors([...errors, data.message]);
-    //     });
+            setRoomUsers((prevState) => ({
+                broadcaster : prevState.broadcaster,
+                users : [...prevState.users , user]
+            }))
+        })
 
-    //     socketSubscriber.on(ERROR_LEAVE_EVENT , (data) => {
-    //         setErrors([...errors , data.message])
-    //     })
+        socketSubscriber.on(USER_LEAVE_EVENT , (data) => {
+            const { username : username1 } = data;
 
-    //     return () => {
-    //         socketSubscriber.off(NEW_USER_JOINED_EVENT);
-    //         socketSubscriber.off(ERROR_JOIN_EVENT);
-    //         socketSubscriber.off(USER_LEAVE_EVENT);
-    //         socketSubscriber.off(ERROR_LEAVE_EVENT);
-    //     }
-    // }, [errors, roomUsers])
+            // Find the user who left in the user array.
+            const findUserIndex = roomUsers.users.findIndex(({username}) => username === username1)
+
+            if(findUserIndex !== -1) {
+                const copyUserArray = [...roomUsers.users]
+
+                // Remove the user fromn the array.
+                copyUserArray.splice(findUserIndex , 1)
+
+                setRoomUsers((prevState) => ({
+                    broadcaster : prevState.broadcaster,
+                    users : [...copyUserArray]
+                }))
+
+            }
+        })
+
+        socketSubscriber.on(ERROR_JOIN_EVENT, (data) => {
+            setErrors([...errors, data.message]);
+        })
+
+        socketSubscriber.on(ERROR_LEAVE_EVENT , (data) => {
+            setErrors([...errors , data.message])
+        })
+
+        return () => {
+            socketSubscriber.off(NEW_USER_JOINED_EVENT);
+            socketSubscriber.off(ERROR_JOIN_EVENT);
+            socketSubscriber.off(USER_LEAVE_EVENT);
+            socketSubscriber.off(ERROR_LEAVE_EVENT);
+        }
+    } , [ roomUsers , errors ])
     
     const joinRoom = (username, password) => {
         socketSubscriber.emit("UserJoin" , { roomCode, username , password});
