@@ -71,7 +71,7 @@ const RoomLayoutComponent = (props) => {
     const authCheck = isAuthenticated ? 
     <React.Fragment>
         <VideoArea roomData={roomData} />
-        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} viewComponent={viewComponent}className="room__chat"/>
+        <Chat messageText={chatInputValue} setMessageText={setChatInputValue} formElements={chatFormElements} headerElements={chatHeaderElements} roomData={roomData} viewComponent={viewComponent} setViewComponent={setViewComponent} className="room__chat"/>
         <RoomSettingModal active={settingModalActive} roomData={roomData} />
         <RoomEmoteList chatInputvalue={chatInputValue} setChatInputValue={setChatInputValue} inputRef={inputRef} active={emoteListActive} setActive={setEmoteListActive} emotes={emotes}/>
     </React.Fragment> : (
