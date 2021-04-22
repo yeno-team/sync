@@ -1,19 +1,43 @@
 import React , { useState , useEffect } from "react";
 import { getRoomData } from "../../../api/room/roomService"
-import useRoomAuth from "../../../hooks/useRoomAuth";
+import socketSubscriber from "../../../api/socket/socketSubscriber";
 import "./index.css";
+
+const NEW_USER_JOINED_EVENT = "RoomUserJoined";
+const USER_LEAVE_EVENT = "RoomUserLeave";
 
 const RoomUsersComponent = (props) => {
     const { code } = props;
-    const { users } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
     const [ roomUsers , setRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
-
     const filterInput = document.getElementById("filter__users");
-    let baseRoomUsers = [];
-    
+
+    useEffect(() => {
+        socketSubscriber.on(NEW_USER_JOINED_EVENT , (data) => {
+            const { user : { username } } = data;
+            setRoomUsers((prevState) => [...prevState , username])
+        })
+
+        socketSubscriber.on(USER_LEAVE_EVENT , (data) => {
+            const { username } = data;
+
+            if(roomUsers.length !== 0 && roomUsers.includes(username)) {
+                const findUsernameIndex = roomUsers.indexOf(username)
+                
+                if(findUsernameIndex !== -1) {
+                    roomUsers.splice(findUsernameIndex , 1)
+                    setRoomUsers([...roomUsers])
+                }
+            }
+        })
+
+        return () => {
+            socketSubscriber.off(NEW_USER_JOINED_EVENT)
+            socketSubscriber.off(USER_LEAVE_EVENT)
+        }
+    }, [roomUsers])
 
     useEffect(() => {
         (async () => {
@@ -27,9 +51,7 @@ const RoomUsersComponent = (props) => {
 
                 // Returns all the usernames who aren't a broadcaster of the current room.
                 const roomUsernames = roomUsersArr.filter(({ rank }) => rank === 1).map(({ username }) => username)
-                baseRoomUsers = roomUsernames
-
-                setRoomUsers(baseRoomUsers)
+                setRoomUsers([...roomUsernames])
             } catch (e) {
                 console.error(e)
             }
@@ -37,11 +59,6 @@ const RoomUsersComponent = (props) => {
     } , [])
 
     useEffect(() => filterInput && filterInput.focus() , [filterInput])
-
-    useEffect(() => {
-        const roomAuthUsers = users.map(({ username }) => username)
-        setRoomUsers([...baseRoomUsers , ...roomAuthUsers])
-    }, [users])
 
     const filterInputChange = (e) => {
         const val = e.target.value
