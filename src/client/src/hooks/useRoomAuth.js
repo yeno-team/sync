@@ -88,7 +88,7 @@ const useRoomAuth = (roomCode) => {
         socketSubscriber.emit("UserJoin" , { roomCode, username , password});
     };
 
-    return { users: roomUsers, joinRoom, errors };
+    return { roomUsers, joinRoom, errors };
 }
 
 export default useRoomAuth;
