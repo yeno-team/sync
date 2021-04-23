@@ -7,33 +7,42 @@ import socketSubscriber from '../../../api/socket/socketSubscriber';
 
 export const RoomAuth = (props) => {
     if (props.setIsAuthenticated === null) {
-        throw new Error("RoomAuth component requires 'setIsAuthenticated' method");
+        throw new Error("RoomAuth component requires 'setIsAuthenticated' method.");
     }
 
     if (props.isAuthenticated === null) {
-        throw new Error("RoomAuth component requires 'isAuthenticated' value");
+        throw new Error("RoomAuth component requires 'isAuthenticated' value.");
+    }
+
+    if(props.joinRoom === null) {
+        throw new Error("RoomAuth component requires the 'joinRoom' method.")
+    }
+
+    if(props.roomErrors === null) {
+        throw new Error("RoomAuth component requires the 'roomErrors' value.")
     }
 
     const setIsAuthenticated = props.setIsAuthenticated;
     const isAuthenticated = props.isAuthenticated;
     const roomData = props.roomData;
+    const joinRoom = props.joinRoom;
+    const roomErrors = props.roomErrors;
     const username = props.username;
     const setUsernameInputActive = props.setUsernameInputActive;
 
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
-    const { roomUsers : { users } , joinRoom, errors } = useRoomAuth(roomData.code);
     const alert = useAlert();
-    const prevUsers = usePrevious(users);
-    const prevErrors = usePrevious(errors);
+    const prevUsers = usePrevious(roomData.users);
+    const prevErrors = usePrevious(roomErrors);
 
     useEffect(() => {
-        const newUsers = users.filter((user, index) => prevUsers[index] !== user);
-        const newErrors = errors.filter((error, index) => prevErrors[index] !== error);
+        const newUsers = roomData.users.filter((user, index) => prevUsers[index] !== user);
+        const newErrors = roomErrors.filter((error, index) => prevErrors[index] !== error);
 
         if (newUsers.length > 0) {
             // new user joined
-            newUsers.map(user => alert.show("You joined the room!"))
+            newUsers.forEach(user => alert.show("You joined the room!"))
             
             if (submitted && !isAuthenticated) {
                 const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
@@ -54,14 +63,13 @@ export const RoomAuth = (props) => {
                 setSubmitted(true);
             }
         }    
-    }, [users, errors]);
+    }, [roomData.users, roomErrors]);
 
     useEffect(() => {
         if (roomData.is_private === false && roomData.users.length === 0 && isAuthenticated === false) {           
             joinRoom(username, "");
             setSubmitted(true);
         } else if (roomData.users.length > 0) {
-           
             const clientFound = roomData.users.filter(user => socketSubscriber.getSocket().id === user.socket_id);
 
             if (clientFound.length > 0) {
