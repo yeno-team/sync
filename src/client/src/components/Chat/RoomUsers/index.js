@@ -1,26 +1,29 @@
 import React , { useState , useEffect } from "react";
-import useRoomAuth from "../../../hooks/useRoomAuth";
 import Button from '../../Button';
 import "./index.css";
 
 const RoomUsersComponent = (props) => {
-    const { code , setViewComponent } = props;
-    const { roomUsers } = useRoomAuth(code);
-    const [ broadcasterUser , setBroadcastUser ] = useState(null);
+    const { roomData , setViewComponent } = props;
+    const [ currentBroadcaster , setCurrentBroadcaster ] = useState(null);
     const [ currentRoomUsers , setCurrentRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
     const [ filterUsers , setFilterUsers ] = useState([]);
     const filterInput = document.getElementById("filter__users");
 
     useEffect(() => {
-        if(roomUsers.broadcaster?.username !== broadcasterUser) {
-            setBroadcastUser(roomUsers.broadcaster?.username)
+        const broadcasterUser = roomData.broadcaster.username
+
+        if(broadcasterUser !== currentBroadcaster) {
+            setCurrentBroadcaster(broadcasterUser)
         }
+        
+        const roomUserObjects = roomData.users
+        const roomUsers = roomUserObjects.filter(({ rank }) => rank === 1).map(({username}) => username)
 
-        const usernames = roomUsers.users.map(({username}) => username)
-        setCurrentRoomUsers([...usernames])
-
-    } , [roomUsers])
+        if(currentRoomUsers.length !== roomUsers.length) {
+            setCurrentRoomUsers([...roomUsers])
+        }
+    } , [roomData.broadcaster , roomData.users])
     
     useEffect(() => filterInput && filterInput.focus() , [filterInput])
 
@@ -42,7 +45,7 @@ const RoomUsersComponent = (props) => {
                 <section className="broadcast__user" id="broadcast__user">
                     <h1 className="chat-section-title">Broadcaster</h1>
                     <ul className="room-user-list" id="broadcast-user-list">
-                        <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser }</li>
+                        <li>{ currentBroadcaster?.includes(filterVal) && currentBroadcaster }</li>
                     </ul>
                 </section>
 

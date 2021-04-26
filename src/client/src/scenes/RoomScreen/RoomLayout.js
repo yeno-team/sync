@@ -61,8 +61,6 @@ const RoomLayoutComponent = (props) => {
         <InputScreen inputName="Username" value={username} setValue={setUsername} active={usernameInputActive} setActive={setUsernameInputActive}/> :
         <RoomAuth username={username} roomData={roomData} joinRoom={joinRoom} roomErrors={errors} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
     )
-        
-    console.log(roomData)
 
     return (
         <div className="room__layout">
