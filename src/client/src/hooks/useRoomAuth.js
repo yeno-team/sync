@@ -22,36 +22,40 @@ const useRoomAuth = (roomCode) => {
     useEffect(() => {
         try {
             (async () => {
-                const roomData = await getRoomData(roomCode)
-                const roomUsers = roomData.users
-                const isRoomPrivate = roomData.is_private
-                const roomMaxUsers = roomData.max_users
+                const { is_private , max_users , users , name , description , video_src } = await getRoomData(roomCode)
+                
                 // Get the broadcast user object.
-                const broadcasterUserObj = roomUsers.find(({rank}) => rank === 0)
+                const broadcasterUserObj = users.find(({rank}) => rank === 0)
 
                 setRoomData({
                     broadcaster : broadcasterUserObj,
-                    users : [...roomUsers],
-                    max_users : roomMaxUsers,
-                    is_private : isRoomPrivate,
-                    roomCode
+                    users : [...users],
+                    max_users,
+                    is_private,
+                    roomCode,
+                    name,
+                    description,
+                    video_src
                 })
             })()
         } catch (e) {
-            setErrors((prevState) => [...prevState , "Failed to fetch user information for the current rome."])
+            setErrors((prevState) => [...prevState , "Failed to fetch user information for the current room."])
         }
     } , [])
 
     useEffect(() => {
         socketSubscriber.on(NEW_USER_JOINED_EVENT , (data) => {
             const { user } = data
-
+            
             setRoomData((prevState) => ({
-                broadcaster : prevState.broadcaster,
+                broadcaster : !roomData.broadcaster && user.rank === 0 ? user : prevState.broadcaster,
                 users : [...prevState.users , user],
                 max_users : prevState.max_users,
                 is_private : prevState.is_private,
-                roomCode : prevState.roomCode
+                roomCode : prevState.roomCode,
+                name : prevState.name,
+                description : prevState.description,
+                video_src : prevState.video_src
             }))
         })
 
@@ -72,7 +76,10 @@ const useRoomAuth = (roomCode) => {
                     users : [...copyUserArray],
                     max_users : prevState.max_users,
                     is_private : prevState.is_private,
-                    roomCode : prevState.roomCode
+                    roomCode : prevState.roomCode,
+                    name : prevState.name,
+                    description : prevState.description,
+                    video_src : prevState.video_src
                 }))
             }
         })

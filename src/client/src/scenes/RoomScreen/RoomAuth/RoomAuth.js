@@ -34,11 +34,14 @@ export const RoomAuth = (props) => {
     const [submitted, setSubmitted] = useState(false);
     const alert = useAlert();
     const prevUsers = usePrevious(roomData.users);
-    const prevErrors = usePrevious(roomErrors);
+    console.log(roomErrors)
+    const prevErrors = usePrevious(roomErrors || []);
 
+    // TypeError: can't access property 0, prevErrors is undefined
     useEffect(() => {
         const newUsers = roomData.users.filter((user, index) => prevUsers[index] !== user);
         const newErrors = roomErrors.filter((error, index) => prevErrors[index] !== error);
+        console.log(newErrors)
 
         if (newUsers.length > 0) {
             // new user joined
