@@ -33,40 +33,45 @@ export const RoomAuth = (props) => {
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const alert = useAlert();
+
     const prevUsers = usePrevious(roomData.users);
-    console.log(roomErrors)
-    const prevErrors = usePrevious(roomErrors || []);
+    const prevErrors = usePrevious(roomErrors);
 
-    // TypeError: can't access property 0, prevErrors is undefined
     useEffect(() => {
-        const newUsers = roomData.users.filter((user, index) => prevUsers[index] !== user);
-        const newErrors = roomErrors.filter((error, index) => prevErrors[index] !== error);
-        console.log(newErrors)
+        if(prevUsers) {
+            const newUsers = roomData.users.filter((user, index) => prevUsers[index] !== user);
 
-        if (newUsers.length > 0) {
-            // new user joined
-            newUsers.forEach(user => alert.show("You joined the room!"))
-            
-            if (submitted && !isAuthenticated) {
-                const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
-                if (clientFound.length > 0) {
-                    setIsAuthenticated(true);
+            if (newUsers.length > 0) {
+                newUsers.forEach(user => alert.show("You joined the room!"))
+                
+                if (submitted && !isAuthenticated) {
+                    const clientFound = newUsers.filter(user => socketSubscriber.getSocket().id === user.socketId);
+                    if (clientFound.length > 0) {
+                        setIsAuthenticated(true);
+                    }
+                }
+            }   
+        }
+    } , [roomData.users])
+
+    // Handle room errors.
+    useEffect(() => {
+        if(prevErrors) {
+            const newErrors = roomErrors.filter((error, index) => prevErrors[index] !== error);
+    
+            if (newErrors.length > 0) {
+                newErrors.map(error => alert.show(error));
+
+                if (newErrors.indexOf("Already Joined") === -1) {
+                    setUsernameInputActive(true);
+                }
+
+                if (newErrors.indexOf("Incorrect Room Password") !== -1) {
+                    setSubmitted(true);
                 }
             }
-        }   
-    
-        if (newErrors.length > 0) {
-            newErrors.map(error => alert.show(error));
-
-            if (newErrors.indexOf("Already Joined") === -1) {
-                setUsernameInputActive(true);
-            }
-
-            if (newErrors.indexOf("Incorrect Room Password") !== -1) {
-                setSubmitted(true);
-            }
         }    
-    }, [roomData.users, roomErrors]);
+    }, [roomErrors])
 
     useEffect(() => {
         if (roomData.is_private === false && roomData.users.length === 0 && isAuthenticated === false) {           
