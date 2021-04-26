@@ -42,11 +42,7 @@ const RoomUsersComponent = (props) => {
                 <section className="broadcast__user" id="broadcast__user">
                     <h1 className="chat-section-title">Broadcaster</h1>
                     <ul className="room-user-list" id="broadcast-user-list">
-<<<<<<< HEAD
-                        <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser } </li>
-=======
                         <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser }</li>
->>>>>>> 15dc357a3e6ec0613ffc4d2dbfe9256d159a5caf
                     </ul>
                 </section>
 

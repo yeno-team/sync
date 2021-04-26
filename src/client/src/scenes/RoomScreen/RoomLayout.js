@@ -61,13 +61,15 @@ const RoomLayoutComponent = (props) => {
         <InputScreen inputName="Username" value={username} setValue={setUsername} active={usernameInputActive} setActive={setUsernameInputActive}/> :
         <RoomAuth username={username} roomData={roomData} joinRoom={joinRoom} roomErrors={errors} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
     )
-    
+        
+    console.log(roomData)
+
     return (
         <div className="room__layout">
             {
-                roomData == null ? 
+                roomData === null ? 
                 <p>Loading</p> : (
-                    roomData && Object.keys(roomData).length === 0 && roomData.constructor === Object ?
+                    roomData === false ?
                     <div className="room__layoutMessage">
                         <p>Room does not exist</p> 
                         <a href="/">Go back home</a>
