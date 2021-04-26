@@ -37,6 +37,7 @@ export const RoomAuth = (props) => {
     const prevUsers = usePrevious(roomData.users);
     const prevErrors = usePrevious(roomErrors);
 
+    // Handle new users
     useEffect(() => {
         if(prevUsers) {
             const newUsers = roomData.users.filter((user, index) => prevUsers[index] !== user);
@@ -60,7 +61,7 @@ export const RoomAuth = (props) => {
             const newErrors = roomErrors.filter((error, index) => prevErrors[index] !== error);
     
             if (newErrors.length > 0) {
-                newErrors.map(error => alert.show(error));
+                newErrors.forEach(error => alert.show(error));
 
                 if (newErrors.indexOf("Already Joined") === -1) {
                     setUsernameInputActive(true);
