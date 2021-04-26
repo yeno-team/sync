@@ -1,12 +1,11 @@
 import React , { useState , useEffect } from "react";
-import { getRoomData } from "../../../api/room/roomService";
 import useRoomAuth from "../../../hooks/useRoomAuth";
 import Button from '../../Button';
 import "./index.css";
 
 const RoomUsersComponent = (props) => {
     const { code , setViewComponent } = props;
-    const { users } = useRoomAuth(code);
+    const { roomUsers } = useRoomAuth(code);
     const [ broadcasterUser , setBroadcastUser ] = useState(null);
     const [ currentRoomUsers , setCurrentRoomUsers ] = useState([]);
     const [ filterVal , setFilterVal ] = useState("");
@@ -43,7 +42,7 @@ const RoomUsersComponent = (props) => {
                 <section className="broadcast__user" id="broadcast__user">
                     <h1 className="chat-section-title">Broadcaster</h1>
                     <ul className="room-user-list" id="broadcast-user-list">
-                        <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser}</li>
+                        <li>{ broadcasterUser?.includes(filterVal) && broadcasterUser }</li>
                     </ul>
                 </section>
 
@@ -53,7 +52,7 @@ const RoomUsersComponent = (props) => {
                         {
                             filterVal ? 
                             filterUsers.map((username , index) => <li key={index}>{username}</li>) :
-                            roomUsers.map((username , index) => <li key={index}>{username}</li>)
+                            currentRoomUsers.map((username , index) => <li key={index}>{username}</li>)
                         }
                     </ul>
                 </section>
