@@ -28,6 +28,7 @@ export const VideoArea = (props) => {
         }
     } , [roomData.broadcaster])
 
+    // Set the react video player src when this component mounts.
     useEffect(() => {
         setVideoSrc(roomData.video_src)
     }, [])
@@ -35,7 +36,6 @@ export const VideoArea = (props) => {
     useEffect(() => {
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
             setOwnerVideoState(data.state); 
-
             const _ownerState = data.state;
 
             if (!isBroadcaster && videoState) {
@@ -81,7 +81,7 @@ export const VideoArea = (props) => {
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
             socketSubscriber.off(ROOM_VIDEO_ERROR);
         }
-    }, [roomData, videoState]);
+    }, [videoState]);
 
     function VideoResumed() {
         ownerVideoState && player.seek(ownerVideoState.currentTime);
@@ -103,10 +103,6 @@ export const VideoArea = (props) => {
             if (state.paused === false && prevState.paused === true) {
                 VideoResumed();
             }
-
-            if(state.muted !== prevState.muted) {
-                VideoMuted();
-            }
         }
 
         if (isBroadcaster) {
@@ -119,7 +115,7 @@ export const VideoArea = (props) => {
             <VideoPlayer 
                 className="room__video"
                 src={videoSrc} 
-                hideControls={!isBroadcaster}  
+                hideDefaultControls={!isBroadcaster}  
                 fluid={false} 
                 handleStateChange={videoStateChanged}
                 autoPlay={true}

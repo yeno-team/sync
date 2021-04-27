@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useRoomAuth, usePrevious } from '../../../hooks';
+import { usePrevious } from '../../../hooks';
 import { useAlert } from 'react-alert'
 
 import socketSubscriber from '../../../api/socket/socketSubscriber';
