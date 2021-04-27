@@ -12,7 +12,7 @@ export const VideoArea = (props) => {
     const [ ownerVideoState, setOwnerVideoState ] = useState({});
     const [ videoState, setVideoState ] = useState();
     const [ player, setPlayer ] = useState();
-    const [ currentVideoSrc, setCurrentVideoSrc ] = useState();
+    const [ videoSrc, setVideoSrc ] = useState();
     const [ started, setStarted ] = useState(false);
     
     const roomData = props.roomData
@@ -23,21 +23,14 @@ export const VideoArea = (props) => {
             const roomBroadcaster = roomData.broadcaster
 
             if(roomBroadcaster?.socketId === socketSubscriber.getSocket()?.id) {
-                console.log('broadcaster is true now')
                 setIsBroadcaster(true)
             }        
         }
     } , [roomData.broadcaster])
-    
-    // Change in the video src.
+
     useEffect(() => {
-        const roomVideoSrc = roomData.video_src
-
-        if(roomVideoSrc !== currentVideoSrc) {
-            setCurrentVideoSrc(roomVideoSrc)
-        }
-
-    }, [roomData.video_src])
+        setVideoSrc(roomData.video_src)
+    }, [])
 
     useEffect(() => {
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
@@ -67,7 +60,7 @@ export const VideoArea = (props) => {
         });
 
         socketSubscriber.on(ROOM_VIDEO_URL_CHANGED, (data) => {
-            setCurrentVideoSrc(data.url);
+            setVideoSrc(data.url);
         });
 
         socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
@@ -125,10 +118,11 @@ export const VideoArea = (props) => {
         <div className="room__videoArea">
             <VideoPlayer 
                 className="room__video"
-                src={currentVideoSrc} 
+                src={videoSrc} 
                 hideControls={!isBroadcaster}  
                 fluid={false} 
                 handleStateChange={videoStateChanged}
+                autoPlay={true}
             />
         </div>
     )
