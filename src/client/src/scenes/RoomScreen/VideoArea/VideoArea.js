@@ -43,14 +43,6 @@ export const VideoArea = (props) => {
                     videoState.paused === false && player.seek(_ownerState.currentTime);
                 }
 
-                if(_ownerState.muted !== videoState.muted) { // Mute Change
-                    player.muted = data.state.muted;
-                }
-
-                if(_ownerState.volume !== videoState.volume) { // Volume Change
-                    player.volume = data.state.volume;
-                }
-
                 // Pause if the owner is paused
                 _ownerState.paused && player.pause();
 
@@ -86,12 +78,6 @@ export const VideoArea = (props) => {
     function VideoResumed() {
         ownerVideoState && player.seek(ownerVideoState.currentTime);
         ownerVideoState && ownerVideoState.paused && player.pause();
-    }
-
-    function VideoMuted () {
-        if(ownerVideoState) {
-            player.muted = ownerVideoState.muted;
-        }
     }
 
     function videoStateChanged(state, prevState, player) {
