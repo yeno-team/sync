@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useHistory , useParams } from 'react-router-dom'
-import { useRoomAuth, usePrevious, useEmotes } from '../../hooks';
+import React, { useState , useRef , useEffect } from 'react';
+import { useParams } from 'react-router-dom'
+import { useRoomAuth , useEmotes } from '../../hooks';
 import { VideoArea } from './VideoArea/VideoArea';
 import RoomSettingModal from './RoomSettingModal/';
 import RoomEmoteList from './RoomEmoteList';
-import { getRoomData } from '../../api/room/roomService'
 import socketSubscriber from '../../api/socket/socketSubscriber';
 import { withRouter } from "react-router-dom";
 
@@ -15,10 +14,11 @@ import settingIcon from "../../assets/icons/settings.svg";
 import emoteIcon from "../../assets/icons/happy.svg";
 import userIcon from '../../assets/icons/users.svg';
 import { RoomAuth } from './RoomAuth/RoomAuth';
+import { join } from 'bluebird';
 
 const RoomLayoutComponent = (props) => {
     const { code } = useParams();
-    const [roomData, setRoomData] = useState(null);
+    const { roomData , joinRoom , errors } = useRoomAuth(code)
     const {emotes, getEmote} = useEmotes();
     const inputRef = useRef();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,24 +38,6 @@ const RoomLayoutComponent = (props) => {
     const chatFormElements = [
         <img className="room__chatEmoteIcon" src={emoteIcon}  onClick={() => setEmoteListActive(!emoteListActive)}></img>
     ]
-
-    async function fetchRoomData() {
-        try {   
-            const response = await getRoomData(code);
-            setRoomData(response);
-        } catch(e) {
-            setRoomData(null);
-            console.error(e);
-        }
-    }
-
-    useEffect(() => {
-        (async() => {
-            if(!roomData) {
-                await fetchRoomData()
-            }
-        })()
-    }, [roomData])
 
     useEffect(() => {
         // Check if the user socket id is currently in this room. If so , authenticate the user.
@@ -77,16 +59,15 @@ const RoomLayoutComponent = (props) => {
     </React.Fragment> : (
         usernameInputActive ? 
         <InputScreen inputName="Username" value={username} setValue={setUsername} active={usernameInputActive} setActive={setUsernameInputActive}/> :
-        <RoomAuth username={username} roomData={roomData} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
+        <RoomAuth username={username} roomData={roomData} joinRoom={joinRoom} roomErrors={errors} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUsernameInputActive={setUsernameInputActive}/>
     )
-    
-    
+
     return (
         <div className="room__layout">
             {
-                roomData == null ? 
+                roomData === null ? 
                 <p>Loading</p> : (
-                    roomData && Object.keys(roomData).length === 0 && roomData.constructor === Object ?
+                    roomData === false ?
                     <div className="room__layoutMessage">
                         <p>Room does not exist</p> 
                         <a href="/">Go back home</a>

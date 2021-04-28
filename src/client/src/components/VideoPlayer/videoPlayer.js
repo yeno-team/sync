@@ -1,23 +1,27 @@
 import React , { Component } from 'react'
-import { Player, ControlBar } from 'video-react';
+import { Player, ControlBar , VolumeMenuButton , FullscreenToggle , CurrentTimeDisplay , DurationDisplay , TimeDivider } from 'video-react';
 
 export class VideoPlayer extends Component {
     constructor(props) {
-        super(props)
+      super(props)
 
-        this.state = { source : this.props.src } // Holds 
-        // this.play = this.play.bind(this);
-        // this.pause = this.pause.bind(this);
-        // this.load = this.load.bind(this);
-        // this.changeCurrentTime = this.changeCurrentTime.bind(this);
-        // this.seek = this.seek.bind(this);
-        // this.changePlaybackRateRate = this.changePlaybackRateRate.bind(this);
-        // this.changeVolume = this.changeVolume.bind(this);
-        // this.setMuted = this.setMuted.bind(this);
+      this.state = { source : this.props.src }
+      this.hideDefaultControls = this.props.hideDefaultControls
+    }
+
+    componentDidUpdate(prevProps) {
+      if(this.props.hideDefaultControls !== prevProps.hideDefaultControls) {
+        this.hideDefaultControls = this.props.hideDefaultControls
+      }
     }
 
     componentDidMount() {
         this.player.subscribeToStateChange(this.handleStateChange.bind(this));
+        
+        if(this.hideDefaultControls) {
+          const fullScreenToggle = document.querySelector(".video-react .video-react-fullscreen-control")
+          fullScreenToggle.style.marginLeft = "auto";
+        }
     }
 
     setMuted(muted) {
@@ -86,15 +90,15 @@ export class VideoPlayer extends Component {
     
     render() {
         return(
-            <Player
-            ref={player => {
-                this.player = player;
-            }} {...this.props} 
-            >
-
-              <ControlBar  autoHide={true} disableCompletely={this.props.hideControls}/>
-
-        </Player>
+            <Player ref={player => { this.player = player;}} {...this.props}>
+              <ControlBar disableDefaultControls={this.hideDefaultControls}>
+                  { this.hideDefaultControls && <VolumeMenuButton/> }
+                  { this.hideDefaultControls && <CurrentTimeDisplay/> }
+                  { this.hideDefaultControls && <TimeDivider/> }
+                  { this.hideDefaultControls && <DurationDisplay/> }
+                  { this.hideDefaultControls && <FullscreenToggle/> }
+              </ControlBar>
+          </Player>
         )
     }
 }
