@@ -23,6 +23,8 @@ export const Chat = (props) => {
     
     messageText = props.messageText || messageText;
     setMessageText = props.setMessageText || setMessageText;
+    
+    const roomData = props.roomData;
     const headerElements = props.headerElements || [(<h4 className="chat__defaultTitle" key="0">Chat</h4>)]
     const formElements = props.formElements;
     const viewComponent = props.viewComponent;
@@ -195,7 +197,7 @@ export const Chat = (props) => {
                             </form>
                         </div>  
                     </React.Fragment>              
-                    : <RoomUsers code={code} setViewComponent={setViewComponent}/>
+                    : <RoomUsers code={code} setViewComponent={setViewComponent} roomData={roomData}/>
                 }
 
             </div>

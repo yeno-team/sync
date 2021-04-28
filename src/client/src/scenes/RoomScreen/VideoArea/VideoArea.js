@@ -12,7 +12,7 @@ export const VideoArea = (props) => {
     const [ ownerVideoState, setOwnerVideoState ] = useState({});
     const [ videoState, setVideoState ] = useState();
     const [ player, setPlayer ] = useState();
-    const [ currentVideoSrc, setCurrentVideoSrc ] = useState();
+    const [ videoSrc, setVideoSrc ] = useState();
     const [ started, setStarted ] = useState(false);
     
     const roomData = props.roomData
@@ -23,39 +23,24 @@ export const VideoArea = (props) => {
             const roomBroadcaster = roomData.broadcaster
 
             if(roomBroadcaster?.socketId === socketSubscriber.getSocket()?.id) {
-                console.log('broadcaster is true now')
                 setIsBroadcaster(true)
             }        
         }
     } , [roomData.broadcaster])
-    
-    // Change in the video src.
+
+    // Set the react video player src when this component mounts.
     useEffect(() => {
-        const roomVideoSrc = roomData.video_src
-
-        if(roomVideoSrc !== currentVideoSrc) {
-            setCurrentVideoSrc(roomVideoSrc)
-        }
-
-    }, [roomData.video_src])
+        setVideoSrc(roomData.video_src)
+    }, [])
 
     useEffect(() => {
         socketSubscriber.on(ROOM_OWNER_VIDEO_STATE_CHANGED, (data) => {
             setOwnerVideoState(data.state); 
-
             const _ownerState = data.state;
 
             if (!isBroadcaster && videoState) {
                 if(Math.abs((_ownerState.currentTime - videoState.currentTime)) > 2) { // Duration Change
                     videoState.paused === false && player.seek(_ownerState.currentTime);
-                }
-
-                if(_ownerState.muted !== videoState.muted) { // Mute Change
-                    player.muted = data.state.muted;
-                }
-
-                if(_ownerState.volume !== videoState.volume) { // Volume Change
-                    player.volume = data.state.volume;
                 }
 
                 // Pause if the owner is paused
@@ -67,7 +52,7 @@ export const VideoArea = (props) => {
         });
 
         socketSubscriber.on(ROOM_VIDEO_URL_CHANGED, (data) => {
-            setCurrentVideoSrc(data.url);
+            setVideoSrc(data.url);
         });
 
         socketSubscriber.on(ROOM_VIDEO_ERROR, (data) => {
@@ -88,17 +73,11 @@ export const VideoArea = (props) => {
             socketSubscriber.off(ROOM_OWNER_VIDEO_STATE_CHANGED);
             socketSubscriber.off(ROOM_VIDEO_ERROR);
         }
-    }, [roomData, videoState]);
+    }, [videoState]);
 
     function VideoResumed() {
         ownerVideoState && player.seek(ownerVideoState.currentTime);
         ownerVideoState && ownerVideoState.paused && player.pause();
-    }
-
-    function VideoMuted () {
-        if(ownerVideoState) {
-            player.muted = ownerVideoState.muted;
-        }
     }
 
     function videoStateChanged(state, prevState, player) {
@@ -109,10 +88,6 @@ export const VideoArea = (props) => {
         if(isBroadcaster !== null && !isBroadcaster) {
             if (state.paused === false && prevState.paused === true) {
                 VideoResumed();
-            }
-
-            if(state.muted !== prevState.muted) {
-                VideoMuted();
             }
         }
 
@@ -125,10 +100,11 @@ export const VideoArea = (props) => {
         <div className="room__videoArea">
             <VideoPlayer 
                 className="room__video"
-                src={currentVideoSrc} 
-                hideControls={!isBroadcaster}  
+                src={videoSrc} 
+                hideDefaultControls={!isBroadcaster}  
                 fluid={false} 
                 handleStateChange={videoStateChanged}
+                autoPlay={true}
             />
         </div>
     )

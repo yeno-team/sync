@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import socketSubscriber from '../api/socket/socketSubscriber';
 import { getRoomData } from '../api/room/roomService';
@@ -9,19 +8,13 @@ const ERROR_JOIN_EVENT = "RoomJoinError";
 const ERROR_LEAVE_EVENT = "RoomLeaveError";
 
 const useRoomAuth = (roomCode) => {
-    const [roomData, setRoomData] = useState({
-        broadcaster : null,
-        users : [],
-        max_users : 5,
-        is_private : false,
-        roomCode : null
-    });
+    const [roomData, setRoomData] = useState(null);
     
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        try {
-            (async () => {
+        (async () => {
+            try {
                 const { is_private , max_users , users , name , description , video_src } = await getRoomData(roomCode)
                 
                 // Get the broadcast user object.
@@ -37,10 +30,12 @@ const useRoomAuth = (roomCode) => {
                     description,
                     video_src
                 })
-            })()
-        } catch (e) {
-            setErrors((prevState) => [...prevState , "Failed to fetch user information for the current room."])
-        }
+            } catch {
+                // Indicate that the room doesn't exist.
+                setRoomData(false)
+                setErrors((prevState) => [...prevState , "Failed to fetch user information for the current room."])
+            }
+        })()
     } , [])
 
     useEffect(() => {
@@ -98,7 +93,7 @@ const useRoomAuth = (roomCode) => {
             socketSubscriber.off(USER_LEAVE_EVENT);
             socketSubscriber.off(ERROR_LEAVE_EVENT);
         }
-    } , [ roomData , errors ])
+    } , [ roomData?.users , errors ])
     
     const joinRoom = (username, password) => {
         socketSubscriber.emit("UserJoin" , { roomCode, username , password});
