@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAlert } from 'react-alert'
-
+import Modal from '../../../components/Modal'
+import Button from '../../../components/Button';
 import socketSubscriber from '../../../api/socket/socketSubscriber';
 
 
@@ -84,7 +85,10 @@ export const RoomSettingModal = (props) => {
     }
 
     return (
-        <React.Fragment>
+        <React.Fragment onHide={props.onHide} show={props.show}>
+            <Modal.Header closeButton>
+                
+            </Modal.Header>
             {
                 active && 
                 <div className="roomSettingModal__ctn">
